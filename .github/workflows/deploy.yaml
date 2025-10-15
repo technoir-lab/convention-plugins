@@ -34,13 +34,12 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          ./gradlew publish \
+          ./gradlew publishAllPublicationsToGithubRepository \
           --no-configuration-cache \
           --scan \
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }} \
           -Pproject.version=${{ github.ref_name }} \
-          -Ppublish.github.url=https://maven.pkg.github.com/technoir-lab/convention-plugins \
           -Ppublish.github.username=${{ secrets.GPR_DEPLOY_USER }} \
           -Ppublish.github.password=${{ secrets.GPR_DEPLOY_TOKEN }}
 
