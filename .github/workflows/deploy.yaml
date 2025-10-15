@@ -39,7 +39,6 @@ jobs:
           --scan \
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }} \
-          -Pproject.version=${{ github.ref_name }} \
           -Ppublish.github.username=${{ secrets.GPR_DEPLOY_USER }} \
           -Ppublish.github.password=${{ secrets.GPR_DEPLOY_TOKEN }}
 
@@ -53,8 +52,7 @@ jobs:
           ./gradlew publishAggregationToCentralPortal \
           --scan \
           -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }} \
-          -Pproject.version=${{ github.ref_name }}
+          -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -96,8 +94,7 @@ jobs:
           ./gradlew :dokkaGenerate \
           --scan \
           -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }} \
-          -Pproject.version=${{ github.ref_name }}
+          -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload documentation
         uses: actions/upload-pages-artifact@v4
