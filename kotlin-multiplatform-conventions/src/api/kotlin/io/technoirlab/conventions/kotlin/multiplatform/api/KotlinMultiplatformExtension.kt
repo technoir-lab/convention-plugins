@@ -2,15 +2,9 @@ package io.technoirlab.conventions.kotlin.multiplatform.api
 
 import io.technoirlab.conventions.common.api.CommonExtension
 import org.gradle.api.Action
-import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 
 interface KotlinMultiplatformExtension : CommonExtension {
-    /**
-     * Whether to create the default targets.
-     */
-    val defaultTargets: Property<Boolean>
-
     /**
      * Optional build features.
      */
@@ -22,10 +16,5 @@ interface KotlinMultiplatformExtension : CommonExtension {
      */
     fun buildFeatures(action: Action<KotlinMultiplatformBuildFeatures>) {
         action.execute(buildFeatures)
-    }
-
-    override fun initDefaults(projectName: String) {
-        super.initDefaults(projectName)
-        defaultTargets.convention(false)
     }
 }

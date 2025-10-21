@@ -12,9 +12,6 @@ kotlinMultiplatformApplication {
     // The base package name
     packageName = "com.example.kmp.application"
 
-    // Whether to create the default targets.
-    defaultTargets = true
-
     // Optional build features
     buildFeatures {
         // Enable ABI validation
@@ -34,6 +31,12 @@ kotlinMultiplatformApplication {
             buildConfigField("TEST_STRING_FIELD", "string value", variant = "test")
         }
     }
+}
+
+kotlin {
+    // Define the targets
+    jvm()
+    ...
 }
 ```
 
@@ -48,9 +51,6 @@ kotlinLibrary {
     // The base package name
     packageName = "com.example.kmp.library"
 
-    // Whether to create the default targets.
-    defaultTargets = true
-
     // Optional build features
     buildFeatures {
         // Enable ABI validation
@@ -70,5 +70,11 @@ kotlinLibrary {
             buildConfigField("TEST_STRING_FIELD", "string value", variant = "test")
         }
     }
+}
+
+kotlin {
+    // Define the targets
+    jvm()
+    ...
 }
 ```

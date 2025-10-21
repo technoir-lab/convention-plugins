@@ -34,24 +34,6 @@ internal fun Project.configureKotlinMultiplatform(
     kotlinVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
     executable: Boolean = false
 ) {
-    afterEvaluate {
-        if (config.defaultTargets.get()) {
-            extensions.configure(KmpExtension::class) {
-                // https://kotlinlang.org/docs/native-target-support.html
-                // Tier 1
-                iosArm64()
-                iosSimulatorArm64()
-                macosArm64()
-                // Tier 2
-                linuxArm64()
-                linuxX64()
-                // Tier 3
-                androidNativeArm64()
-                mingwX64()
-            }
-        }
-    }
-
     pluginManager.apply("org.jetbrains.kotlin.multiplatform")
 
     extensions.configure(KmpExtension::class) {

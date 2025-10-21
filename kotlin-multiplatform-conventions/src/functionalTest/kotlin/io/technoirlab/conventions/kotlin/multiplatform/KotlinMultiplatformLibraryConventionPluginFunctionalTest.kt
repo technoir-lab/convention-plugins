@@ -88,33 +88,6 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
     }
 
     @Test
-    fun `default targets`() {
-        gradleRunner.root.project("kmp-library")
-            .appendBuildScript(
-                """
-                    kotlinMultiplatformLibrary {
-                        defaultTargets = true
-                    }
-                """.trimIndent()
-            )
-
-        val buildResult = gradleRunner.build(":kmp-library:tasks") {
-            // Kotlin Multiplatform plugin calls findProperty when 'signing' plugin is applied
-            isolatedProjects = false
-        }
-
-        assertThat(buildResult.output).contains(
-            "androidNativeArm64",
-            "iosArm64",
-            "iosSimulatorArm64",
-            "linuxArm64",
-            "linuxX64",
-            "macosArm64",
-            "mingwX64",
-        )
-    }
-
-    @Test
     fun `custom package name`() {
         val project = gradleRunner.root.project("kmp-library")
         project.buildScript.replaceText(

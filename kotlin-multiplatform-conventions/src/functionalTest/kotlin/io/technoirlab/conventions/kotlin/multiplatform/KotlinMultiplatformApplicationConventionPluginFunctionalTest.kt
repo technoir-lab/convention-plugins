@@ -84,30 +84,6 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     }
 
     @Test
-    fun `default targets`() {
-        gradleRunner.root.project("kmp-application")
-            .appendBuildScript(
-                """
-                    kotlinMultiplatformApplication {
-                        defaultTargets = true
-                    }
-                """.trimIndent()
-            )
-
-        val buildResult = gradleRunner.build(":kmp-application:tasks")
-
-        assertThat(buildResult.output).contains(
-            "androidNativeArm64",
-            "iosArm64",
-            "iosSimulatorArm64",
-            "linuxArm64",
-            "linuxX64",
-            "macosArm64",
-            "mingwX64",
-        )
-    }
-
-    @Test
     fun `custom package name`() {
         val project = gradleRunner.root.project("kmp-application")
         project.buildScript.replaceText(
