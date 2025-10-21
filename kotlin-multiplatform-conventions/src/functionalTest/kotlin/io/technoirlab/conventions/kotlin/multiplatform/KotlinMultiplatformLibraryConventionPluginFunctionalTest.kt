@@ -98,15 +98,8 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             """.trimIndent()
         )
 
-        (project.dir / "src/commonMain/kotlin/kmp/library/internal/KmpLibraryImpl.kt")
-            .replaceText(
-                """
-                    import kmp.library.nativeGreet
-                """.trimIndent(),
-                """
-                    import com.example.kmp.library.nativeGreet
-                """.trimIndent()
-            )
+        (project.dir / "src/nativeMain/kotlin/kmp/library/Greet.kt")
+            .replaceText("nativeGreet(", "com.example.kmp.library.nativeGreet(")
 
         gradleRunner.build(":kmp-library:assemble")
     }

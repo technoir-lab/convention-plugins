@@ -97,7 +97,19 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         val newMainKt = project.dir / "src/commonMain/kotlin/com/example/kmp/application/Main.kt"
         newMainKt.createParentDirectories()
         (project.dir / "src/commonMain/kotlin/kmp/application/Main.kt").moveTo(newMainKt)
-        newMainKt.replaceText("package kmp.application", "package com.example.kmp.application")
+        newMainKt.replaceText(
+            """
+                package kmp.application
+            """.trimIndent(),
+            """
+                package com.example.kmp.application
+                
+                import kmp.application.greet
+            """.trimIndent()
+        )
+
+        (project.dir / "src/nativeMain/kotlin/kmp/application/Greet.kt")
+            .replaceText("nativeGreet(", "com.example.kmp.application.nativeGreet(")
 
         val buildResult = gradleRunner.build(":kmp-application:runDebugExecutable")
 
@@ -105,7 +117,7 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     }
 
     @Test
-    fun running() {
+    fun `running native`() {
         val buildResult = gradleRunner.build(":kmp-application:runDebugExecutable")
 
         assertThat(buildResult.output).contains("Hello, world!")

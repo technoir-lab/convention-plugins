@@ -9,6 +9,7 @@ kotlinMultiplatformApplication {
 }
 
 kotlin {
+    jvm()
     linuxX64()
     macosArm64()
     mingwX64()
