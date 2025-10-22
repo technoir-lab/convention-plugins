@@ -2,6 +2,7 @@ package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
+import io.technoirlab.conventions.common.fixtures.createBenchmark
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
@@ -246,5 +247,27 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         assertThat(project.buildDir / "dokka/html/index.html").exists()
         assertThat(project.buildDir / "dokka/html/kmp-library/kmp.library/index.html").exists()
         assertThat(project.buildDir / "dokka/html/kmp-library/kmp.library.internal").doesNotExist()
+    }
+
+    @Test
+    fun benchmarking() {
+        gradleRunner.root.project("kmp-library")
+            .appendBuildScript(
+                """
+                    kotlinMultiplatformLibrary {
+                        buildFeatures {
+                            benchmark = true
+                        }
+                    }
+                """.trimIndent()
+            )
+            .createBenchmark()
+
+        val buildResult = gradleRunner.build(":kmp-library:jvmBenchmarkBenchmark") {
+            // Workaround for https://github.com/Kotlin/kotlinx-benchmark/issues/258
+            gradleProperties += mapOf("benchmarks_jmh_version" to "1.37")
+        }
+
+        assertThat(buildResult.task(":kmp-library:jvmBenchmarkBenchmark")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
     }
 }

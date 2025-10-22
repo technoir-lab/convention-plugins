@@ -8,6 +8,7 @@ import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformLibraryExtension
+import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureBenchmarking
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureKotlinMultiplatform
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureMetro
 import io.technoirlab.gradle.Environment
@@ -29,6 +30,7 @@ class KotlinMultiplatformLibraryConventionPlugin : Plugin<Project> {
         pluginManager.apply(CommonConventionPlugin::class)
 
         afterEvaluate {
+            configureBenchmarking(config.buildFeatures.benchmark)
             configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
             configureKotlinSerialization(config.buildFeatures.serialization)
             configureMetro(config.buildFeatures.metro)

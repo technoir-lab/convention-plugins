@@ -5,6 +5,11 @@ import org.gradle.api.provider.Property
 
 interface KotlinMultiplatformBuildFeatures : CommonBuildFeatures {
     /**
+     * Enable benchmarking. Disabled by default.
+     */
+    val benchmark: Property<Boolean>
+
+    /**
      * Enable C interop. Disabled by default.
      */
     val cinterop: Property<Boolean>
@@ -16,6 +21,7 @@ interface KotlinMultiplatformBuildFeatures : CommonBuildFeatures {
 
     override fun initDefaults() {
         super.initDefaults()
+        benchmark.convention(false)
         cinterop.convention(false)
         metro.convention(false)
     }
