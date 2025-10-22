@@ -30,21 +30,20 @@ class JvmLibraryConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("jvm-library")
             .appendBuildScript(
                 """
-                    jvmLibrary {
-                        buildFeatures {
-                            buildConfig {
-                                buildConfigField("STRING_FIELD", "string value")
-                                buildConfigField("LAZY_STRING_FIELD", provider { project.description })
-                                buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
-                                buildConfigField("NULLABLE_STRING_FIELD", null as String?)
-                                buildConfigField("BOOLEAN_FIELD", true)
-                                buildConfigField("INT_FIELD", 42)
-                                buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
-                            }
+                jvmLibrary {
+                    buildFeatures {
+                        buildConfig {
+                            buildConfigField("STRING_FIELD", "string value")
+                            buildConfigField("LAZY_STRING_FIELD", provider { project.description })
+                            buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
+                            buildConfigField("NULLABLE_STRING_FIELD", null as String?)
+                            buildConfigField("BOOLEAN_FIELD", true)
+                            buildConfigField("INT_FIELD", 42)
+                            buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
                         }
                     }
-                    
-                    description = "Project description"
+                }
+                description = "Project description"
                 """.trimIndent()
             )
 
@@ -141,11 +140,11 @@ class JvmLibraryConventionPluginFunctionalTest {
         gradleRunner.root.project("jvm-library")
             .appendBuildScript(
                 """
-                    dependencies {
-                        implementation("org.jetbrains.kotlin:kotlin-reflect")
-                        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
-                    }
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-reflect")
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+                    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
+                }
                 """.trimIndent()
             )
 
@@ -157,11 +156,11 @@ class JvmLibraryConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("jvm-library")
             .appendBuildScript(
                 """
-                    jvmLibrary {
-                        buildFeatures {
-                            abiValidation = true
-                        }
+                jvmLibrary {
+                    buildFeatures {
+                        abiValidation = true
                     }
+                }
                 """.trimIndent()
             )
 
@@ -172,9 +171,9 @@ class JvmLibraryConventionPluginFunctionalTest {
             .content()
             .contains(
                 """
-                    public abstract interface class com/example/jvm/library/JvmLibrary {
-                    	public abstract fun hello (Ljava/lang/String;)V
-                    }
+                public abstract interface class com/example/jvm/library/JvmLibrary {
+                	public abstract fun hello (Ljava/lang/String;)V
+                }
                 """.trimIndent()
             )
 
@@ -188,8 +187,8 @@ class JvmLibraryConventionPluginFunctionalTest {
         assertThat(buildResult.task(":jvm-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
-                -	public fun hello (Ljava/lang/String;)V
-                +	public fun hello2 (Ljava/lang/String;)V
+            -	public fun hello (Ljava/lang/String;)V
+            +	public fun hello2 (Ljava/lang/String;)V
             """.trimIndent()
         )
     }

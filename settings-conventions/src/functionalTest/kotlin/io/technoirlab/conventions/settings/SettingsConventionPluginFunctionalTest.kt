@@ -19,9 +19,9 @@ class SettingsConventionPluginFunctionalTest {
     fun `dynamic versions are prohibited`() {
         gradleRunner.root.project("jvm-library").appendBuildScript(
             """
-                dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.+")
-                }
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.+")
+            }
             """.trimIndent()
         )
 
@@ -36,9 +36,9 @@ class SettingsConventionPluginFunctionalTest {
     fun `per-project repositories are prohibited`() {
         gradleRunner.root.appendBuildScript(
             """
-                repositories {
-                    mavenCentral()
-                }
+            repositories {
+                mavenCentral()
+            }
             """.trimIndent()
         )
 

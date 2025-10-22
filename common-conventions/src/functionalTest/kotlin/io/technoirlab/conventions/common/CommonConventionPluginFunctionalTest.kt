@@ -20,16 +20,16 @@ class CommonConventionPluginFunctionalTest {
         gradleRunner.root.gradleProperties.appendText(
             // language=properties
             """
-                project.groupId=com.example
-                project.version=1.0.0
+            project.groupId=com.example
+            project.version=1.0.0
             """.trimIndent()
         )
         gradleRunner.settingsScript.appendText(
             // language=kotlin
             $$"""
-                gradle.lifecycle.afterProject {
-                    logger.lifecycle("Path: '$path', group: '$group', version: '$version'")
-                }
+            gradle.lifecycle.afterProject {
+                logger.lifecycle("Path: '$path', group: '$group', version: '$version'")
+            }
             """.trimIndent()
         )
 
@@ -37,8 +37,8 @@ class CommonConventionPluginFunctionalTest {
             .writeText(
                 // language=properties
                 """
-                    project.groupId=com.example2
-                    project.version=2.0.0
+                project.groupId=com.example2
+                project.version=2.0.0
                 """.trimIndent()
             )
 
@@ -54,9 +54,9 @@ class CommonConventionPluginFunctionalTest {
     fun `dependencies from the same group can be used without explicit version`() {
         gradleRunner.root.project("library1").appendBuildScript(
             """
-                dependencies {
-                    implementation("io.technoirlab.conventions:gradle-extensions")
-                }
+            dependencies {
+                implementation("io.technoirlab.conventions:gradle-extensions")
+            }
             """.trimIndent()
         )
 
@@ -68,10 +68,10 @@ class CommonConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("library1")
             .appendBuildScript(
                 """
-                    dependencies {
-                        implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
-                        api("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
-                    }
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
+                    api("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
+                }
                 """.trimIndent()
             )
 
@@ -82,11 +82,11 @@ class CommonConventionPluginFunctionalTest {
             .contains(
                 // language=kotlin
                 """
-                    dependencies {
-                        api("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
-                    
-                        implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
-                    }
+                dependencies {
+                    api("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
+                
+                    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
+                }
                 """.trimIndent()
             )
     }

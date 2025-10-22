@@ -33,21 +33,20 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("kmp-library")
             .appendBuildScript(
                 """
-                    kotlinMultiplatformLibrary {
-                        buildFeatures {
-                            buildConfig {
-                                buildConfigField("STRING_FIELD", "string value")
-                                buildConfigField("LAZY_STRING_FIELD", provider { project.description })
-                                buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
-                                buildConfigField("NULLABLE_STRING_FIELD", null as String?)
-                                buildConfigField("BOOLEAN_FIELD", true)
-                                buildConfigField("INT_FIELD", 42)
-                                buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
-                            }
+                kotlinMultiplatformLibrary {
+                    buildFeatures {
+                        buildConfig {
+                            buildConfigField("STRING_FIELD", "string value")
+                            buildConfigField("LAZY_STRING_FIELD", provider { project.description })
+                            buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
+                            buildConfigField("NULLABLE_STRING_FIELD", null as String?)
+                            buildConfigField("BOOLEAN_FIELD", true)
+                            buildConfigField("INT_FIELD", 42)
+                            buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
                         }
                     }
-                    
-                    description = "Project description"
+                }
+                description = "Project description"
                 """.trimIndent()
             )
 
@@ -76,11 +75,11 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         gradleRunner.root.project("kmp-library")
             .appendBuildScript(
                 """
-                    kotlinMultiplatformLibrary {
-                        buildFeatures {
-                            metro = true
-                        }
+                kotlinMultiplatformLibrary {
+                    buildFeatures {
+                        metro = true
                     }
+                }
                 """.trimIndent()
             )
             .createDependencyGraph()
@@ -94,8 +93,8 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         project.buildScript.replaceText(
             "kotlinMultiplatformLibrary {",
             """
-                kotlinMultiplatformLibrary {
-                    packageName = "com.example.kmp.library"
+            kotlinMultiplatformLibrary {
+                packageName = "com.example.kmp.library"
             """.trimIndent()
         )
 
@@ -181,15 +180,15 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
     fun `declaring common dependencies without versions`() {
         gradleRunner.root.project("kmp-library").appendBuildScript(
             """
-                kotlin {
-                    sourceSets {
-                        commonMain.dependencies {
-                            implementation("org.jetbrains.kotlin:kotlin-reflect")
-                            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                            implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
-                        }
+            kotlin {
+                sourceSets {
+                    commonMain.dependencies {
+                        implementation("org.jetbrains.kotlin:kotlin-reflect")
+                        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+                        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
                     }
                 }
+            }
             """.trimIndent()
         )
 
@@ -201,11 +200,11 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("kmp-library")
             .appendBuildScript(
                 """
-                    kotlinMultiplatformLibrary {
-                        buildFeatures {
-                            abiValidation = true
-                        }
+                kotlinMultiplatformLibrary {
+                    buildFeatures {
+                        abiValidation = true
                     }
+                }
                 """.trimIndent()
             )
 
@@ -216,10 +215,10 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             .content()
             .contains(
                 """
-                    // Library unique name: <io.technoirlab:kmp-library>
-                    abstract interface kmp.library/KmpLibrary { // kmp.library/KmpLibrary|null[0]
-                        abstract fun hello(kotlin/String) // kmp.library/KmpLibrary.hello|hello(kotlin.String){}[0]
-                    }
+                // Library unique name: <io.technoirlab:kmp-library>
+                abstract interface kmp.library/KmpLibrary { // kmp.library/KmpLibrary|null[0]
+                    abstract fun hello(kotlin/String) // kmp.library/KmpLibrary.hello|hello(kotlin.String){}[0]
+                }
                 """.trimIndent()
             )
 
@@ -233,8 +232,8 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         assertThat(buildResult.task(":kmp-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
-                -    abstract fun hello(kotlin/String) // kmp.library/KmpLibrary.hello|hello(kotlin.String){}[0]
-                +    abstract fun hello2(kotlin/String) // kmp.library/KmpLibrary.hello2|hello2(kotlin.String){}[0]
+            -    abstract fun hello(kotlin/String) // kmp.library/KmpLibrary.hello|hello(kotlin.String){}[0]
+            +    abstract fun hello2(kotlin/String) // kmp.library/KmpLibrary.hello2|hello2(kotlin.String){}[0]
             """.trimIndent()
         )
     }
@@ -254,11 +253,11 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         gradleRunner.root.project("kmp-library")
             .appendBuildScript(
                 """
-                    kotlinMultiplatformLibrary {
-                        buildFeatures {
-                            benchmark = true
-                        }
+                kotlinMultiplatformLibrary {
+                    buildFeatures {
+                        benchmark = true
                     }
+                }
                 """.trimIndent()
             )
             .createBenchmark()

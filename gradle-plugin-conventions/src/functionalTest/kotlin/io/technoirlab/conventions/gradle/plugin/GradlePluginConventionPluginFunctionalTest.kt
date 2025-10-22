@@ -30,21 +30,20 @@ class GradlePluginConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("example-plugin")
             .appendBuildScript(
                 """
-                    gradlePluginConfig {
-                        buildFeatures {
-                            buildConfig {
-                                buildConfigField("STRING_FIELD", "string value")
-                                buildConfigField("LAZY_STRING_FIELD", provider { project.description })
-                                buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
-                                buildConfigField("NULLABLE_STRING_FIELD", null as String?)
-                                buildConfigField("BOOLEAN_FIELD", true)
-                                buildConfigField("INT_FIELD", 42)
-                                buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
-                            }
+                gradlePluginConfig {
+                    buildFeatures {
+                        buildConfig {
+                            buildConfigField("STRING_FIELD", "string value")
+                            buildConfigField("LAZY_STRING_FIELD", provider { project.description })
+                            buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
+                            buildConfigField("NULLABLE_STRING_FIELD", null as String?)
+                            buildConfigField("BOOLEAN_FIELD", true)
+                            buildConfigField("INT_FIELD", 42)
+                            buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
                         }
                     }
-                    
-                    description = "Project description"
+                }
+                description = "Project description"
                 """.trimIndent()
             )
 
@@ -148,11 +147,11 @@ class GradlePluginConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("example-plugin")
             .appendBuildScript(
                 """
-                    gradlePluginConfig {
-                        buildFeatures {
-                            abiValidation = true
-                        }
+                gradlePluginConfig {
+                    buildFeatures {
+                        abiValidation = true
                     }
+                }
                 """.trimIndent()
             )
 
@@ -163,11 +162,11 @@ class GradlePluginConventionPluginFunctionalTest {
             .content()
             .contains(
                 """
-                    public final class com/example/plugin/ExamplePlugin : org/gradle/api/Plugin {
-                    	public fun <init> ()V
-                    	public synthetic fun apply (Ljava/lang/Object;)V
-                    	public fun apply (Lorg/gradle/api/Project;)V
-                    }
+                public final class com/example/plugin/ExamplePlugin : org/gradle/api/Plugin {
+                	public fun <init> ()V
+                	public synthetic fun apply (Ljava/lang/Object;)V
+                	public fun apply (Lorg/gradle/api/Project;)V
+                }
                 """.trimIndent()
             )
 
@@ -179,8 +178,8 @@ class GradlePluginConventionPluginFunctionalTest {
         assertThat(buildResult.task(":example-plugin:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
-                |   	public fun apply (Lorg/gradle/api/Project;)V
-                |  +	public final fun hello ()V
+            |   	public fun apply (Lorg/gradle/api/Project;)V
+            |  +	public final fun hello ()V
             """.trimMargin()
         )
     }

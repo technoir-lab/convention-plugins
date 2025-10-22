@@ -29,9 +29,9 @@ class RootConventionPluginTest {
     fun `documentation aggregation`() {
         gradleRunner.root.appendBuildScript(
             """
-                dependencies {
-                    dokka(project(":jvm-library"))
-                }
+            dependencies {
+                dokka(project(":jvm-library"))
+            }
             """.trimIndent()
         )
 

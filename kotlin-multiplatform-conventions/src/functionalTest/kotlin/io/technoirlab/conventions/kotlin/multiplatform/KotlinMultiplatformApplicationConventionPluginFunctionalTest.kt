@@ -28,21 +28,20 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("kmp-application")
             .appendBuildScript(
                 """
-                    kotlinMultiplatformApplication {
-                        buildFeatures {
-                            buildConfig {
-                                buildConfigField("STRING_FIELD", "string value")
-                                buildConfigField("LAZY_STRING_FIELD", provider { project.description })
-                                buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
-                                buildConfigField("NULLABLE_STRING_FIELD", null as String?)
-                                buildConfigField("BOOLEAN_FIELD", true)
-                                buildConfigField("INT_FIELD", 42)
-                                buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
-                            }
+                kotlinMultiplatformApplication {
+                    buildFeatures {
+                        buildConfig {
+                            buildConfigField("STRING_FIELD", "string value")
+                            buildConfigField("LAZY_STRING_FIELD", provider { project.description })
+                            buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
+                            buildConfigField("NULLABLE_STRING_FIELD", null as String?)
+                            buildConfigField("BOOLEAN_FIELD", true)
+                            buildConfigField("INT_FIELD", 42)
+                            buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
                         }
                     }
-                    
-                    description = "Project description"
+                }
+                description = "Project description"
                 """.trimIndent()
             )
 
@@ -71,11 +70,11 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         gradleRunner.root.project("kmp-application")
             .appendBuildScript(
                 """
-                    kotlinMultiplatformApplication {
-                        buildFeatures {
-                            metro = true
-                        }
+                kotlinMultiplatformApplication {
+                    buildFeatures {
+                        metro = true
                     }
+                }
                 """.trimIndent()
             )
             .createDependencyGraph()
@@ -89,8 +88,8 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         project.buildScript.replaceText(
             "kotlinMultiplatformApplication {",
             """
-                kotlinMultiplatformApplication {
-                    packageName = "com.example.kmp.application"
+            kotlinMultiplatformApplication {
+                packageName = "com.example.kmp.application"
             """.trimIndent()
         )
 
@@ -99,12 +98,12 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         (project.dir / "src/commonMain/kotlin/kmp/application/Main.kt").moveTo(newMainKt)
         newMainKt.replaceText(
             """
-                package kmp.application
+            package kmp.application
             """.trimIndent(),
             """
-                package com.example.kmp.application
-                
-                import kmp.application.greet
+            package com.example.kmp.application
+            
+            import kmp.application.greet
             """.trimIndent()
         )
 
@@ -128,15 +127,15 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         gradleRunner.root.project("kmp-application")
             .appendBuildScript(
                 """
-                    kotlin {
-                        sourceSets {
-                            commonMain.dependencies {
-                                implementation("org.jetbrains.kotlin:kotlin-reflect")
-                                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
-                            }
+                kotlin {
+                    sourceSets {
+                        commonMain.dependencies {
+                            implementation("org.jetbrains.kotlin:kotlin-reflect")
+                            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+                            implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
                         }
                     }
+                }
                 """.trimIndent()
             )
 

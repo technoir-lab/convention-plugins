@@ -22,21 +22,20 @@ class JvmApplicationConventionPluginFunctionalTest {
         val project = gradleRunner.root.project("jvm-application")
             .appendBuildScript(
                 """
-                    jvmApplication {
-                        buildFeatures {
-                            buildConfig {
-                                buildConfigField("STRING_FIELD", "string value")
-                                buildConfigField("LAZY_STRING_FIELD", provider { project.description })
-                                buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
-                                buildConfigField("NULLABLE_STRING_FIELD", null as String?)
-                                buildConfigField("BOOLEAN_FIELD", true)
-                                buildConfigField("INT_FIELD", 42)
-                                buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
-                            }
+                jvmApplication {
+                    buildFeatures {
+                        buildConfig {
+                            buildConfigField("STRING_FIELD", "string value")
+                            buildConfigField("LAZY_STRING_FIELD", provider { project.description })
+                            buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
+                            buildConfigField("NULLABLE_STRING_FIELD", null as String?)
+                            buildConfigField("BOOLEAN_FIELD", true)
+                            buildConfigField("INT_FIELD", 42)
+                            buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
                         }
                     }
-                    
-                    description = "Project description"
+                }
+                description = "Project description"
                 """.trimIndent()
             )
 
@@ -71,11 +70,11 @@ class JvmApplicationConventionPluginFunctionalTest {
     fun `declaring common dependencies without versions`() {
         gradleRunner.root.project("jvm-application").appendBuildScript(
             """
-                dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-reflect")
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
-                }
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-reflect")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
+            }
             """.trimIndent()
         )
 
