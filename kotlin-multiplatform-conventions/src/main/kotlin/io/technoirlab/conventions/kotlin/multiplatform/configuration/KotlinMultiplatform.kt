@@ -37,6 +37,8 @@ internal fun Project.configureKotlinMultiplatform(
     pluginManager.apply("org.jetbrains.kotlin.multiplatform")
 
     extensions.configure(KmpExtension::class) {
+        applyDefaultHierarchyTemplate()
+
         @OptIn(ExperimentalAbiValidation::class)
         extensions.configure(AbiValidationMultiplatformExtension::class) {
             enabled.set(config.buildFeatures.abiValidation)

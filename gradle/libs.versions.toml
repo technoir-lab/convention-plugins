@@ -8,6 +8,7 @@ dokka = "2.1.0"
 foojay-resolver-gradle-plugin = "1.0.0"
 junit5 = "5.13.4"
 kotlin = "2.2.20"
+kotlinx-benchmark = "0.4.14"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 metro = "0.7.1"
@@ -28,6 +29,8 @@ kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-sam-with-receiver-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-sam-with-receiver", version.ref = "kotlin" }
 kotlin-serialization-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+kotlinx-benchmark-gradle-plugin = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-plugin", version.ref = "kotlinx-benchmark" }
+kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinx-benchmark" }
 kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-bom = { module = "org.jetbrains.kotlinx:kotlinx-serialization-bom", version.ref = "kotlinx-serialization" }
 metro-gradle-plugin = { module = "dev.zacsweers.metro:gradle-plugin", version.ref = "metro" }

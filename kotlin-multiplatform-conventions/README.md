@@ -16,6 +16,8 @@ kotlinMultiplatformApplication {
     buildFeatures {
         // Enable ABI validation
         abiValidation = true
+        // Enable benchmarking
+        benchmark = true
         // Enable Metro dependency injection
         metro = true
         // Enable Kotlin serialization
@@ -55,6 +57,8 @@ kotlinLibrary {
     buildFeatures {
         // Enable ABI validation
         abiValidation = true
+        // Enable benchmarking
+        benchmark = true
         // Enable Metro dependency injection
         metro = true
         // Enable Kotlin serialization

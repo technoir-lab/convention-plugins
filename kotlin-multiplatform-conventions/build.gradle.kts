@@ -10,6 +10,7 @@ gradlePluginConfig {
 
         buildConfig {
             buildConfigField("KOTLIN_BOM", libs.kotlin.bom.map { it.toString() })
+            buildConfigField("KOTLINX_BENCHMARK_RUNTIME", libs.kotlinx.benchmark.runtime.map { it.toString() })
             buildConfigField("KOTLINX_COROUTINES_BOM", libs.kotlinx.coroutines.bom.map { it.toString() })
             buildConfigField("KOTLINX_SERIALIZATION_BOM", libs.kotlinx.serialization.bom.map { it.toString() })
         }
@@ -27,6 +28,7 @@ dependencies {
     implementation(project(":libraries:gradle-extensions"))
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)
+    implementation(libs.kotlinx.benchmark.gradle.plugin)
 
     functionalTestImplementation(testFixtures(project(":common-conventions")))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
