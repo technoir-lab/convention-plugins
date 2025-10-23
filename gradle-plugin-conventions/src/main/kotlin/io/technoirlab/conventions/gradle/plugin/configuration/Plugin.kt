@@ -1,13 +1,16 @@
 package io.technoirlab.conventions.gradle.plugin.configuration
 
+import io.technoirlab.conventions.common.configuration.configureTestSuite
 import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.gradle.Environment
 import io.technoirlab.gradle.dependencies.api
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.HasImplicitReceiver
 import org.gradle.api.Project
+import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.plugins.jvm.JvmTestSuite
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.gradleKotlinDsl
@@ -27,6 +30,9 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
     @Suppress("UnstableApiUsage")
     extensions.configure(TestingExtension::class) {
         val functionalTestSuite = suites.register("functionalTest", JvmTestSuite::class) {
+            configureTestSuite {
+                configureFunctionalTestTask()
+            }
             dependencies {
                 implementation.add(project())
                 implementation.add(gradleTestKit())
@@ -94,4 +100,23 @@ private fun Project.configureApiVariant(variantName: String) {
     }
 }
 
+private fun Test.configureFunctionalTestTask() {
+    dependsOn(project.tasks.named("publishToMavenLocal"))
+
+    DEPENDENCY_CONFIGURATIONS.forEach { configurationName ->
+        project.configurations.named(configurationName).configure {
+            dependencies.withType<ProjectDependency>().configureEach {
+                dependsOn("$path:publishToMavenLocal")
+            }
+        }
+    }
+}
+
 private const val API_VARIANT_NAME = "api"
+private val DEPENDENCY_CONFIGURATIONS = listOf(
+    "implementation",
+    "api",
+    "runtimeOnly",
+    "apiApi",
+    "apiImplementation"
+)

@@ -77,6 +77,7 @@ public final class io/technoirlab/conventions/common/configuration/TestFixturesK
 }
 
 public final class io/technoirlab/conventions/common/configuration/TestingKt {
+	public static final fun configureTestSuite (Lorg/gradle/api/plugins/jvm/JvmTestSuite;Lorg/gradle/api/Action;)V
 	public static final fun configureTesting (Lorg/gradle/api/Project;)V
 }
 
