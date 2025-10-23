@@ -25,11 +25,6 @@ interface GradlePluginExtension : CommonExtension {
         action.execute(buildFeatures)
     }
 
-    override fun initDefaults(projectName: String) {
-        super.initDefaults(projectName)
-        minGradleVersion.convention("9.0")
-    }
-
     /**
      * @suppress
      */

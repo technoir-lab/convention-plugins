@@ -8,6 +8,7 @@ import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformAp
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureBenchmarking
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureKotlinMultiplatform
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureMetro
+import io.technoirlab.conventions.kotlin.multiplatform.internal.KotlinMultiplatformApplicationExtensionImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -20,8 +21,13 @@ import org.gradle.kotlin.dsl.create
  */
 class KotlinMultiplatformApplicationConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) = with(project) {
-        val config = extensions.create<KotlinMultiplatformApplicationExtension>(KotlinMultiplatformApplicationExtension.NAME)
-        config.initDefaults(project.name)
+        val config = extensions.create(
+            publicType = KotlinMultiplatformApplicationExtension::class,
+            name = KotlinMultiplatformApplicationExtension.NAME,
+            instanceType = KotlinMultiplatformApplicationExtensionImpl::class,
+            project
+        ) as KotlinMultiplatformApplicationExtensionImpl
+        config.initDefaults()
 
         pluginManager.apply(CommonConventionPlugin::class)
 

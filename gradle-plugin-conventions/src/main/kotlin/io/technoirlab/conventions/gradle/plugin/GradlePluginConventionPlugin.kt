@@ -17,6 +17,7 @@ import io.technoirlab.conventions.gradle.plugin.configuration.configureDependenc
 import io.technoirlab.conventions.gradle.plugin.configuration.configurePlugin
 import io.technoirlab.conventions.gradle.plugin.configuration.embeddedKotlinVersion
 import io.technoirlab.conventions.gradle.plugin.configuration.kotlinLanguageVersion
+import io.technoirlab.conventions.gradle.plugin.internal.GradlePluginExtensionImpl
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -31,8 +32,13 @@ import org.gradle.util.GradleVersion
  */
 class GradlePluginConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) = with(project) {
-        val config = extensions.create<GradlePluginExtension>(GradlePluginExtension.NAME)
-        config.initDefaults(project.name)
+        val config = extensions.create(
+            publicType = GradlePluginExtension::class,
+            name = GradlePluginExtension.NAME,
+            instanceType = GradlePluginExtensionImpl::class,
+            project
+        ) as GradlePluginExtensionImpl
+        config.initDefaults()
 
         pluginManager.apply(CommonConventionPlugin::class)
 

@@ -11,6 +11,7 @@ import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformLi
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureBenchmarking
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureKotlinMultiplatform
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureMetro
+import io.technoirlab.conventions.kotlin.multiplatform.internal.KotlinMultiplatformLibraryExtensionImpl
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,8 +25,13 @@ import org.gradle.kotlin.dsl.create
  */
 class KotlinMultiplatformLibraryConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) = with(project) {
-        val config = extensions.create<KotlinMultiplatformLibraryExtension>(KotlinMultiplatformLibraryExtension.NAME)
-        config.initDefaults(project.name)
+        val config = extensions.create(
+            publicType = KotlinMultiplatformLibraryExtension::class,
+            name = KotlinMultiplatformLibraryExtension.NAME,
+            instanceType = KotlinMultiplatformLibraryExtensionImpl::class,
+            project
+        ) as KotlinMultiplatformLibraryExtensionImpl
+        config.initDefaults()
 
         pluginManager.apply(CommonConventionPlugin::class)
 

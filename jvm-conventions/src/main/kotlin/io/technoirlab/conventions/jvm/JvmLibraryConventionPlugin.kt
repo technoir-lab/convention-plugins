@@ -13,6 +13,7 @@ import io.technoirlab.conventions.common.configuration.configurePublishing
 import io.technoirlab.conventions.common.configuration.configureTestFixtures
 import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.jvm.api.JvmLibraryExtension
+import io.technoirlab.conventions.jvm.internal.JvmLibraryExtensionImpl
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -26,8 +27,13 @@ import org.gradle.kotlin.dsl.create
  */
 class JvmLibraryConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) = with(project) {
-        val config = extensions.create<JvmLibraryExtension>(JvmLibraryExtension.NAME)
-        config.initDefaults(project.name)
+        val config = extensions.create(
+            publicType = JvmLibraryExtension::class,
+            name = JvmLibraryExtension.NAME,
+            instanceType = JvmLibraryExtensionImpl::class,
+            project
+        ) as JvmLibraryExtensionImpl
+        config.initDefaults()
 
         pluginManager.apply(CommonConventionPlugin::class)
 

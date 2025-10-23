@@ -80,3 +80,15 @@ public final class io/technoirlab/conventions/common/configuration/TestingKt {
 	public static final fun configureTesting (Lorg/gradle/api/Project;)V
 }
 
+public abstract class io/technoirlab/conventions/common/internal/CommonBuildFeaturesImpl : io/technoirlab/conventions/common/api/CommonBuildFeatures {
+	public fun <init> ()V
+	public fun initDefaults ()V
+}
+
+public abstract class io/technoirlab/conventions/common/internal/CommonExtensionImpl : io/technoirlab/conventions/common/api/CommonExtension {
+	public fun <init> (Lorg/gradle/api/Project;)V
+	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/common/internal/CommonBuildFeaturesImpl;
+	protected final fun getProject ()Lorg/gradle/api/Project;
+	public fun initDefaults ()V
+}
+

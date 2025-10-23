@@ -8,6 +8,7 @@ import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.jvm.api.JvmApplicationExtension
+import io.technoirlab.conventions.jvm.internal.JvmApplicationExtensionImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaApplication
@@ -23,8 +24,13 @@ import org.gradle.kotlin.dsl.create
  */
 class JvmApplicationConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) = with(project) {
-        val config = extensions.create<JvmApplicationExtension>(JvmApplicationExtension.NAME)
-        config.initDefaults(project.name)
+        val config = extensions.create(
+            publicType = JvmApplicationExtension::class,
+            name = JvmApplicationExtension.NAME,
+            instanceType = JvmApplicationExtensionImpl::class,
+            project
+        ) as JvmApplicationExtensionImpl
+        config.initDefaults()
 
         pluginManager.apply(CommonConventionPlugin::class)
 

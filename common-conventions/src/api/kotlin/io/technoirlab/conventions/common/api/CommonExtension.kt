@@ -31,9 +31,4 @@ interface CommonExtension {
      */
     @get:Nested
     val buildFeatures: CommonBuildFeatures
-
-    fun initDefaults(projectName: String) {
-        packageName.convention(projectName.replace('-', '.').replace('_', '.'))
-        buildFeatures.initDefaults()
-    }
 }

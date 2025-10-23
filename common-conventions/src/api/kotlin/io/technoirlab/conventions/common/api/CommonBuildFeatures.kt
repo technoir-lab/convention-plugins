@@ -27,9 +27,4 @@ interface CommonBuildFeatures {
     fun buildConfig(configure: Action<BuildConfigSpec>) {
         configure.execute(buildConfig)
     }
-
-    fun initDefaults() {
-        abiValidation.convention(false)
-        serialization.convention(false)
-    }
 }
