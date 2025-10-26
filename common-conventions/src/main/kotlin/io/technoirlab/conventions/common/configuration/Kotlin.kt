@@ -1,6 +1,7 @@
 package io.technoirlab.conventions.common.configuration
 
 import io.technoirlab.conventions.common.BuildConfig
+import io.technoirlab.conventions.common.internal.StandardLibraries
 import io.technoirlab.gradle.dependencies.implementation
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -16,7 +17,7 @@ import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 fun Project.configureKotlin(
     kotlinVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
-    stdlibVersion: Provider<String> = provider { null },
+    stdlibVersion: Provider<String> = provider { BuildConfig.KOTLIN_VERSION },
     enableAbiValidation: Provider<Boolean>
 ) {
     extensions.configure(KotlinJvmProjectExtension::class) {
@@ -42,9 +43,10 @@ fun Project.configureKotlin(
     }
 
     dependencies {
-        implementation(platform(BuildConfig.KOTLIN_BOM))
-        implementation(platform(BuildConfig.KOTLINX_COROUTINES_BOM))
-        implementation(platform(BuildConfig.KOTLINX_SERIALIZATION_BOM))
+        val standardLibraries = stdlibVersion.map { StandardLibraries(it) }
+        implementation(standardLibraries.map { platform(it.kotlinBom) })
+        implementation(standardLibraries.map { platform(it.kotlinCoroutinesBom) })
+        implementation(standardLibraries.map { platform(it.kotlinSerializationBom) })
     }
 
     tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {

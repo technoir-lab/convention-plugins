@@ -27,6 +27,7 @@ naming:
   FunctionNaming:
     ignoreAnnotated:
       - org.junit.jupiter.api.Test
+      - org.junit.jupiter.params.ParameterizedTest
 
 performance:
   SpreadOperator:
