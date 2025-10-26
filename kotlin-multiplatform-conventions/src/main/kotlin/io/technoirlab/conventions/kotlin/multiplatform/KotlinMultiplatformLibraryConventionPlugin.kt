@@ -6,6 +6,7 @@ import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
+import io.technoirlab.conventions.common.configuration.configureKtLint
 import io.technoirlab.conventions.common.configuration.configurePublishing
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformLibraryExtension
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureBenchmarking
@@ -50,6 +51,7 @@ class KotlinMultiplatformLibraryConventionPlugin : Plugin<Project> {
 
         configureKotlinMultiplatform(config)
         configureDetekt()
+        configureKtLint()
         configureDokka(environment)
         configurePublishing(publishingOptions, config.metadata, environment)
     }

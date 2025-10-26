@@ -9,6 +9,7 @@ import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
+import io.technoirlab.conventions.common.configuration.configureKtLint
 import io.technoirlab.conventions.common.configuration.configurePublishing
 import io.technoirlab.conventions.common.configuration.configureTestFixtures
 import io.technoirlab.conventions.common.configuration.configureTesting
@@ -66,6 +67,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
             enableAbiValidation = config.buildFeatures.abiValidation
         )
         configureDetekt()
+        configureKtLint()
         configureDokka(environment, DocsFormat.All)
         configurePublishing(publishingOptions, config.metadata, environment) {
             suppressPomMetadataWarningsFor("apiElements")

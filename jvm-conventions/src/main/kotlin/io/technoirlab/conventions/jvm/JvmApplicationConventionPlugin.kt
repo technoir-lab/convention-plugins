@@ -6,6 +6,7 @@ import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
+import io.technoirlab.conventions.common.configuration.configureKtLint
 import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.jvm.api.JvmApplicationExtension
 import io.technoirlab.conventions.jvm.internal.JvmApplicationExtensionImpl
@@ -47,6 +48,7 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
         configureApplication(config)
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
         configureDetekt()
+        configureKtLint()
         configureTesting()
     }
 
