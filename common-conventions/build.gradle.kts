@@ -12,9 +12,9 @@ gradlePluginConfig {
             buildConfigField("GROUP_ID", provider { "$group" })
             buildConfigField("VERSION", provider { "$version" })
             buildConfigField("JUNIT5_VERSION", libs.versions.junit5)
-            buildConfigField("KOTLIN_BOM", libs.kotlin.bom.map { it.toString() })
-            buildConfigField("KOTLINX_COROUTINES_BOM", libs.kotlinx.coroutines.bom.map { it.toString() })
-            buildConfigField("KOTLINX_SERIALIZATION_BOM", libs.kotlinx.serialization.bom.map { it.toString() })
+            buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
+            buildConfigField("KOTLINX_COROUTINES_VERSION", libs.versions.kotlinx.coroutines)
+            buildConfigField("KOTLINX_SERIALIZATION_VERSION", libs.versions.kotlinx.serialization)
         }
     }
 }
@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)
+    implementation(libs.maven.artifact)
     implementation(libs.sort.dependencies.gradle.plugin)
 
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
@@ -35,6 +36,8 @@ dependencies {
     runtimeOnly(libs.nmcp.gradle.plugin)
 
     testFixturesImplementation(project(":libraries:gradle-test-kit"))
+
+    testImplementation(libs.assertj.core)
 }
 
 gradlePlugin {

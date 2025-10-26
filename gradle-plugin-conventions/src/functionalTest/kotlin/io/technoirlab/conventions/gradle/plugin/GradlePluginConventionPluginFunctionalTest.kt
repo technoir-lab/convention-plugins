@@ -13,6 +13,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import kotlin.io.path.createDirectories
 import kotlin.io.path.div
 
@@ -195,35 +197,64 @@ class GradlePluginConventionPluginFunctionalTest {
         assertThat(project.buildDir / "dokka/html/example-plugin/com.example.plugin.internal").doesNotExist()
     }
 
-    @Test
-    fun `Gradle 8 compatibility`() {
-        val project = gradleRunner.root.project("example-plugin")
-            .appendBuildScript("gradlePluginConfig { minGradleVersion = \"8.14\" }")
+    @ParameterizedTest
+    @CsvSource(
+        "8.12,8.14.3,2.0.21,1.9.0,1.7.3",
+        "8.14,8.14.3,2.0.21,1.9.0,1.7.3",
+        "9.0,9.1.0,2.2.0,1.10.2,1.9.0",
+        "9.2,9.2.0-rc-3,2.2.20,1.10.2,1.9.0",
+    )
+    fun `Gradle compatibility`(
+        minGradleVersion: String,
+        testedGradleVersion: String,
+        kotlinStdlibVersion: String,
+        kotlinCoroutinesVersion: String,
+        kotlinSerializationVersion: String,
+    ) {
+        val repoDir = gradleRunner.root.dir / "repo"
 
-        gradleRunner.build(":example-plugin:build") {
-            gradleVersion = "8.14.3"
+        gradleRunner.root.project("example-plugin")
+            .appendBuildScript("gradlePluginConfig { minGradleVersion = \"$minGradleVersion\" }")
+
+        gradleRunner.build(":example-plugin:build", ":example-plugin:publishAllPublicationsToLocalRepository") {
+            gradleVersion = testedGradleVersion
+            gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
         }
 
-        (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
-            // Enum.entries became stable in Kotlin 1.9
-            .replaceText("// body placeholder", """DeprecationLevel.entries""")
-
-        val buildResult = gradleRunner.buildAndFail(":example-plugin:build") {
-            gradleVersion = "8.14.3"
-        }
-        assertThat(buildResult.output).contains("The feature \"enum entries\" is only available since language version 1.9")
-    }
-
-    @Test
-    fun `Gradle 9 compatibility`() {
-        val project = gradleRunner.root.project("example-plugin")
-            .appendBuildScript("gradlePluginConfig { minGradleVersion = \"9.0\" }")
-        (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
-            // Multi-dollar string interpolation was introduced in Kotlin 2.2
-            .replaceText("// body placeholder", """$$"abc"""")
-
-        gradleRunner.build(":example-plugin:build") {
-            gradleVersion = "9.0.0"
-        }
+        val pomFile = repoDir / "io/technoirlab/example-plugin/dev/example-plugin-dev.pom"
+        assertThat(pomFile)
+            .content()
+            .containsIgnoringNewLines(
+                """
+                |    <dependency>
+                |      <groupId>org.jetbrains.kotlin</groupId>
+                |      <artifactId>kotlin-stdlib</artifactId>
+                |      <version>$kotlinStdlibVersion</version>
+                |      <scope>compile</scope>
+                |    </dependency>
+                """.trimMargin()
+            )
+            .containsIgnoringNewLines(
+                """
+                |      <dependency>
+                |        <groupId>org.jetbrains.kotlinx</groupId>
+                |        <artifactId>kotlinx-coroutines-bom</artifactId>
+                |        <version>$kotlinCoroutinesVersion</version>
+                |        <type>pom</type>
+                |        <scope>import</scope>
+                |      </dependency>
+                """.trimMargin()
+            )
+            .containsIgnoringNewLines(
+                """
+                |      <dependency>
+                |        <groupId>org.jetbrains.kotlinx</groupId>
+                |        <artifactId>kotlinx-serialization-bom</artifactId>
+                |        <version>$kotlinSerializationVersion</version>
+                |        <type>pom</type>
+                |        <scope>import</scope>
+                |      </dependency>
+                """.trimMargin()
+            )
     }
 }
