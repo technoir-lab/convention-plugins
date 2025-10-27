@@ -6,7 +6,3 @@ dependencies {
     implementation(gradleApi())
     implementation(gradleKotlinDsl())
 }
-
-samWithReceiver {
-    annotation(HasImplicitReceiver::class.qualifiedName!!)
-}
