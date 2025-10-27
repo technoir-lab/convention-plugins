@@ -24,7 +24,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.HostManager
 import kotlin.io.path.Path
@@ -48,7 +47,11 @@ internal fun Project.configureKotlinMultiplatform(
         compilerOptions {
             apiVersion.set(kotlinVersion)
             languageVersion.set(kotlinVersion)
-            optIn.add("kotlin.time.ExperimentalTime")
+
+            optIn.addAll(
+                "kotlin.time.ExperimentalTime",
+                "kotlinx.cinterop.ExperimentalForeignApi"
+            )
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
@@ -72,12 +75,6 @@ internal fun Project.configureKotlinMultiplatform(
                 implementation(dependencies.platform(BuildConfig.KOTLINX_COROUTINES_BOM))
                 implementation(dependencies.platform(BuildConfig.KOTLINX_SERIALIZATION_BOM))
             }
-        }
-    }
-
-    tasks.withType<KotlinNativeCompile>().configureEach {
-        compilerOptions {
-            optIn.add("kotlinx.cinterop.ExperimentalForeignApi")
         }
     }
 
