@@ -43,8 +43,8 @@ public final class io/technoirlab/conventions/common/configuration/JavaKt {
 }
 
 public final class io/technoirlab/conventions/common/configuration/KotlinKt {
-	public static final fun configureKotlin (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
-	public static synthetic fun configureKotlin$default (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;ILjava/lang/Object;)V
+	public static final fun configureKotlin (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
+	public static synthetic fun configureKotlin$default (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;ILjava/lang/Object;)V
 }
 
 public final class io/technoirlab/conventions/common/configuration/PublishingKt {

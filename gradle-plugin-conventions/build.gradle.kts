@@ -20,12 +20,15 @@ dependencies {
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)
     implementation(libs.kotlin.sam.with.receiver.gradle.plugin)
+    implementation(libs.maven.artifact)
 
     functionalTestImplementation(testFixtures(project(":common-conventions")))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
 
     compileOnly(libs.dependency.analysis.gradle.plugin)
+
+    testImplementation(libs.assertj.core)
 }
 
 gradlePlugin {

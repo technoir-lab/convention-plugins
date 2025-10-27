@@ -1,15 +1,10 @@
-package io.technoirlab.conventions.gradle.plugin.configuration
+package io.technoirlab.conventions.gradle.plugin.internal
 
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion
 import org.gradle.util.GradleVersion
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
-internal val GradleVersion.kotlinLanguageVersion: KotlinVersion
-    get() = when {
-        this >= GradleVersion.version("9.0") -> KotlinVersion.KOTLIN_2_2
-        this >= GradleVersion.version("8.11") -> KotlinVersion.KOTLIN_1_8
-        else -> error("Gradle version $this is unsupported")
-    }
-
+// See https://docs.gradle.org/current/userguide/compatibility.html#kotlin
 internal val GradleVersion.embeddedKotlinVersion: String
     get() = when {
         this >= GradleVersion.version("9.2") -> "2.2.20"
@@ -18,3 +13,6 @@ internal val GradleVersion.embeddedKotlinVersion: String
         this >= GradleVersion.version("8.11") -> "2.0.20"
         else -> error("Gradle version $this is unsupported")
     }
+
+internal val GradleVersion.kotlinApiVersion: KotlinVersion
+    get() = KotlinVersion.fromVersion(DefaultArtifactVersion(embeddedKotlinVersion).let { "${it.majorVersion}.${it.minorVersion}" })
