@@ -5,7 +5,6 @@ import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.gradle.Environment
 import io.technoirlab.gradle.dependencies.api
 import io.technoirlab.gradle.setDisallowChanges
-import org.gradle.api.HasImplicitReceiver
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.plugins.JavaPluginExtension
@@ -22,7 +21,6 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.testing.base.TestingExtension
 import org.jetbrains.dokka.gradle.DokkaExtension
-import org.jetbrains.kotlin.samWithReceiver.gradle.SamWithReceiverExtension
 
 internal fun Project.configurePlugin(config: GradlePluginExtension, environment: Environment) {
     configureApiVariant(API_VARIANT_NAME)
@@ -58,10 +56,6 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
 
     tasks.withType<ValidatePlugins>().configureEach {
         enableStricterValidation.set(true)
-    }
-
-    extensions.configure(SamWithReceiverExtension::class) {
-        annotation(checkNotNull(HasImplicitReceiver::class.qualifiedName))
     }
 
     dependencies {

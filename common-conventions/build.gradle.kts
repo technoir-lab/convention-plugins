@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)
+    implementation(libs.kotlin.sam.with.receiver.gradle.plugin)
     implementation(libs.maven.artifact)
     implementation(libs.sort.dependencies.gradle.plugin)
 

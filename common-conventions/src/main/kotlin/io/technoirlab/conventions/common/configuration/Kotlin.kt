@@ -3,6 +3,7 @@ package io.technoirlab.conventions.common.configuration
 import io.technoirlab.conventions.common.BuildConfig
 import io.technoirlab.conventions.common.internal.StandardLibraries
 import io.technoirlab.gradle.dependencies.implementation
+import org.gradle.api.HasImplicitReceiver
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
@@ -14,6 +15,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
+import org.jetbrains.kotlin.samWithReceiver.gradle.SamWithReceiverExtension
 
 fun Project.configureKotlin(
     kotlinApiVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
@@ -40,6 +42,12 @@ fun Project.configureKotlin(
         @OptIn(ExperimentalAbiValidation::class)
         extensions.configure(AbiValidationExtension::class) {
             enabled.set(enableAbiValidation)
+        }
+    }
+
+    pluginManager.withPlugin("org.jetbrains.kotlin.plugin.sam.with.receiver") {
+        extensions.configure(SamWithReceiverExtension::class) {
+            annotation(checkNotNull(HasImplicitReceiver::class.qualifiedName))
         }
     }
 

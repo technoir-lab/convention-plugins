@@ -23,8 +23,6 @@ dependencies {
     functionalTestImplementation(testFixtures(project(":common-conventions")))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
-
-    runtimeOnly(libs.kotlin.sam.with.receiver.gradle.plugin)
 }
 
 gradlePlugin {
