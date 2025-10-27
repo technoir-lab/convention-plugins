@@ -9,21 +9,22 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 fun Project.configureKotlin(
-    kotlinVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
-    stdlibVersion: Provider<String> = provider { BuildConfig.KOTLIN_VERSION },
+    kotlinApiVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
+    kotlinLanguageVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
+    kotlinLibrariesVersion: Provider<String> = provider { BuildConfig.KOTLIN_VERSION },
     enableAbiValidation: Provider<Boolean>
 ) {
     extensions.configure(KotlinJvmProjectExtension::class) {
         compilerOptions {
-            apiVersion.set(kotlinVersion)
-            languageVersion.set(kotlinVersion)
+            apiVersion.set(kotlinApiVersion)
+            languageVersion.set(kotlinLanguageVersion)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
             optIn.addAll(
                 "kotlin.io.path.ExperimentalPathApi",
@@ -42,11 +43,12 @@ fun Project.configureKotlin(
         }
     }
 
-    dependencies {
-        val standardLibraries = stdlibVersion.map { StandardLibraries(it) }
-        implementation(standardLibraries.map { platform(it.kotlinBom) })
-        implementation(standardLibraries.map { platform(it.kotlinCoroutinesBom) })
-        implementation(standardLibraries.map { platform(it.kotlinSerializationBom) })
+    afterEvaluate {
+        extensions.configure(KotlinProjectExtension::class) {
+            if (kotlinLibrariesVersion.isPresent) {
+                coreLibrariesVersion = kotlinLibrariesVersion.get()
+            }
+        }
     }
 
     tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
@@ -55,13 +57,10 @@ fun Project.configureKotlin(
         }
     }
 
-    afterEvaluate {
-        extensions.configure(KotlinJvmExtension::class) {
-            compilerOptions {
-                if (stdlibVersion.isPresent) {
-                    coreLibrariesVersion = stdlibVersion.get()
-                }
-            }
-        }
+    dependencies {
+        val standardLibraries = kotlinLibrariesVersion.map { StandardLibraries(it) }
+        implementation(standardLibraries.map { platform(it.kotlinBom) })
+        implementation(standardLibraries.map { platform(it.kotlinCoroutinesBom) })
+        implementation(standardLibraries.map { platform(it.kotlinSerializationBom) })
     }
 }

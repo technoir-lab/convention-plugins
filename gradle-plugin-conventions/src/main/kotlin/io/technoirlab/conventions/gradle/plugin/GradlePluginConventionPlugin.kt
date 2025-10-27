@@ -15,9 +15,9 @@ import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.conventions.gradle.plugin.configuration.configureDependencyAnalysis
 import io.technoirlab.conventions.gradle.plugin.configuration.configurePlugin
-import io.technoirlab.conventions.gradle.plugin.configuration.embeddedKotlinVersion
-import io.technoirlab.conventions.gradle.plugin.configuration.kotlinLanguageVersion
 import io.technoirlab.conventions.gradle.plugin.internal.GradlePluginExtensionImpl
+import io.technoirlab.conventions.gradle.plugin.internal.embeddedKotlinVersion
+import io.technoirlab.conventions.gradle.plugin.internal.kotlinApiVersion
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -61,8 +61,8 @@ class GradlePluginConventionPlugin : Plugin<Project> {
 
         configureJava()
         configureKotlin(
-            kotlinVersion = gradleVersion.map { it.kotlinLanguageVersion },
-            stdlibVersion = gradleVersion.map { it.embeddedKotlinVersion },
+            kotlinApiVersion = gradleVersion.map { it.kotlinApiVersion },
+            kotlinLibrariesVersion = gradleVersion.map { it.embeddedKotlinVersion },
             enableAbiValidation = config.buildFeatures.abiValidation
         )
         configureDetekt()
