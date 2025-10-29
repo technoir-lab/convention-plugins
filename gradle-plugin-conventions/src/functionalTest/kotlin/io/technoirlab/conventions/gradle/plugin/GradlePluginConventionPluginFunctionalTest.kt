@@ -202,7 +202,7 @@ class GradlePluginConventionPluginFunctionalTest {
         "8.12,8.14.3,2.0.21,1.9.0,1.7.3",
         "8.14,8.14.3,2.0.21,1.9.0,1.7.3",
         "9.0,9.1.0,2.2.0,1.10.2,1.9.0",
-        "9.2,9.2.0-rc-3,2.2.20,1.10.2,1.9.0",
+        "9.2,9.2.0,2.2.20,1.10.2,1.9.0",
     )
     fun `Gradle compatibility`(
         minGradleVersion: String,
