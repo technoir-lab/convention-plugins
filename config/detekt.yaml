@@ -28,6 +28,8 @@ naming:
     ignoreAnnotated:
       - org.junit.jupiter.api.Test
       - org.junit.jupiter.params.ParameterizedTest
+  MatchingDeclarationName:
+    active: false # overlaps with formatting>Filename
 
 performance:
   SpreadOperator:
@@ -37,4 +39,8 @@ style:
   ForbiddenComment:
     active: false
   MaxLineLength:
-    active: false
+    active: false # overlaps with formatting>MaximumLineLength
+  ModifierOrder:
+    active: false # overlaps with formatting>ModifierOrdering
+  NewLineAtEndOfFile:
+    active: false # overlaps with formatting>FinalNewline
