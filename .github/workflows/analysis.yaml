@@ -7,8 +7,8 @@ concurrency:
   group: ${{ github.workflow_ref }}-${{ github.ref }}
 
 jobs:
-  build-health:
-    name: Build health
+  dependencies:
+    name: Dependencies
     runs-on: ubuntu-24.04
 
     permissions:
@@ -71,10 +71,10 @@ jobs:
           if [ $status -gt 1 ]; then
             exit $status
           fi
-          has_additions=false
+          failure=false
           if [ -s build-health-report.diff ]; then
             if grep -q '^+[^+]' build-health-report.diff; then
-              has_additions=true
+              failure=true
             fi
             {
               echo '```diff'
@@ -82,7 +82,7 @@ jobs:
               echo '```'
             } >> build-health-summary.md
           fi
-          echo "has_additions=$has_additions" >> "$GITHUB_OUTPUT"
+          echo "failure=$failure" >> "$GITHUB_OUTPUT"
           if [ -f build-health-summary.md ]; then
             {
               echo 'summary<<EOF'
@@ -96,13 +96,14 @@ jobs:
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Build health
-          conclusion: ${{ steps.generate_summary.outputs.has_additions == 'true' && 'failure' || job.status }}
+          name: Dependency analysis
+          conclusion: ${{ steps.generate_summary.outputs.failure == 'true' && 'failure' || job.status }}
           output: |
             ${{ format('{{ "summary": {0} }}', toJSON(steps.generate_summary.outputs.summary || '')) }}
+          output_text_description_file: build-health-summary.md
 
-  dependency-sorting:
-    name: Dependency sorting
+  dependencies-sorting:
+    name: Dependencies sorting
     runs-on: ubuntu-24.04
 
     permissions:
@@ -128,15 +129,26 @@ jobs:
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish report
+      - name: Generate summary
+        id: generate_summary
         run: |
           git --no-pager diff > dependencies-sorting.diff
+          failure=false
           if [ -s dependencies-sorting.diff ]; then
+            failure=true
             {
-              echo '```diff'
+              echo 'summary<<EOF'
               cat dependencies-sorting.diff
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-            echo 'Dependencies are not sorted'
-            exit 1
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
           fi
+          echo "failure=$failure" >> "$GITHUB_OUTPUT"
+
+      - name: Publish summary
+        uses: LouisBrunner/checks-action@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Dependency analysis
+          conclusion: ${{ steps.generate_summary.outputs.failure == 'true' && 'failure' || job.status }}
+          output: |
+            ${{ format('{{ "summary": {0} }}', toJSON(steps.generate_summary.outputs.summary || '')) }}
