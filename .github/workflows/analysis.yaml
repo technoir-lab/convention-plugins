@@ -72,9 +72,11 @@ jobs:
             exit $status
           fi
           failure=false
+          summary=""
           if [ -s build-health-report.diff ]; then
             if grep -q '^+[^+]' build-health-report.diff; then
               failure=true
+              summary="Dependency problems found"
             fi
             {
               echo '```diff'
@@ -83,13 +85,7 @@ jobs:
             } >> build-health-summary.md
           fi
           echo "failure=$failure" >> "$GITHUB_OUTPUT"
-          if [ -f build-health-summary.md ]; then
-            {
-              echo 'summary<<EOF'
-              cat build-health-summary.md
-              echo 'EOF'
-            } >> "$GITHUB_OUTPUT"
-          fi
+          echo "summary=$summary" >> "$GITHUB_OUTPUT"
 
       - name: Publish summary
         uses: LouisBrunner/checks-action@v2.0.0
@@ -99,7 +95,7 @@ jobs:
           name: Dependency analysis
           conclusion: ${{ steps.generate_summary.outputs.failure == 'true' && 'failure' || job.status }}
           output: |
-            ${{ format('{{ "summary": {0} }}', toJSON(steps.generate_summary.outputs.summary || '')) }}
+            ${{ "summary": "${{ steps.generate_summary.outputs.summary }}" }}
           output_text_description_file: build-health-summary.md
 
   dependencies-sorting:
@@ -108,6 +104,7 @@ jobs:
 
     permissions:
       contents: read
+      checks: write
       packages: read
 
     steps:
