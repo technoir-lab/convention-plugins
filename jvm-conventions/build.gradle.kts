@@ -19,6 +19,7 @@ dependencies {
 
     implementation(project(":common-conventions"))
     implementation(project(":libraries:gradle-extensions"))
+    implementation(libs.maven.artifact)
 
     functionalTestImplementation(testFixtures(project(":common-conventions")))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))

@@ -13,6 +13,8 @@ jobs:
 
     permissions:
       contents: read
+      checks: write
+      packages: read
 
     steps:
       - name: Set up JDK
@@ -27,18 +29,18 @@ jobs:
       - name: Checkout base branch
         uses: actions/checkout@v5.0.0
         with:
-          ref: ${{ github.event.pull_request.base.ref }}
+          ref: ${{ github.event.pull_request.base.sha }}
           fetch-depth: 0
 
-      - name: Analyse build health on base branch
+      - name: Analyse build health (baseline)
         run: |
           ./gradlew :buildHealth \
           --scan \
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Store base build health report
-        run: cp build/reports/dependency-analysis/build-health-report.txt build-health-report.base.txt
+      - name: Copy baseline report
+        run: cp build/reports/dependency-analysis/build-health-report.txt baseline.txt
 
       - name: Checkout
         uses: actions/checkout@v5.0.0
@@ -52,28 +54,60 @@ jobs:
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish report
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: build-health-report
+          path: build/reports/dependency-analysis/build-health-report.txt
+
+      - name: Generate summary
+        id: generate_summary
+        if: hashFiles('build/reports/dependency-analysis/build-health-report.txt') != ''
         run: |
-          cp build/reports/dependency-analysis/build-health-report.txt build-health-report.current.txt
+          cp build/reports/dependency-analysis/build-health-report.txt current.txt
           status=$?
-          git --no-pager diff --no-index build-health-report.base.txt build-health-report.current.txt > build-health-report.diff || status=$?
+          git --no-pager diff --no-index --no-color baseline.txt current.txt > build-health-report.diff || status=$?
           if [ $status -gt 1 ]; then
             exit $status
           fi
+          has_additions=false
           if [ -s build-health-report.diff ]; then
+            if grep -q '^+[^+]' build-health-report.diff; then
+              has_additions=true
+            fi
             {
               echo '```diff'
               cat build-health-report.diff
               echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
+            } >> build-health-summary.md
+          fi
+          echo "has_additions=$has_additions" >> "$GITHUB_OUTPUT"
+          if [ -f build-health-summary.md ]; then
+            {
+              echo 'summary<<EOF'
+              cat build-health-summary.md
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
           fi
 
-  dependencies-sorting:
-    name: Dependencies sorting
+      - name: Publish summary
+        uses: LouisBrunner/checks-action@v2.0.0
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Build health
+          conclusion: ${{ steps.generate_summary.outputs.has_additions == 'true' && 'failure' || job.status }}
+          output: |
+            ${{ format('{{ "summary": {0} }}', toJSON(steps.generate_summary.outputs.summary || '')) }}
+
+  dependency-sorting:
+    name: Dependency sorting
     runs-on: ubuntu-24.04
 
     permissions:
       contents: read
+      packages: read
 
     steps:
       - name: Set up JDK
