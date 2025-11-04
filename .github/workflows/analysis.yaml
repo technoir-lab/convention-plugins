@@ -95,7 +95,7 @@ jobs:
           name: Dependency analysis
           conclusion: ${{ steps.generate_summary.outputs.failure == 'true' && 'failure' || job.status }}
           output: |
-            ${{ "summary": "${{ steps.generate_summary.outputs.summary }}" }}
+            { "summary": "${{ steps.generate_summary.outputs.summary }}" }
           output_text_description_file: build-health-summary.md
 
   dependencies-sorting:
