@@ -70,6 +70,20 @@ class GradlePluginConventionPluginFunctionalTest {
     }
 
     @Test
+    fun `unit tests`() {
+        val buildResult = gradleRunner.build(":example-plugin:test")
+
+        assertThat(buildResult.task(":example-plugin:test")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `code coverage`() {
+        val buildResult = gradleRunner.build(":example-plugin:koverLog")
+
+        assertThat(buildResult.output).contains("application line coverage: 100%")
+    }
+
+    @Test
     fun publishing() {
         val repoDir = gradleRunner.root.dir / "repo"
         repoDir.createDirectories()

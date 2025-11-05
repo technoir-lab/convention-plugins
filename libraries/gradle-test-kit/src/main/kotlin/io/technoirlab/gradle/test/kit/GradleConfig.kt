@@ -2,7 +2,7 @@ package io.technoirlab.gradle.test.kit
 
 @Suppress("LongParameterList")
 class GradleConfig(
-    var buildCache: Boolean = true,
+    var buildCache: Boolean = false,
     var configurationCache: Boolean = true,
     var configurationOnDemand: Boolean = true,
     var dryRun: Boolean = false,

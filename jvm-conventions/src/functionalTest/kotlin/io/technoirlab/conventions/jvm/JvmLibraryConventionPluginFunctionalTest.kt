@@ -68,6 +68,20 @@ class JvmLibraryConventionPluginFunctionalTest {
     }
 
     @Test
+    fun `unit tests`() {
+        val buildResult = gradleRunner.build(":jvm-library:test")
+
+        assertThat(buildResult.task(":jvm-library:test")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `code coverage`() {
+        val buildResult = gradleRunner.build(":jvm-library:koverLog")
+
+        assertThat(buildResult.output).contains("application line coverage: 100%")
+    }
+
+    @Test
     fun publishing() {
         val repoDir = gradleRunner.root.dir / "repo"
         repoDir.createDirectories()
@@ -177,18 +191,15 @@ class JvmLibraryConventionPluginFunctionalTest {
                 """.trimIndent()
             )
 
-        (project.dir / "src/main/kotlin/com/example/jvm/library/JvmLibrary.kt")
-            .replaceText("fun hello(", "fun hello2(")
         (project.dir / "src/main/kotlin/com/example/jvm/library/internal/JvmLibraryImpl.kt")
-            .replaceText("fun hello(", "fun hello2(")
+            .replaceText("// function placeholder", "fun hello() = Unit")
 
         val buildResult = gradleRunner.buildAndFail(":jvm-library:check")
 
         assertThat(buildResult.task(":jvm-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
-            -	public fun hello (Ljava/lang/String;)V
-            +	public fun hello2 (Ljava/lang/String;)V
+            +	public final fun hello ()V
             """.trimIndent()
         )
     }

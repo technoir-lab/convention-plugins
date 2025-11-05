@@ -34,8 +34,6 @@ internal fun Project.configureKotlinMultiplatform(
     kotlinVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
     executable: Boolean = false
 ) {
-    pluginManager.apply("org.jetbrains.kotlin.multiplatform")
-
     extensions.configure(KmpExtension::class) {
         applyDefaultHierarchyTemplate()
 

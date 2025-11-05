@@ -2,6 +2,7 @@ package io.technoirlab.conventions.jvm
 
 import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
+import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
@@ -42,12 +43,14 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
         pluginManager.apply("application")
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
+        pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         configureJava()
         configureApplication(config)
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
         configureDetekt()
         configureTesting()
+        configureCoverage()
     }
 
     private fun Project.configureApplication(config: JvmApplicationExtension) {

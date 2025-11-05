@@ -71,6 +71,20 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
     }
 
     @Test
+    fun `unit tests`() {
+        val buildResult = gradleRunner.build(":kmp-library:jvmTest")
+
+        assertThat(buildResult.task(":kmp-library:jvmTest")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `code coverage`() {
+        val buildResult = gradleRunner.build(":kmp-library:koverLog")
+
+        assertThat(buildResult.output).contains("application line coverage: 100%")
+    }
+
+    @Test
     fun `dependency injection`() {
         gradleRunner.root.project("kmp-library")
             .appendBuildScript(
@@ -222,18 +236,15 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                 """.trimIndent()
             )
 
-        (project.dir / "src/commonMain/kotlin/kmp/library/KmpLibrary.kt")
-            .replaceText("fun hello(", "fun hello2(")
         (project.dir / "src/commonMain/kotlin/kmp/library/internal/KmpLibraryImpl.kt")
-            .replaceText("fun hello(", "fun hello2(")
+            .replaceText("// function placeholder", "fun hello() = Unit")
 
         val buildResult = gradleRunner.buildAndFail(":kmp-library:check")
 
         assertThat(buildResult.task(":kmp-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
-            -    abstract fun hello(kotlin/String) // kmp.library/KmpLibrary.hello|hello(kotlin.String){}[0]
-            +    abstract fun hello2(kotlin/String) // kmp.library/KmpLibrary.hello2|hello2(kotlin.String){}[0]
+            +    final fun hello() // kmp.library.internal/KmpLibraryImpl.hello|hello(){}[0]
             """.trimIndent()
         )
     }

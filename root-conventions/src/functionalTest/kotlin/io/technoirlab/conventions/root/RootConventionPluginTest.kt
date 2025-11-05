@@ -21,6 +21,21 @@ class RootConventionPluginTest {
     }
 
     @Test
+    fun `coverage aggregation`() {
+        gradleRunner.root.appendBuildScript(
+            """
+            dependencies {
+                kover(project(":jvm-library"))
+            }
+            """.trimIndent()
+        )
+
+        val buildResult = gradleRunner.build(":koverLog")
+
+        assertThat(buildResult.output).contains("application line coverage: 100%")
+    }
+
+    @Test
     fun `dependency sorting`() {
         gradleRunner.build(":sortDependencies")
     }

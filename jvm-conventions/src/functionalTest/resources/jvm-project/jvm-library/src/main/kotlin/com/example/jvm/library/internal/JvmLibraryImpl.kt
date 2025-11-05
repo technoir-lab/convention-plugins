@@ -6,4 +6,6 @@ class JvmLibraryImpl : JvmLibrary {
     override fun hello(name: String) {
         println("Hello, $name")
     }
+
+    // function placeholder
 }

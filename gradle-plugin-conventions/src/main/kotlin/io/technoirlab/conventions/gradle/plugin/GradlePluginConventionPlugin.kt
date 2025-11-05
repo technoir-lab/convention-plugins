@@ -4,6 +4,7 @@ import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.DocsFormat
 import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
+import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureJava
@@ -50,6 +51,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         pluginManager.apply("java-gradle-plugin")
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
+        pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         val gradleVersion = config.minGradleVersion.map { GradleVersion.version(it) }
         val environment = Environment(providers)
@@ -78,6 +80,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         configurePlugin(config, environment)
         configureTesting()
         configureTestFixtures()
+        configureCoverage()
         configureDependencyAnalysis()
     }
 }

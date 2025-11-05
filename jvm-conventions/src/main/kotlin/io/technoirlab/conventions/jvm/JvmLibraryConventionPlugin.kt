@@ -4,6 +4,7 @@ import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.DocsFormat
 import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
+import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureJava
@@ -45,6 +46,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
         pluginManager.apply("java-library")
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
+        pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         val environment = Environment(providers)
         val publishingOptions = PublishingOptions(
@@ -60,5 +62,6 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
         configurePublishing(publishingOptions, config.metadata, environment)
         configureTesting()
         configureTestFixtures()
+        configureCoverage()
     }
 }
