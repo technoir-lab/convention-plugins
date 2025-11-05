@@ -1,0 +1,71 @@
+public final class io/technoirlab/gradle/Environment {
+	public fun <init> (Lorg/gradle/api/provider/ProviderFactory;)V
+	public final fun getMavenRepositories (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public final fun getRefName ()Lorg/gradle/api/provider/Provider;
+	public final fun getRepositoryUrl ()Lorg/gradle/api/provider/Provider;
+	public final fun getTagName ()Lorg/gradle/api/provider/Provider;
+	public final fun getVcsUrl ()Lorg/gradle/api/provider/Provider;
+	public final fun isCi ()Z
+	public final fun isLaunchedFromTest ()Z
+}
+
+public final class io/technoirlab/gradle/MavenRepository : java/io/Serializable {
+	public fun <init> (Ljava/lang/String;Ljava/net/URI;Lio/technoirlab/gradle/MavenRepository$Credentials;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/net/URI;Lio/technoirlab/gradle/MavenRepository$Credentials;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/net/URI;
+	public final fun component3 ()Lio/technoirlab/gradle/MavenRepository$Credentials;
+	public final fun copy (Ljava/lang/String;Ljava/net/URI;Lio/technoirlab/gradle/MavenRepository$Credentials;)Lio/technoirlab/gradle/MavenRepository;
+	public static synthetic fun copy$default (Lio/technoirlab/gradle/MavenRepository;Ljava/lang/String;Ljava/net/URI;Lio/technoirlab/gradle/MavenRepository$Credentials;ILjava/lang/Object;)Lio/technoirlab/gradle/MavenRepository;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCredentials ()Lio/technoirlab/gradle/MavenRepository$Credentials;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUrl ()Ljava/net/URI;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/technoirlab/gradle/MavenRepository$Credentials {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/technoirlab/gradle/MavenRepository$Credentials;
+	public static synthetic fun copy$default (Lio/technoirlab/gradle/MavenRepository$Credentials;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/technoirlab/gradle/MavenRepository$Credentials;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPassword ()Ljava/lang/String;
+	public final fun getUsername ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/technoirlab/gradle/MavenRepositoryKt {
+	public static final fun maven (Lorg/gradle/api/artifacts/dsl/RepositoryHandler;Lio/technoirlab/gradle/MavenRepository;)V
+}
+
+public final class io/technoirlab/gradle/PluginsKt {
+	public static final fun whenPluginApplied (Lorg/gradle/api/Project;Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class io/technoirlab/gradle/PropertiesKt {
+	public static final fun setDisallowChanges (Lorg/gradle/api/provider/Property;Ljava/lang/Object;)V
+	public static final fun setDisallowChanges (Lorg/gradle/api/provider/Property;Lorg/gradle/api/provider/Provider;)V
+}
+
+public final class io/technoirlab/gradle/ProvidersKt {
+	public static final fun localGradleProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+}
+
+public final class io/technoirlab/gradle/StringsKt {
+	public static final fun capitalized (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/technoirlab/gradle/URIsKt {
+	public static final fun copy (Ljava/net/URI;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/net/URI;
+	public static synthetic fun copy$default (Ljava/net/URI;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/net/URI;
+}
+
+public final class io/technoirlab/gradle/dependencies/DependenciesKt {
+	public static final fun api (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Lorg/gradle/api/artifacts/ModuleDependency;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/artifacts/ModuleDependency;
+	public static final fun implementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+}
+
