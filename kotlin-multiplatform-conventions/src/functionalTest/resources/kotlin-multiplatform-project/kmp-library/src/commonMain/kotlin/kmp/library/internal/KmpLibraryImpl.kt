@@ -7,4 +7,6 @@ class KmpLibraryImpl : KmpLibrary {
     override fun hello(name: String) {
         greet(name)
     }
+
+    // function placeholder
 }

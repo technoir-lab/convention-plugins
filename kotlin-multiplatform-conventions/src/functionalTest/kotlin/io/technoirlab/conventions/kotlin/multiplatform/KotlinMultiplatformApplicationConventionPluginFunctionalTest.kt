@@ -8,6 +8,7 @@ import io.technoirlab.gradle.test.kit.buildScript
 import io.technoirlab.gradle.test.kit.generatedFile
 import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
+import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.io.path.createParentDirectories
@@ -63,6 +64,20 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             .content()
             .contains("const val TEST_STRING_FIELD: String = \"test string value\"")
             .doesNotContain("INT_FIELD")
+    }
+
+    @Test
+    fun `unit tests`() {
+        val buildResult = gradleRunner.build(":kmp-application:jvmTest")
+
+        assertThat(buildResult.task(":kmp-application:jvmTest")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `code coverage`() {
+        val buildResult = gradleRunner.build(":kmp-application:koverLog")
+
+        assertThat(buildResult.output).contains("application line coverage: 100%")
     }
 
     @Test

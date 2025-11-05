@@ -5,6 +5,7 @@ import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.generatedFile
 import org.assertj.core.api.Assertions.assertThat
+import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
@@ -57,6 +58,20 @@ class JvmApplicationConventionPluginFunctionalTest {
             .content()
             .contains("const val TEST_STRING_FIELD: String = \"test string value\"")
             .doesNotContain("INT_FIELD")
+    }
+
+    @Test
+    fun `unit tests`() {
+        val buildResult = gradleRunner.build(":jvm-application:test")
+
+        assertThat(buildResult.task(":jvm-application:test")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `code coverage`() {
+        val buildResult = gradleRunner.build(":jvm-application:koverLog")
+
+        assertThat(buildResult.output).contains("application line coverage: 100%")
     }
 
     @Test
