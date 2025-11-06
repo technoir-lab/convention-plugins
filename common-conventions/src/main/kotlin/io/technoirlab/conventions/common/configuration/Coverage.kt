@@ -18,6 +18,11 @@ fun Project.configureCoverage() {
                     annotatedBy("javax.annotation.processing.Generated")
                 }
             }
+            total {
+                html {
+                    onCheck.set(true)
+                }
+            }
         }
     }
 }
