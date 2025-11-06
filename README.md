@@ -1,7 +1,8 @@
 Convention plugins for Gradle
 =============================
 
-[![Build](https://github.com/technoir-lab/convention-plugins/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/technoir-lab/convention-plugins/actions/workflows/build.yaml) ![Maven Central Version](https://img.shields.io/maven-central/v/io.technoirlab.conventions/common-conventions)
+[![Build](https://github.com/technoir-lab/convention-plugins/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/technoir-lab/convention-plugins/actions/workflows/ci.yaml)
+![Maven Central Version](https://img.shields.io/maven-central/v/io.technoirlab.conventions/common-conventions)
 
 Convention as code for Gradle projects.
 
