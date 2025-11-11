@@ -5,6 +5,9 @@ import org.gradle.api.Action
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 
+/**
+ * Configuration for Gradle plugin projects.
+ */
 @GradlePluginDsl
 interface GradlePluginExtension : CommonExtension {
     /**

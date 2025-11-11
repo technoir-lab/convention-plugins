@@ -6,6 +6,9 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 import java.net.URI
 
+/**
+ * Global configuration for all projects.
+ */
 @SettingsDsl
 interface SettingsExtension {
     /**

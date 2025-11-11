@@ -3,6 +3,9 @@ package io.technoirlab.conventions.kotlin.multiplatform.api
 import io.technoirlab.conventions.common.api.CommonBuildFeatures
 import org.gradle.api.provider.Property
 
+/**
+ * Optional build features for Kotlin multiplatform projects.
+ */
 interface KotlinMultiplatformBuildFeatures : CommonBuildFeatures {
     /**
      * Enable benchmarking. Disabled by default.

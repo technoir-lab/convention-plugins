@@ -4,6 +4,9 @@ import org.gradle.api.Action
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 
+/**
+ * Optional build features for all projects.
+ */
 interface CommonBuildFeatures {
     /**
      * Enable ABI validation. Disabled by default.

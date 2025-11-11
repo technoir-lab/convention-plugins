@@ -6,6 +6,9 @@ import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 
+/**
+ * Configuration for JVM application projects.
+ */
 @JvmApplicationDsl
 interface JvmApplicationExtension : CommonExtension {
     /**

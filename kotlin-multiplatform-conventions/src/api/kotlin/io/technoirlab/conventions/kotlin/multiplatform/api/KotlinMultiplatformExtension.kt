@@ -4,6 +4,9 @@ import io.technoirlab.conventions.common.api.CommonExtension
 import org.gradle.api.Action
 import org.gradle.api.tasks.Nested
 
+/**
+ * Configuration for Kotlin multiplatform projects.
+ */
 interface KotlinMultiplatformExtension : CommonExtension {
     /**
      * Optional build features.
