@@ -23,6 +23,9 @@ internal fun Settings.configureDependencyAnalysis() {
                 onUnusedDependencies {
                     exclude("org.junit.jupiter:junit-jupiter")
                 }
+                onUsedTransitiveDependencies {
+                    exclude("org.jetbrains.kotlin:kotlin-parcelize-runtime")
+                }
             }
         }
         abi {
