@@ -19,6 +19,7 @@ internal fun Settings.configureDependencyAnalysis() {
         }
         issues {
             all {
+                onIncorrectConfiguration { severity("ignore") }
                 onUnusedDependencies {
                     exclude("org.junit.jupiter:junit-jupiter")
                 }
