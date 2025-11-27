@@ -5,12 +5,13 @@ import java.nio.file.Path
 import kotlin.io.path.appendText
 import kotlin.io.path.div
 
-class GradleProject(
-    val dir: Path
+class GradleProject internal constructor(
+    val dir: Path,
+    val rootDir: Path
 ) {
     fun project(name: String): GradleProject {
         require(":" !in name) { "Project name must not contain ':'" }
-        return GradleProject(dir / name)
+        return GradleProject(dir / name, rootDir)
     }
 }
 
@@ -19,6 +20,9 @@ val GradleProject.buildDir: Path
 
 val GradleProject.buildScript: Path
     get() = dir / "build.gradle.kts"
+
+val GradleProject.settingsScript: Path
+    get() = rootDir / "settings.gradle.kts"
 
 val GradleProject.gradleProperties: Path
     get() = dir / "gradle.properties"

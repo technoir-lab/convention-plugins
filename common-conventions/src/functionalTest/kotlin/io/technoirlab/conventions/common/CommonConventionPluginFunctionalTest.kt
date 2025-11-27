@@ -24,7 +24,7 @@ class CommonConventionPluginFunctionalTest {
             project.version=1.0.0
             """.trimIndent()
         )
-        gradleRunner.settingsScript.appendText(
+        gradleRunner.root.settingsScript.appendText(
             // language=kotlin
             $$"""
             gradle.lifecycle.afterProject {
