@@ -58,10 +58,8 @@ public final class io/technoirlab/gradle/test/kit/GradleRunnerExtension : org/ju
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun afterEach (Lorg/junit/jupiter/api/extension/ExtensionContext;)V
 	public fun beforeEach (Lorg/junit/jupiter/api/extension/ExtensionContext;)V
-	public final fun build ([Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lorg/gradle/testkit/runner/BuildResult;
-	public static synthetic fun build$default (Lio/technoirlab/gradle/test/kit/GradleRunnerExtension;[Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/testkit/runner/BuildResult;
-	public final fun buildAndFail ([Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lorg/gradle/testkit/runner/BuildResult;
-	public static synthetic fun buildAndFail$default (Lio/technoirlab/gradle/test/kit/GradleRunnerExtension;[Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/testkit/runner/BuildResult;
+	public final fun build ([Ljava/lang/String;ZLkotlin/jvm/functions/Function1;)Lorg/gradle/testkit/runner/BuildResult;
+	public static synthetic fun build$default (Lio/technoirlab/gradle/test/kit/GradleRunnerExtension;[Ljava/lang/String;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/testkit/runner/BuildResult;
 	public final fun getRoot ()Lio/technoirlab/gradle/test/kit/GradleProject;
 }
 

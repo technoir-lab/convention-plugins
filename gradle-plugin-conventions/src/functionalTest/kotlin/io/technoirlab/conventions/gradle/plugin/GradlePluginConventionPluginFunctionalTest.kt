@@ -189,7 +189,7 @@ class GradlePluginConventionPluginFunctionalTest {
         (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
             .replaceText("// function placeholder", "fun hello() = Unit")
 
-        val buildResult = gradleRunner.buildAndFail(":example-plugin:check")
+        val buildResult = gradleRunner.build(":example-plugin:check", expectFailure = true)
 
         assertThat(buildResult.task(":example-plugin:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(

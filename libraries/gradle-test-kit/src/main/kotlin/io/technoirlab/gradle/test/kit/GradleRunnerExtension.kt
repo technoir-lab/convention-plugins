@@ -41,18 +41,12 @@ class GradleRunnerExtension(
         internalRoot?.dir?.deleteRecursively()
     }
 
-    fun build(vararg tasks: String, configuration: GradleConfig.() -> Unit = {}): BuildResult {
+    fun build(vararg tasks: String, expectFailure: Boolean = false, configuration: GradleConfig.() -> Unit = {}): BuildResult {
         val config = GradleConfig(config)
         config.initScripts.add(0, initScript)
         config.configuration()
-        return createRunner(tasks, config).build()
-    }
-
-    fun buildAndFail(vararg tasks: String, configuration: GradleConfig.() -> Unit = {}): BuildResult {
-        val config = GradleConfig(config)
-        config.initScripts.add(0, initScript)
-        config.configuration()
-        return createRunner(tasks, config).buildAndFail()
+        val gradleRunner = createRunner(tasks, config)
+        return if (expectFailure) gradleRunner.buildAndFail() else gradleRunner.build()
     }
 
     private fun createRunner(tasks: Array<out String>, config: GradleConfig): GradleRunner {

@@ -194,7 +194,7 @@ class JvmLibraryConventionPluginFunctionalTest {
         (project.dir / "src/main/kotlin/com/example/jvm/library/internal/JvmLibraryImpl.kt")
             .replaceText("// function placeholder", "fun hello() = Unit")
 
-        val buildResult = gradleRunner.buildAndFail(":jvm-library:check")
+        val buildResult = gradleRunner.build(":jvm-library:check", expectFailure = true)
 
         assertThat(buildResult.task(":jvm-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(

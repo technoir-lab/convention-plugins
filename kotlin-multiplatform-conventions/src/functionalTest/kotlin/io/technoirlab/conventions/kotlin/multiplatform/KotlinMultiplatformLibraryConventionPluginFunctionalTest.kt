@@ -239,7 +239,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         (project.dir / "src/commonMain/kotlin/kmp/library/internal/KmpLibraryImpl.kt")
             .replaceText("// function placeholder", "fun hello() = Unit")
 
-        val buildResult = gradleRunner.buildAndFail(":kmp-library:check")
+        val buildResult = gradleRunner.build(":kmp-library:check", expectFailure = true)
 
         assertThat(buildResult.task(":kmp-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(

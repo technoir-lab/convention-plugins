@@ -25,7 +25,7 @@ class SettingsConventionPluginFunctionalTest {
             """.trimIndent()
         )
 
-        val buildResult = gradleRunner.buildAndFail(":jvm-library:jar")
+        val buildResult = gradleRunner.build(":jvm-library:jar", expectFailure = true)
 
         assertThat(buildResult.output).contains(
             "Could not resolve org.jetbrains.kotlin:kotlin-reflect:2.2.+: Resolution strategy disallows usage of dynamic versions"
@@ -42,7 +42,7 @@ class SettingsConventionPluginFunctionalTest {
             """.trimIndent()
         )
 
-        val buildResult = gradleRunner.buildAndFail(":help")
+        val buildResult = gradleRunner.build(":help", expectFailure = true)
 
         assertThat(buildResult.output).contains(
             "Build was configured to prefer settings repositories over project repositories but " +
