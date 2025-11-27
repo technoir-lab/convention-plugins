@@ -5,6 +5,10 @@ plugins {
 jvmLibrary {
     buildFeatures {
         abiValidation = true
+
+        buildConfig {
+            buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
+        }
     }
 }
 

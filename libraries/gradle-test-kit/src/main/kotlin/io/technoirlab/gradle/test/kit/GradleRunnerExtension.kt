@@ -6,9 +6,11 @@ import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import java.nio.file.Files
+import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.deleteRecursively
+import kotlin.io.path.div
 
 class GradleRunnerExtension(
     private val resourceDir: String,
@@ -17,6 +19,7 @@ class GradleRunnerExtension(
 
     private val config = GradleConfig()
     private var internalRoot: GradleProject? = null
+    private lateinit var initScript: Path
 
     val root: GradleProject
         get() = checkNotNull(internalRoot) { "Root project isn't initialized. Perhaps test execution hasn't started yet" }
@@ -29,6 +32,8 @@ class GradleRunnerExtension(
         val projectDir = Files.createTempDirectory("project-")
         copyResources(resourceDir, projectDir)
         internalRoot = GradleProject(projectDir, rootDir = projectDir)
+        initScript = projectDir / "gradle-test-kit.init.gradle.kts"
+        InitScriptGenerator().generate(initScript)
     }
 
     override fun afterEach(context: ExtensionContext) {
@@ -38,12 +43,14 @@ class GradleRunnerExtension(
 
     fun build(vararg tasks: String, configuration: GradleConfig.() -> Unit = {}): BuildResult {
         val config = GradleConfig(config)
+        config.initScripts.add(0, initScript)
         config.configuration()
         return createRunner(tasks, config).build()
     }
 
     fun buildAndFail(vararg tasks: String, configuration: GradleConfig.() -> Unit = {}): BuildResult {
         val config = GradleConfig(config)
+        config.initScripts.add(0, initScript)
         config.configuration()
         return createRunner(tasks, config).buildAndFail()
     }
@@ -71,7 +78,6 @@ class GradleRunnerExtension(
         return GradleRunner.create()
             .withArguments(*arguments.toTypedArray())
             .withProjectDir(root.dir.toFile())
-            .withPluginClasspath()
             .apply {
                 config.gradleVersion?.let { withGradleVersion(it) }
                 if (config.environmentVariables.isNotEmpty()) {
