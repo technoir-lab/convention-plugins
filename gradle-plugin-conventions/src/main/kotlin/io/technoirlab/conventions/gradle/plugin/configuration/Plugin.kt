@@ -24,11 +24,13 @@ import org.gradle.testing.base.TestingExtension
 import org.jetbrains.dokka.gradle.DokkaExtension
 
 internal fun Project.configurePlugin(config: GradlePluginExtension, environment: Environment) {
+    configurations.dependencyScope("${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly")
+
     configureApiVariant(API_VARIANT_NAME)
 
     @Suppress("UnstableApiUsage")
     extensions.configure(TestingExtension::class) {
-        val functionalTestSuite = suites.register("functionalTest", JvmTestSuite::class) {
+        val functionalTestSuite = suites.register(FUNCTIONAL_TEST_VARIANT_NAME, JvmTestSuite::class) {
             configureTestSuite {
                 configureFunctionalTestTask()
             }
@@ -111,10 +113,12 @@ private fun Test.configureFunctionalTestTask() {
 }
 
 private const val API_VARIANT_NAME = "api"
+private const val FUNCTIONAL_TEST_VARIANT_NAME = "functionalTest"
 private val DEPENDENCY_CONFIGURATIONS = listOf(
     "implementation",
     "api",
     "runtimeOnly",
-    "apiApi",
-    "apiImplementation"
+    "${API_VARIANT_NAME}Api",
+    "${API_VARIANT_NAME}Implementation",
+    "${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly",
 )
