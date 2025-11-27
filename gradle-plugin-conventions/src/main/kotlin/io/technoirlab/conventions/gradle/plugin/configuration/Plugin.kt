@@ -15,6 +15,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.gradleKotlinDsl
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.register
+import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
@@ -95,6 +96,9 @@ private fun Project.configureApiVariant(variantName: String) {
 }
 
 private fun Test.configureFunctionalTestTask() {
+    val pluginIds = project.the<GradlePluginDevelopmentExtension>().plugins.map { it.id }
+    systemProperty("gradle.test.kit.plugin.ids", pluginIds.joinToString(","))
+    systemProperty("gradle.test.kit.plugin.version", "${project.version}")
     dependsOn(project.tasks.named("publishToMavenLocal"))
 
     DEPENDENCY_CONFIGURATIONS.forEach { configurationName ->
