@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.absolutePathString
 import kotlin.io.path.deleteRecursively
 import kotlin.io.path.div
 
@@ -65,6 +66,7 @@ class GradleRunnerExtension(
         }
         arguments += config.systemProperties.map { "-D${it.key}=${it.value}" }
         arguments += config.gradleProperties.map { "-P${it.key}=${it.value}" }
+        arguments += config.initScripts.flatMap { listOf("--init-script", it.absolutePathString()) }
         arguments += tasks
 
         @Suppress("SpreadOperator")
