@@ -29,12 +29,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5.0.0
 
-      - name: Publish to local Maven repository
-        run: |
-          ./gradlew publishToMavenLocal \
-          -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
-
       - name: Build with Gradle
         run: |
           ./gradlew build \
