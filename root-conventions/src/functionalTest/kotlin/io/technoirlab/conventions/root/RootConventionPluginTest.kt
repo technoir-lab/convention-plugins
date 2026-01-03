@@ -3,6 +3,7 @@ package io.technoirlab.conventions.root
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import org.assertj.core.api.Assertions.assertThat
+import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
@@ -53,5 +54,20 @@ class RootConventionPluginTest {
         val buildResult = gradleRunner.build(":dokkaGenerate")
 
         assertThat(buildResult.task(":jvm-library:dokkaGenerateModuleHtml")?.outcome).isNotNull
+    }
+
+    @Test
+    fun `Maven Central publishing`() {
+        gradleRunner.root.appendBuildScript(
+            """
+            dependencies {
+                nmcpAggregation(project(":jvm-library"))
+            }
+            """.trimIndent()
+        )
+
+        val buildResult = gradleRunner.build(":nmcpZipAggregation")
+
+        assertThat(buildResult.task(":nmcpZipAggregation")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
     }
 }
