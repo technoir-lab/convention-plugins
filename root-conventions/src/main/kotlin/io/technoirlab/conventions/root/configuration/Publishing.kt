@@ -12,6 +12,7 @@ internal fun Project.configurePublishing() {
             username.set(providers.environmentVariable("CENTRAL_PORTAL_USER"))
             password.set(providers.environmentVariable("CENTRAL_PORTAL_PASSWORD"))
             publishingType.set("USER_MANAGED")
+            allowEmptyAggregation.set(true)
         }
     }
 }
