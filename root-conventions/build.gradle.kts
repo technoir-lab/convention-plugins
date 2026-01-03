@@ -11,7 +11,6 @@ gradlePluginConfig {
 dependencies {
     implementation(project(":common-conventions"))
     implementation(libs.dokka.gradle.plugin)
-    implementation(libs.nmcp.gradle.plugin)
 
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)

@@ -25,7 +25,6 @@ fun Project.configurePublishing(
     extraConfiguration: MavenPublication.() -> Unit = {}
 ) {
     pluginManager.apply("maven-publish")
-    pluginManager.apply("com.gradleup.nmcp")
 
     extensions.configure(PublishingExtension::class) {
         publications.withType<MavenPublication>().configureEach {
