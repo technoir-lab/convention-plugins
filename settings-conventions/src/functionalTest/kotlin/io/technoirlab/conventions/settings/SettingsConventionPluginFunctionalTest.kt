@@ -3,6 +3,7 @@ package io.technoirlab.conventions.settings
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import org.assertj.core.api.Assertions.assertThat
+import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
@@ -48,5 +49,12 @@ class SettingsConventionPluginFunctionalTest {
             "Build was configured to prefer settings repositories over project repositories but " +
                 "repository 'MavenRepo' was added by build file 'build.gradle.kts'"
         )
+    }
+
+    @Test
+    fun `Maven Central publishing`() {
+        val buildResult = gradleRunner.build(":nmcpZipAggregation")
+
+        assertThat(buildResult.task(":nmcpZipAggregation")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
     }
 }

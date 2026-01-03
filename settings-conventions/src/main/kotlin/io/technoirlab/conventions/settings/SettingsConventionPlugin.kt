@@ -6,6 +6,7 @@ import io.technoirlab.conventions.settings.api.SettingsExtension
 import io.technoirlab.conventions.settings.configuration.configureDependencyAnalysis
 import io.technoirlab.conventions.settings.configuration.configureDependencyResolution
 import io.technoirlab.conventions.settings.configuration.configureDevelocity
+import io.technoirlab.conventions.settings.configuration.configurePublishing
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,6 +20,7 @@ class SettingsConventionPlugin : Plugin<Settings> {
         pluginManager.apply("com.autonomousapps.build-health")
         pluginManager.apply("com.gradle.develocity")
         pluginManager.apply("org.gradle.toolchains.foojay-resolver-convention")
+        pluginManager.apply("com.gradleup.nmcp.settings")
 
         val config = extensions.create<SettingsExtension>(SettingsExtension.NAME)
 
@@ -38,6 +40,7 @@ class SettingsConventionPlugin : Plugin<Settings> {
         configureDependencyAnalysis()
         configureDependencyResolution(environment)
         configureDevelocity(config, environment)
+        configurePublishing()
     }
 
     private fun Project.configureMetadata(metadata: ProjectMetadata) {
