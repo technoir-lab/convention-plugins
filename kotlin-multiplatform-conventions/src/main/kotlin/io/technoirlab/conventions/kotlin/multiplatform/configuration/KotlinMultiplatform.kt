@@ -54,7 +54,6 @@ internal fun Project.configureKotlinMultiplatform(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
                 "-Xexpect-actual-classes",
-                "-Xnested-type-aliases",
             )
         }
 

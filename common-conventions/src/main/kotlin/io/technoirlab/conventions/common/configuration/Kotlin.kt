@@ -35,7 +35,6 @@ fun Project.configureKotlin(
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
-                "-Xnested-type-aliases",
             )
         }
 
