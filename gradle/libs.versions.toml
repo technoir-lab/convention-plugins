@@ -13,7 +13,7 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 kover-gradle-plugin = "0.9.4"
 maven-artifact = "3.9.12"
-metro = "0.9.4"
+metro = "0.10.2"
 nmcp = "1.4.4"
 sort-dependencies-gradle-plugin = "0.16"
 
