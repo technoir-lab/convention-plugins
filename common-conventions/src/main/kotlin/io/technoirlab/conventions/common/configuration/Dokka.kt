@@ -96,7 +96,7 @@ private fun getExternalLinks(gradleVersion: String): Map<String, DocumentationLi
         ),
         "kotlinx-datetime" to DocumentationLink(
             url = "https://kotlinlang.org/api/kotlinx-datetime/",
-            packageListUrl = "https://kotlinlang.org/api/kotlinx-datetime/kotlinx-datetime/package-list"
+            packageListUrl = "https://kotlinlang.org/api/kotlinx-datetime/package-list"
         ),
         "kotlinx-io" to DocumentationLink(
             url = "https://kotlinlang.org/api/kotlinx-io/"
