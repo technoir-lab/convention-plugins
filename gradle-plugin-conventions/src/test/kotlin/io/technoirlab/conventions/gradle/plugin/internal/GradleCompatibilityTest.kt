@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource
 class GradleCompatibilityTest {
     @ParameterizedTest
     @CsvSource(
-        "9.3.0,2.2.20",
+        "9.3.0,2.2.21",
         "9.2.0,2.2.20",
         "9.1.0,2.2.0",
         "9.0.0,2.2.0",
