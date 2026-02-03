@@ -10,7 +10,7 @@ updates:
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     registries: "*"
     open-pull-requests-limit: 10
 
