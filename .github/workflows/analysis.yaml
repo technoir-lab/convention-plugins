@@ -7,12 +7,14 @@ concurrency:
   group: ${{ github.workflow_ref }}-${{ github.ref }}
 
 jobs:
-  build-health:
-    name: Build health
+  dependencies:
+    name: Dependencies
     runs-on: ubuntu-24.04
 
     permissions:
       contents: read
+      checks: write
+      packages: read
 
     steps:
       - name: Set up JDK
@@ -27,18 +29,18 @@ jobs:
       - name: Checkout base branch
         uses: actions/checkout@v6.0.2
         with:
-          ref: ${{ github.event.pull_request.base.ref }}
+          ref: ${{ github.event.pull_request.base.sha }}
           fetch-depth: 0
 
-      - name: Analyse build health on base branch
+      - name: Analyse build health (baseline)
         run: |
           ./gradlew :buildHealth \
           --scan \
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Store base build health report
-        run: cp build/reports/dependency-analysis/build-health-report.txt build-health-report.base.txt
+      - name: Copy baseline report
+        run: cp build/reports/dependency-analysis/build-health-report.txt baseline.txt
 
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -52,21 +54,49 @@ jobs:
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish report
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: build-health-report
+          path: build/reports/dependency-analysis/build-health-report.txt
+
+      - name: Generate summary
+        id: generate_summary
+        if: hashFiles('build/reports/dependency-analysis/build-health-report.txt') != ''
         run: |
-          cp build/reports/dependency-analysis/build-health-report.txt build-health-report.current.txt
+          cp build/reports/dependency-analysis/build-health-report.txt current.txt
           status=$?
-          git --no-pager diff --no-index build-health-report.base.txt build-health-report.current.txt > build-health-report.diff || status=$?
+          git --no-pager diff --no-index --no-color baseline.txt current.txt > build-health-report.diff || status=$?
           if [ $status -gt 1 ]; then
             exit $status
           fi
+          failure=false
+          summary=""
           if [ -s build-health-report.diff ]; then
+            if grep -q '^+[^+]' build-health-report.diff; then
+              failure=true
+              summary="Dependency problems found"
+            fi
             {
               echo '```diff'
               cat build-health-report.diff
               echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
+            } >> build-health-summary.md
           fi
+          echo "failure=$failure" >> "$GITHUB_OUTPUT"
+          echo "summary=$summary" >> "$GITHUB_OUTPUT"
+
+      - name: Publish summary
+        uses: LouisBrunner/checks-action@v2.0.0
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Dependency analysis
+          conclusion: ${{ steps.generate_summary.outputs.failure == 'true' && 'failure' || job.status }}
+          output: |
+            { "summary": "${{ steps.generate_summary.outputs.summary }}" }
+          output_text_description_file: build-health-summary.md
 
   dependencies-sorting:
     name: Dependencies sorting
@@ -74,6 +104,8 @@ jobs:
 
     permissions:
       contents: read
+      checks: write
+      packages: read
 
     steps:
       - name: Set up JDK
@@ -94,15 +126,26 @@ jobs:
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish report
+      - name: Generate summary
+        id: generate_summary
         run: |
           git --no-pager diff > dependencies-sorting.diff
+          failure=false
           if [ -s dependencies-sorting.diff ]; then
+            failure=true
             {
-              echo '```diff'
+              echo 'summary<<EOF'
               cat dependencies-sorting.diff
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-            echo 'Dependencies are not sorted'
-            exit 1
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
           fi
+          echo "failure=$failure" >> "$GITHUB_OUTPUT"
+
+      - name: Publish summary
+        uses: LouisBrunner/checks-action@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Dependency analysis
+          conclusion: ${{ steps.generate_summary.outputs.failure == 'true' && 'failure' || job.status }}
+          output: |
+            ${{ format('{{ "summary": {0} }}', toJSON(steps.generate_summary.outputs.summary || '')) }}
