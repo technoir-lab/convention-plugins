@@ -27,7 +27,7 @@ jobs:
           distribution: corretto
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5.0.2
+        uses: gradle/actions/setup-gradle@v6.1.0
 
       - name: Publish to GitHub Packages
         env:
@@ -84,7 +84,7 @@ jobs:
           distribution: corretto
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5.0.2
+        uses: gradle/actions/setup-gradle@v6.1.0
 
       - name: Setup Pages
         uses: actions/configure-pages@v6.0.0
