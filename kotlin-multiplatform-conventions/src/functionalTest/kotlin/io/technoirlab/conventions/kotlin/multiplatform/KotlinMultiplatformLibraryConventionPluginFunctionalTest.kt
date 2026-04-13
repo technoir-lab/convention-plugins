@@ -222,7 +222,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                 """.trimIndent()
             )
 
-        gradleRunner.build(":kmp-library:updateLegacyAbi")
+        gradleRunner.build(":kmp-library:updateKotlinAbi")
 
         val abiDump = project.dir / "api/kmp-library.klib.api"
         assertThat(abiDump)
@@ -241,7 +241,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
 
         val buildResult = gradleRunner.build(":kmp-library:check", expectFailure = true)
 
-        assertThat(buildResult.task(":kmp-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
+        assertThat(buildResult.task(":kmp-library:checkKotlinAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
             +    final fun hello() // kmp.library.internal/KmpLibraryImpl.hello|hello(){}[0]

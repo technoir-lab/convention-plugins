@@ -60,7 +60,7 @@ fun Project.configureKotlin(
 
     tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
         if (enableAbiValidation.get()) {
-            dependsOn(tasks.named("checkLegacyAbi"))
+            dependsOn(tasks.named("checkKotlinAbi"))
         }
     }
 

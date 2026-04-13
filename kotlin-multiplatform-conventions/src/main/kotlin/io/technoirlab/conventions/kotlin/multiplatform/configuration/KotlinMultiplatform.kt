@@ -77,7 +77,7 @@ internal fun Project.configureKotlinMultiplatform(
 
     tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
         if (config.buildFeatures.abiValidation.get()) {
-            dependsOn(tasks.named("checkLegacyAbi"))
+            dependsOn(tasks.named("checkKotlinAbi"))
         }
     }
 }

@@ -178,7 +178,7 @@ class JvmLibraryConventionPluginFunctionalTest {
                 """.trimIndent()
             )
 
-        gradleRunner.build(":jvm-library:updateLegacyAbi")
+        gradleRunner.build(":jvm-library:updateKotlinAbi")
 
         val abiDump = project.dir / "api/jvm-library.api"
         assertThat(abiDump)
@@ -196,7 +196,7 @@ class JvmLibraryConventionPluginFunctionalTest {
 
         val buildResult = gradleRunner.build(":jvm-library:check", expectFailure = true)
 
-        assertThat(buildResult.task(":jvm-library:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
+        assertThat(buildResult.task(":jvm-library:checkKotlinAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
             +	public final fun hello ()V

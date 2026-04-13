@@ -171,7 +171,7 @@ class GradlePluginConventionPluginFunctionalTest {
                 """.trimIndent()
             )
 
-        gradleRunner.build(":example-plugin:updateLegacyAbi")
+        gradleRunner.build(":example-plugin:updateKotlinAbi")
 
         val abiDump = project.dir / "api/example-plugin.api"
         assertThat(abiDump)
@@ -191,7 +191,7 @@ class GradlePluginConventionPluginFunctionalTest {
 
         val buildResult = gradleRunner.build(":example-plugin:check", expectFailure = true)
 
-        assertThat(buildResult.task(":example-plugin:checkLegacyAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
+        assertThat(buildResult.task(":example-plugin:checkKotlinAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
         assertThat(buildResult.output).contains(
             """
             |   	public fun apply (Lorg/gradle/api/Project;)V
