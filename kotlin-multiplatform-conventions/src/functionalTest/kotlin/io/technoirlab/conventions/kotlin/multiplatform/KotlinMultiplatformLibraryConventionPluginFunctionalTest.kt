@@ -273,10 +273,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             )
             .createBenchmark()
 
-        val buildResult = gradleRunner.build(":kmp-library:jvmBenchmarkBenchmark") {
-            // Workaround for https://github.com/Kotlin/kotlinx-benchmark/issues/258
-            gradleProperties += mapOf("benchmarks_jmh_version_skip_check" to "true")
-        }
+        val buildResult = gradleRunner.build(":kmp-library:jvmBenchmarkBenchmark")
 
         assertThat(buildResult.task(":kmp-library:jvmBenchmarkBenchmark")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
     }
