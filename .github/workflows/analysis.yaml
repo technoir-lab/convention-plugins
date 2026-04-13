@@ -15,6 +15,12 @@ jobs:
       contents: read
 
     steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v6.0.2
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+
       - name: Set up JDK
         uses: actions/setup-java@v5.2.0
         with:
@@ -25,12 +31,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v6.1.0
         with:
           cache-provider: basic
-
-      - name: Checkout base branch
-        uses: actions/checkout@v6.0.2
-        with:
-          ref: ${{ github.event.pull_request.base.ref }}
-          fetch-depth: 0
 
       - name: Analyse build health on base branch
         run: |
@@ -78,6 +78,9 @@ jobs:
       contents: read
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
       - name: Set up JDK
         uses: actions/setup-java@v5.2.0
         with:
@@ -88,9 +91,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v6.1.0
         with:
           cache-provider: basic
-
-      - name: Checkout
-        uses: actions/checkout@v6.0.2
 
       - name: Sort dependencies
         run: |
