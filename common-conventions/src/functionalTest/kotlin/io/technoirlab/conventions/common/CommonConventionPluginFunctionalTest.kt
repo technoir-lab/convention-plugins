@@ -79,7 +79,7 @@ class CommonConventionPluginFunctionalTest {
 
         assertThat(project.buildScript)
             .content()
-            .contains(
+            .containsIgnoringNewLines(
                 // language=kotlin
                 """
                 dependencies {
