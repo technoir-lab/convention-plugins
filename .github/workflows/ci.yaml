@@ -49,8 +49,8 @@ jobs:
           -Pgpr.user=${{ github.repository_owner }} \
           -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
 
-  actions-lint:
-    name: Lint workflows
+  actionlint:
+    name: Lint GitHub Actions
     runs-on: ubuntu-24.04
 
     permissions:
