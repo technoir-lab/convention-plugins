@@ -25,6 +25,11 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     }
 
     @Test
+    fun ktLint() {
+        gradleRunner.build(":kmp-application:ktlintCheck")
+    }
+
+    @Test
     fun `BuildConfig generation`() {
         val project = gradleRunner.root.project("kmp-application")
             .appendBuildScript(

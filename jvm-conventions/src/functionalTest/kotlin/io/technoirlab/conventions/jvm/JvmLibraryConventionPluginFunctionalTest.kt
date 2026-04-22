@@ -26,6 +26,11 @@ class JvmLibraryConventionPluginFunctionalTest {
     }
 
     @Test
+    fun ktLint() {
+        gradleRunner.build(":jvm-library:ktlintCheck")
+    }
+
+    @Test
     fun `BuildConfig generation`() {
         val project = gradleRunner.root.project("jvm-library")
             .appendBuildScript(

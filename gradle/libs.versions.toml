@@ -12,6 +12,8 @@ kotlinx-benchmark = "0.4.16"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.11.0"
 kover-gradle-plugin = "0.9.8"
+ktlint-cli = "1.8.0"
+ktlint-gradle = "14.2.0"
 maven-artifact = "3.9.15"
 metro = "0.13.2"
 nmcp = "1.4.4"
@@ -36,6 +38,7 @@ kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-
 kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-bom = { module = "org.jetbrains.kotlinx:kotlinx-serialization-bom", version.ref = "kotlinx-serialization" }
 kover-gradle-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover-gradle-plugin" }
+ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
 maven-artifact = { module = "org.apache.maven:maven-artifact", version.ref = "maven-artifact" }
 metro-gradle-plugin = { module = "dev.zacsweers.metro:gradle-plugin", version.ref = "metro" }
 nmcp-gradle-plugin = { module = "com.gradleup.nmcp:nmcp", version.ref = "nmcp" }
