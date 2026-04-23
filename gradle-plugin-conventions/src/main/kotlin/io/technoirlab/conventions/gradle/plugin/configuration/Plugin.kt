@@ -120,5 +120,5 @@ private val DEPENDENCY_CONFIGURATIONS = listOf(
     "runtimeOnly",
     "${API_VARIANT_NAME}Api",
     "${API_VARIANT_NAME}Implementation",
-    "${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly",
+    "${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly"
 )

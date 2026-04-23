@@ -34,7 +34,7 @@ fun Project.configureKotlin(
             )
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
-                "-Xconsistent-data-class-copy-visibility",
+                "-Xconsistent-data-class-copy-visibility"
             )
         }
 

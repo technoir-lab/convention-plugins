@@ -22,7 +22,7 @@ internal class InitScriptGenerator {
             .filter(String::isNotEmpty)
         return pluginIds.associateWith { pluginVersion } + mapOf(
             "org.jetbrains.kotlin.jvm" to BuildConfig.KOTLIN_VERSION,
-            "org.jetbrains.kotlin.multiplatform" to BuildConfig.KOTLIN_VERSION,
+            "org.jetbrains.kotlin.multiplatform" to BuildConfig.KOTLIN_VERSION
         )
     }
 

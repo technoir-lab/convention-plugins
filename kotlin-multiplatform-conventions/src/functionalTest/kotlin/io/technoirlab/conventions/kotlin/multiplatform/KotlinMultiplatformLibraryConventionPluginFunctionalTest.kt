@@ -175,7 +175,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
             environmentVariables += mapOf(
                 "GITHUB_SERVER_URL" to "https://github.com",
-                "GITHUB_REPOSITORY" to "example-org/example-project",
+                "GITHUB_REPOSITORY" to "example-org/example-project"
             )
         }
 

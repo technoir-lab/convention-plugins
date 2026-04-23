@@ -17,7 +17,7 @@ class GradleCompatibilityTest {
         "8.14.3,2.0.21",
         "8.13,2.0.21",
         "8.12.1,2.0.21",
-        "8.11.1,2.0.20",
+        "8.11.1,2.0.20"
     )
     fun embeddedKotlinVersion(gradleVersion: String, expectedKotlinVersion: String) {
         val embeddedKotlinVersion = GradleVersion.version(gradleVersion).embeddedKotlinVersion
@@ -35,7 +35,7 @@ class GradleCompatibilityTest {
         "8.14.3,2.0",
         "8.13,2.0",
         "8.12.1,2.0",
-        "8.11.1,2.0",
+        "8.11.1,2.0"
     )
     fun kotlinApiVersion(gradleVersion: String, expectedKotlinApiVersion: String) {
         val kotlinApiVersion = GradleVersion.version(gradleVersion).kotlinApiVersion

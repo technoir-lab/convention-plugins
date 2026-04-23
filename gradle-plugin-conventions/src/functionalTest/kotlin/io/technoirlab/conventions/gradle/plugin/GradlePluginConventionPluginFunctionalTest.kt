@@ -148,7 +148,7 @@ class GradlePluginConventionPluginFunctionalTest {
             gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
             environmentVariables += mapOf(
                 "GITHUB_SERVER_URL" to "https://github.com",
-                "GITHUB_REPOSITORY" to "example-org/example-project",
+                "GITHUB_REPOSITORY" to "example-org/example-project"
             )
         }
 
@@ -218,14 +218,14 @@ class GradlePluginConventionPluginFunctionalTest {
         "9.0,9.1.0,2.2.0,1.10.2,1.9.0",
         "9.2,9.2.1,2.2.20,1.10.2,1.9.0",
         "9.3,9.3.1,2.2.21,1.10.2,1.9.0",
-        "9.4,9.4.1,2.3.0,1.10.2,1.10.0",
+        "9.4,9.4.1,2.3.0,1.10.2,1.10.0"
     )
     fun `Gradle compatibility`(
         minGradleVersion: String,
         testedGradleVersion: String,
         kotlinStdlibVersion: String,
         kotlinCoroutinesVersion: String,
-        kotlinSerializationVersion: String,
+        kotlinSerializationVersion: String
     ) {
         val repoDir = gradleRunner.root.dir / "repo"
 
