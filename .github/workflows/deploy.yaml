@@ -39,8 +39,6 @@ jobs:
           ./gradlew publishAllPublicationsToGithubRepository \
           --no-configuration-cache \
           --scan \
-          -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }} \
           -Ppublish.github.username=${{ secrets.GPR_DEPLOY_USER }} \
           -Ppublish.github.password=${{ secrets.GPR_DEPLOY_TOKEN }}
 
@@ -50,11 +48,7 @@ jobs:
           CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: |
-          ./gradlew publishAggregationToCentralPortal \
-          --scan \
-          -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publishAggregationToCentralPortal --scan
 
       - name: Create release
         uses: softprops/action-gh-release@v3.0.0
@@ -94,11 +88,7 @@ jobs:
         uses: actions/configure-pages@v6.0.0
 
       - name: Generate documentation
-        run: |
-          ./gradlew :dokkaGenerate \
-          --scan \
-          -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :dokkaGenerate --scan
 
       - name: Upload documentation
         uses: actions/upload-pages-artifact@v5.0.0
