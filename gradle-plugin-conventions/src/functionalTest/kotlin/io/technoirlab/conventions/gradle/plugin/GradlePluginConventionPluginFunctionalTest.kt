@@ -28,6 +28,11 @@ class GradlePluginConventionPluginFunctionalTest {
     }
 
     @Test
+    fun ktLint() {
+        gradleRunner.build(":example-plugin:ktlintCheck")
+    }
+
+    @Test
     fun `BuildConfig generation`() {
         val project = gradleRunner.root.project("example-plugin")
             .appendBuildScript(
@@ -230,7 +235,14 @@ class GradlePluginConventionPluginFunctionalTest {
         val repoDir = gradleRunner.root.dir / "repo"
 
         val project = gradleRunner.root.project("example-plugin")
-        project.appendBuildScript("gradlePluginConfig { minGradleVersion = \"$minGradleVersion\" }")
+        project.appendBuildScript(
+            """
+            gradlePluginConfig {
+                minGradleVersion = "$minGradleVersion"
+            }
+            
+            """.trimIndent()
+        )
 
         // Use a Kotlin 2.2 language feature to verify the supported language level
         (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")

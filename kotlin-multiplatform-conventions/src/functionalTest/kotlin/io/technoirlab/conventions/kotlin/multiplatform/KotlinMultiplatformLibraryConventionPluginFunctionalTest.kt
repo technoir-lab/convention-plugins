@@ -29,6 +29,11 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
     }
 
     @Test
+    fun ktLint() {
+        gradleRunner.build(":kmp-library:ktlintCheck")
+    }
+
+    @Test
     fun `BuildConfig generation`() {
         val project = gradleRunner.root.project("kmp-library")
             .appendBuildScript(

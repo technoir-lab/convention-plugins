@@ -19,6 +19,11 @@ class JvmApplicationConventionPluginFunctionalTest {
     }
 
     @Test
+    fun ktLint() {
+        gradleRunner.build(":jvm-application:ktlintCheck")
+    }
+
+    @Test
     fun `BuildConfig generation`() {
         val project = gradleRunner.root.project("jvm-application")
             .appendBuildScript(

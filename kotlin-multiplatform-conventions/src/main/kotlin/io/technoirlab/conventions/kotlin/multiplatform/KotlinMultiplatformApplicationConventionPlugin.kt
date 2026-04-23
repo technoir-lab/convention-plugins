@@ -41,6 +41,7 @@ class KotlinMultiplatformApplicationConventionPlugin : Plugin<Project> {
 
         pluginManager.apply("org.jetbrains.kotlin.multiplatform")
         pluginManager.apply("org.jetbrains.kotlinx.kover")
+        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
         configureKotlinMultiplatform(config, executable = true)
         configureDetekt()

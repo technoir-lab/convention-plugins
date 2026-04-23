@@ -52,6 +52,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
         pluginManager.apply("org.jetbrains.kotlinx.kover")
+        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
         val gradleVersion = config.minGradleVersion.map { GradleVersion.version(it) }
         val environment = Environment(providers)

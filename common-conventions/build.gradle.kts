@@ -15,6 +15,7 @@ gradlePluginConfig {
             buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
             buildConfigField("KOTLINX_COROUTINES_VERSION", libs.versions.kotlinx.coroutines)
             buildConfigField("KOTLINX_SERIALIZATION_VERSION", libs.versions.kotlinx.serialization)
+            buildConfigField("KTLINT_VERSION", libs.versions.ktlint.cli)
         }
     }
 }
@@ -28,6 +29,7 @@ dependencies {
     implementation(libs.kotlin.gradle.plugin.api)
     implementation(libs.kotlin.sam.with.receiver.gradle.plugin)
     implementation(libs.kover.gradle.plugin)
+    implementation(libs.ktlint.gradle.plugin)
     implementation(libs.maven.artifact)
     implementation(libs.sort.dependencies.gradle.plugin)
 
