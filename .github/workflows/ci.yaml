@@ -43,11 +43,7 @@ jobs:
             ${{ runner.os }}-konan-
 
       - name: Build with Gradle
-        run: |
-          ./gradlew build \
-          --scan \
-          -Pgpr.user=${{ github.repository_owner }} \
-          -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew build --scan
 
   actionlint:
     name: Lint GitHub Actions
