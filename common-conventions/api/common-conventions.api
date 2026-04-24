@@ -18,10 +18,6 @@ public final class io/technoirlab/conventions/common/configuration/CoverageKt {
 	public static final fun configureCoverage (Lorg/gradle/api/Project;)V
 }
 
-public final class io/technoirlab/conventions/common/configuration/DetektKt {
-	public static final fun configureDetekt (Lorg/gradle/api/Project;)V
-}
-
 public final class io/technoirlab/conventions/common/configuration/DocsFormat : java/lang/Enum {
 	public static final field Companion Lio/technoirlab/conventions/common/configuration/DocsFormat$Companion;
 	public static final field Html Lio/technoirlab/conventions/common/configuration/DocsFormat;

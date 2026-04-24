@@ -3,7 +3,6 @@ package io.technoirlab.conventions.jvm
 import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureCoverage
-import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
@@ -49,7 +48,6 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
         configureJava()
         configureApplication(config)
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
-        configureDetekt()
         configureTesting()
         configureCoverage()
     }
