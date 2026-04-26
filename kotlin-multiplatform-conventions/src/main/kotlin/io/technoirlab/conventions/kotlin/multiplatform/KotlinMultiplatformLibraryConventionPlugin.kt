@@ -4,7 +4,6 @@ import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureCoverage
-import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
@@ -54,7 +53,6 @@ class KotlinMultiplatformLibraryConventionPlugin : Plugin<Project> {
         )
 
         configureKotlinMultiplatform(config)
-        configureDetekt()
         configureDokka(environment)
         configureCoverage()
         configurePublishing(publishingOptions, config.metadata, environment)

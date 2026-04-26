@@ -5,7 +5,6 @@ import io.technoirlab.conventions.common.configuration.DocsFormat
 import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureCoverage
-import io.technoirlab.conventions.common.configuration.configureDetekt
 import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
@@ -58,7 +57,6 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
 
         configureJava()
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
-        configureDetekt()
         configureDokka(environment, DocsFormat.All)
         configurePublishing(publishingOptions, config.metadata, environment)
         configureTesting()

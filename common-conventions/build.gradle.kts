@@ -23,7 +23,6 @@ gradlePluginConfig {
 dependencies {
     implementation(project(":libraries:gradle-extensions"))
     implementation(libs.buildconfig.gradle.plugin)
-    implementation(libs.detekt.gradle.plugin)
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)
