@@ -14,7 +14,7 @@ kover-gradle-plugin = "0.9.8"
 ktlint-cli = "1.8.0"
 ktlint-gradle = "14.2.0"
 maven-artifact = "3.9.15"
-metro = "0.13.2"
+metro = "1.0.0"
 nmcp = "1.4.4"
 sort-dependencies-gradle-plugin = "0.16"
 
