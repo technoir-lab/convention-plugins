@@ -16,7 +16,7 @@ ktlint-gradle = "14.2.0"
 maven-artifact = "3.9.15"
 metro = "1.0.0"
 nmcp = "1.4.4"
-sort-dependencies-gradle-plugin = "0.16"
+sort-dependencies-gradle-plugin = "0.17.1"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
