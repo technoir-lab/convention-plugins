@@ -27,10 +27,6 @@ fun Project.configureKotlin(
             apiVersion.set(kotlinApiVersion)
             languageVersion.set(kotlinLanguageVersion)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
-            optIn.addAll(
-                "kotlin.io.path.ExperimentalPathApi",
-                "kotlin.time.ExperimentalTime"
-            )
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility"

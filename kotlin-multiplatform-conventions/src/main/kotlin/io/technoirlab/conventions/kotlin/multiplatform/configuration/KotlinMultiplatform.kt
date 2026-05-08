@@ -47,11 +47,6 @@ internal fun Project.configureKotlinMultiplatform(
         compilerOptions {
             apiVersion.set(kotlinVersion)
             languageVersion.set(kotlinVersion)
-
-            optIn.addAll(
-                "kotlin.time.ExperimentalTime",
-                "kotlinx.cinterop.ExperimentalForeignApi"
-            )
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
