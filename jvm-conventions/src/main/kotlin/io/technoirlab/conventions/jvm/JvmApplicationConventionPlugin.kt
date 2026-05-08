@@ -2,8 +2,6 @@ package io.technoirlab.conventions.jvm
 
 import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
-import io.technoirlab.conventions.common.configuration.configureCoverage
-import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configureTesting
@@ -45,11 +43,9 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlinx.kover")
         pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
-        configureJava()
         configureApplication(config)
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
         configureTesting()
-        configureCoverage()
     }
 
     private fun Project.configureApplication(config: JvmApplicationExtension) {

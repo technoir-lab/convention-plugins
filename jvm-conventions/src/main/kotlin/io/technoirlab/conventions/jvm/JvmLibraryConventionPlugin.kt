@@ -4,9 +4,7 @@ import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.DocsFormat
 import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
-import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureDokka
-import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
@@ -55,12 +53,10 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
             docsFormats = setOf(DocsFormat.Javadoc)
         )
 
-        configureJava()
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
         configureDokka(environment, DocsFormat.All)
         configurePublishing(publishingOptions, config.metadata, environment)
         configureTesting()
         configureTestFixtures()
-        configureCoverage()
     }
 }

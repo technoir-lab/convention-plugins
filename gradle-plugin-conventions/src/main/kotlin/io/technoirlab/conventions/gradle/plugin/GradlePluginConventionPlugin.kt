@@ -4,9 +4,7 @@ import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.DocsFormat
 import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
-import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureDokka
-import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
@@ -61,7 +59,6 @@ class GradlePluginConventionPlugin : Plugin<Project> {
             docsFormats = setOf(DocsFormat.Javadoc)
         )
 
-        configureJava()
         configureKotlin(
             kotlinApiVersion = gradleVersion.map { it.kotlinApiVersion },
             kotlinLibrariesVersion = gradleVersion.map { it.embeddedKotlinVersion },
@@ -79,7 +76,6 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         configurePlugin(config, environment)
         configureTesting()
         configureTestFixtures()
-        configureCoverage()
         configureDependencyAnalysis()
     }
 }

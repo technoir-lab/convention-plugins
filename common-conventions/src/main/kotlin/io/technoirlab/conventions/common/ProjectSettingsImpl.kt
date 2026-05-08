@@ -8,7 +8,7 @@ import io.technoirlab.gradle.localGradleProperty
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 
-class ProjectSettingsImpl(private val project: Project, private val environment: Environment) : ProjectSettings {
+internal class ProjectSettingsImpl(private val project: Project, private val environment: Environment) : ProjectSettings {
     override val groupId: Provider<String>
         get() = project.localGradleProperty("project.groupId").orElse(DEFAULT_GROUP_ID)
 

@@ -1,7 +1,6 @@
 package io.technoirlab.conventions.root
 
 import io.technoirlab.conventions.common.CommonConventionPlugin
-import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.root.configuration.configureDokka
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,6 +14,5 @@ class RootConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         configureDokka()
-        configureCoverage()
     }
 }

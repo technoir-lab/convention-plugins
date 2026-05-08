@@ -4,18 +4,8 @@ public final class io/technoirlab/conventions/common/CommonConventionPlugin : or
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public final class io/technoirlab/conventions/common/ProjectSettingsImpl : io/technoirlab/conventions/common/api/ProjectSettings {
-	public fun <init> (Lorg/gradle/api/Project;Lio/technoirlab/gradle/Environment;)V
-	public fun getGroupId ()Lorg/gradle/api/provider/Provider;
-	public fun getVersion ()Lorg/gradle/api/provider/Provider;
-}
-
 public final class io/technoirlab/conventions/common/configuration/BuildConfigGenerationKt {
 	public static final fun configureBuildConfig (Lorg/gradle/api/Project;Lio/technoirlab/conventions/common/api/BuildConfigSpec;Lorg/gradle/api/provider/Property;)V
-}
-
-public final class io/technoirlab/conventions/common/configuration/CoverageKt {
-	public static final fun configureCoverage (Lorg/gradle/api/Project;)V
 }
 
 public final class io/technoirlab/conventions/common/configuration/DocsFormat : java/lang/Enum {
@@ -36,10 +26,6 @@ public final class io/technoirlab/conventions/common/configuration/DocsFormat$Co
 public final class io/technoirlab/conventions/common/configuration/DokkaKt {
 	public static final fun configureDokka (Lorg/gradle/api/Project;Lio/technoirlab/gradle/Environment;Ljava/util/Set;)V
 	public static synthetic fun configureDokka$default (Lorg/gradle/api/Project;Lio/technoirlab/gradle/Environment;Ljava/util/Set;ILjava/lang/Object;)V
-}
-
-public final class io/technoirlab/conventions/common/configuration/JavaKt {
-	public static final fun configureJava (Lorg/gradle/api/Project;)V
 }
 
 public final class io/technoirlab/conventions/common/configuration/KotlinKt {

@@ -8,6 +8,7 @@ import io.technoirlab.gradle.maven
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.api.attributes.Usage
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublicationContainer
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
@@ -25,6 +26,12 @@ fun Project.configurePublishing(
     extraConfiguration: MavenPublication.() -> Unit = {}
 ) {
     pluginManager.apply("maven-publish")
+
+    if ("java" in components.names) {
+        extensions.configure(JavaPluginExtension::class) {
+            withSourcesJar()
+        }
+    }
 
     extensions.configure(PublishingExtension::class) {
         publications.withType<MavenPublication>().configureEach {

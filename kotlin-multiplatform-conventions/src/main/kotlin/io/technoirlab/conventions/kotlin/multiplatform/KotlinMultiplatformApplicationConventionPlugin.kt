@@ -2,7 +2,6 @@ package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
-import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformApplicationExtension
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureBenchmarking
@@ -43,6 +42,5 @@ class KotlinMultiplatformApplicationConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
         configureKotlinMultiplatform(config, executable = true)
-        configureCoverage()
     }
 }
