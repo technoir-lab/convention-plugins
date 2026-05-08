@@ -19,28 +19,29 @@ import org.gradle.kotlin.dsl.create
  * DSL: [KotlinMultiplatformApplicationExtension]
  */
 class KotlinMultiplatformApplicationConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        val config = extensions.create(
-            publicType = KotlinMultiplatformApplicationExtension::class,
-            name = KotlinMultiplatformApplicationExtension.NAME,
-            instanceType = KotlinMultiplatformApplicationExtensionImpl::class,
-            project
-        ) as KotlinMultiplatformApplicationExtensionImpl
-        config.initDefaults()
+    override fun apply(project: Project) =
+        with(project) {
+            val config = extensions.create(
+                publicType = KotlinMultiplatformApplicationExtension::class,
+                name = KotlinMultiplatformApplicationExtension.NAME,
+                instanceType = KotlinMultiplatformApplicationExtensionImpl::class,
+                project
+            ) as KotlinMultiplatformApplicationExtensionImpl
+            config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+            pluginManager.apply(CommonConventionPlugin::class)
 
-        afterEvaluate {
-            configureBenchmarking(config.buildFeatures.benchmark)
-            configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
-            configureKotlinSerialization(config.buildFeatures.serialization)
-            configureMetro(config.buildFeatures.metro)
+            afterEvaluate {
+                configureBenchmarking(config.buildFeatures.benchmark)
+                configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+                configureKotlinSerialization(config.buildFeatures.serialization)
+                configureMetro(config.buildFeatures.metro)
+            }
+
+            pluginManager.apply("org.jetbrains.kotlin.multiplatform")
+            pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("org.jlleitschuh.gradle.ktlint")
+
+            configureKotlinMultiplatform(config, executable = true)
         }
-
-        pluginManager.apply("org.jetbrains.kotlin.multiplatform")
-        pluginManager.apply("org.jetbrains.kotlinx.kover")
-        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
-
-        configureKotlinMultiplatform(config, executable = true)
-    }
 }

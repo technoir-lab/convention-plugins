@@ -26,6 +26,5 @@ internal class InitScriptGenerator {
         )
     }
 
-    private fun systemProperty(name: String): String =
-        checkNotNull(System.getProperty(name)) { "Missing required property '$name'" }
+    private fun systemProperty(name: String): String = checkNotNull(System.getProperty(name)) { "Missing required property '$name'" }
 }

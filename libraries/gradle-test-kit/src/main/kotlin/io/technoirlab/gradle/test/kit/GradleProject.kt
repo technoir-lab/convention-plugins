@@ -27,11 +27,9 @@ val GradleProject.settingsScript: Path
 val GradleProject.gradleProperties: Path
     get() = dir / "gradle.properties"
 
-fun GradleProject.appendBuildScript(@Language("kotlin") code: String): GradleProject =
-    apply { buildScript.appendText(code) }
+fun GradleProject.appendBuildScript(@Language("kotlin") code: String): GradleProject = apply { buildScript.appendText(code) }
 
-fun GradleProject.kotlinFile(className: String, variant: String = "main") =
-    dir / "src/$variant/kotlin/${className.replace('.', '/')}.kt"
+fun GradleProject.kotlinFile(className: String, variant: String = "main") = dir / "src/$variant/kotlin/${className.replace('.', '/')}.kt"
 
 fun GradleProject.generatedFile(generator: Generator, className: String, variant: String = "main"): Path =
     buildDir.resolve(generator.outputPath(variant, className))

@@ -16,33 +16,34 @@ import org.gradle.kotlin.dsl.findByType
 
 @Suppress("UnstableApiUsage")
 class SettingsConventionPlugin : Plugin<Settings> {
-    override fun apply(settings: Settings) = with(settings) {
-        pluginManager.apply("com.autonomousapps.build-health")
-        pluginManager.apply("com.gradle.develocity")
-        pluginManager.apply("org.gradle.toolchains.foojay-resolver-convention")
-        pluginManager.apply("com.gradleup.nmcp.settings")
+    override fun apply(settings: Settings) =
+        with(settings) {
+            pluginManager.apply("com.autonomousapps.build-health")
+            pluginManager.apply("com.gradle.develocity")
+            pluginManager.apply("org.gradle.toolchains.foojay-resolver-convention")
+            pluginManager.apply("com.gradleup.nmcp.settings")
 
-        val config = extensions.create<SettingsExtension>(SettingsExtension.NAME)
+            val config = extensions.create<SettingsExtension>(SettingsExtension.NAME)
 
-        gradle.settingsEvaluated {
-            rootProject.name = config.projectId.get()
-        }
+            gradle.settingsEvaluated {
+                rootProject.name = config.projectId.get()
+            }
 
-        gradle.lifecycle.beforeProject {
-            configureMetadata(config.metadata)
-        }
+            gradle.lifecycle.beforeProject {
+                configureMetadata(config.metadata)
+            }
 
-        gradle.lifecycle.afterProject {
-            configureDependencyResolution()
+            gradle.lifecycle.afterProject {
+                configureDependencyResolution()
+                configurePublishing()
+            }
+
+            val environment = Environment(providers)
+            configureDependencyAnalysis()
+            configureDependencyResolution(environment)
+            configureDevelocity(config, environment)
             configurePublishing()
         }
-
-        val environment = Environment(providers)
-        configureDependencyAnalysis()
-        configureDependencyResolution(environment)
-        configureDevelocity(config, environment)
-        configurePublishing()
-    }
 
     private fun Project.configureMetadata(metadata: ProjectMetadata) {
         pluginManager.withPlugin("io.technoirlab.conventions.common") {

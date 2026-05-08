@@ -6,8 +6,7 @@ import java.util.zip.ZipEntry
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
 
-operator fun Path.div(other: Collection<String>): Path =
-    other.fold(this) { current, segment -> current.resolve(segment) }
+operator fun Path.div(other: Collection<String>): Path = other.fold(this) { current, segment -> current.resolve(segment) }
 
 fun Path.replaceText(oldText: String, newText: String) {
     require(oldText != newText) { "oldText and newText must be different" }
@@ -18,5 +17,4 @@ fun Path.replaceText(oldText: String, newText: String) {
     writeText(newContent)
 }
 
-fun Path.jarEntries(): List<String> =
-    JarFile(toFile()).use { jarFile -> jarFile.entries().asSequence().map(ZipEntry::getName).toList() }
+fun Path.jarEntries(): List<String> = JarFile(toFile()).use { jarFile -> jarFile.entries().asSequence().map(ZipEntry::getName).toList() }

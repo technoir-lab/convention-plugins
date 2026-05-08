@@ -16,15 +16,16 @@ import org.gradle.api.Project
  * DSL: [CommonExtension]
  */
 class CommonConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        pluginManager.apply("org.gradle.lifecycle-base")
+    override fun apply(project: Project) =
+        with(project) {
+            pluginManager.apply("org.gradle.lifecycle-base")
 
-        val environment = Environment(providers)
-        val projectSettings = ProjectSettingsImpl(this, environment)
-        configureCommon(projectSettings)
-        configureJava()
-        configureDependencySorting()
-        configureCoverage()
-        configureKtLint()
-    }
+            val environment = Environment(providers)
+            val projectSettings = ProjectSettingsImpl(this, environment)
+            configureCommon(projectSettings)
+            configureJava()
+            configureDependencySorting()
+            configureCoverage()
+            configureKtLint()
+        }
 }
