@@ -15,7 +15,7 @@ class StandardLibrariesTest {
     @Test
     fun kotlinCoroutinesBom() {
         val kotlinCoroutinesBom = StandardLibraries("2.2.21").kotlinCoroutinesBom
-        assertThat(kotlinCoroutinesBom).isEqualTo("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.2")
+        assertThat(kotlinCoroutinesBom).isEqualTo("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.11.0")
     }
 
     @Test
@@ -26,12 +26,12 @@ class StandardLibrariesTest {
 
     @ParameterizedTest
     @CsvSource(
-        "2.3.21,1.10.2",
-        "2.3.20,1.10.2",
-        "2.3.10,1.10.2",
-        "2.3.0,1.10.2",
-        "2.2.21,1.10.2",
-        "2.2.20,1.10.2",
+        "2.3.21,1.11.0",
+        "2.3.20,1.11.0",
+        "2.3.10,1.11.0",
+        "2.3.0,1.11.0",
+        "2.2.21,1.11.0",
+        "2.2.20,1.11.0",
         "2.2.10,1.10.2",
         "2.2.0,1.10.2",
         "2.1.21,1.10.2",
