@@ -22,6 +22,7 @@ internal class StandardLibraries(private val kotlinVersion: String) {
     val kotlinCoroutinesVersion: String
         get() = when {
             kotlinVersionNumber < ComparableVersion("2.1.0") -> "1.9.0"
+            kotlinVersionNumber < ComparableVersion("2.2.20") -> "1.10.2"
             else -> BuildConfig.KOTLINX_COROUTINES_VERSION
         }
 
