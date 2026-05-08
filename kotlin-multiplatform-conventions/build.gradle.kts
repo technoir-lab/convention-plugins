@@ -9,10 +9,8 @@ gradlePluginConfig {
         abiValidation = true
 
         buildConfig {
-            buildConfigField("KOTLIN_BOM", libs.kotlin.bom.map { it.toString() })
+            buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
             buildConfigField("KOTLINX_BENCHMARK_RUNTIME", libs.kotlinx.benchmark.runtime.map { it.toString() })
-            buildConfigField("KOTLINX_COROUTINES_BOM", libs.kotlinx.coroutines.bom.map { it.toString() })
-            buildConfigField("KOTLINX_SERIALIZATION_BOM", libs.kotlinx.serialization.bom.map { it.toString() })
         }
     }
 }

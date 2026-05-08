@@ -1,7 +1,6 @@
 package io.technoirlab.conventions.common.configuration
 
 import io.technoirlab.conventions.common.BuildConfig
-import io.technoirlab.conventions.common.internal.StandardLibraries
 import io.technoirlab.gradle.dependencies.implementation
 import org.gradle.api.HasImplicitReceiver
 import org.gradle.api.Project
@@ -65,9 +64,9 @@ fun Project.configureKotlin(
     }
 
     dependencies {
-        val standardLibraries = kotlinLibrariesVersion.map { StandardLibraries(it) }
-        implementation(standardLibraries.map { platform(it.kotlinBom) })
-        implementation(standardLibraries.map { platform(it.kotlinCoroutinesBom) })
-        implementation(standardLibraries.map { platform(it.kotlinSerializationBom) })
+        val kotlinLibraries = kotlinLibrariesVersion.map { KotlinLibraries(it) }
+        implementation(kotlinLibraries.map { platform(it.kotlinBom) })
+        implementation(kotlinLibraries.map { platform(it.kotlinCoroutinesBom) })
+        implementation(kotlinLibraries.map { platform(it.kotlinSerializationBom) })
     }
 }

@@ -1,26 +1,26 @@
-package io.technoirlab.conventions.common.internal
+package io.technoirlab.conventions.common.configuration
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class StandardLibrariesTest {
+class KotlinLibrariesTest {
     @Test
     fun kotlinBom() {
-        val kotlinBom = StandardLibraries("2.2.21").kotlinBom
+        val kotlinBom = KotlinLibraries("2.2.21").kotlinBom
         assertThat(kotlinBom).isEqualTo("org.jetbrains.kotlin:kotlin-bom:2.2.21")
     }
 
     @Test
     fun kotlinCoroutinesBom() {
-        val kotlinCoroutinesBom = StandardLibraries("2.2.21").kotlinCoroutinesBom
+        val kotlinCoroutinesBom = KotlinLibraries("2.2.21").kotlinCoroutinesBom
         assertThat(kotlinCoroutinesBom).isEqualTo("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.11.0")
     }
 
     @Test
     fun kotlinSerializationBom() {
-        val kotlinSerializationBom = StandardLibraries("2.2.21").kotlinSerializationBom
+        val kotlinSerializationBom = KotlinLibraries("2.2.21").kotlinSerializationBom
         assertThat(kotlinSerializationBom).isEqualTo("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.9.0")
     }
 
@@ -44,7 +44,7 @@ class StandardLibrariesTest {
         "2.0.0,1.9.0"
     )
     fun kotlinCoroutinesVersion(kotlinVersion: String, expectedKotlinCoroutinesVersion: String) {
-        val kotlinCoroutinesVersion = StandardLibraries(kotlinVersion).kotlinCoroutinesVersion
+        val kotlinCoroutinesVersion = KotlinLibraries(kotlinVersion).kotlinCoroutinesVersion
         assertThat(kotlinCoroutinesVersion).isEqualTo(expectedKotlinCoroutinesVersion)
     }
 
@@ -68,7 +68,7 @@ class StandardLibrariesTest {
         "2.0.0,1.7.1"
     )
     fun kotlinSerializationVersion(kotlinVersion: String, expectedKotlinSerializationVersion: String) {
-        val kotlinSerializationVersion = StandardLibraries(kotlinVersion).kotlinSerializationVersion
+        val kotlinSerializationVersion = KotlinLibraries(kotlinVersion).kotlinSerializationVersion
         assertThat(kotlinSerializationVersion).isEqualTo(expectedKotlinSerializationVersion)
     }
 }

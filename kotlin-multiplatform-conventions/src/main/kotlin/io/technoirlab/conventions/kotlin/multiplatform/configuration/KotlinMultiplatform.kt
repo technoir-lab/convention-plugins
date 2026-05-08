@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.kotlin.multiplatform.configuration
 
+import io.technoirlab.conventions.common.configuration.KotlinLibraries
 import io.technoirlab.conventions.kotlin.multiplatform.BuildConfig
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformExtension
 import io.technoirlab.gradle.capitalized
@@ -32,6 +33,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension as KmpExtens
 internal fun Project.configureKotlinMultiplatform(
     config: KotlinMultiplatformExtension,
     kotlinVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
+    kotlinLibrariesVersion: Provider<String> = provider { BuildConfig.KOTLIN_VERSION },
     executable: Boolean = false
 ) {
     extensions.configure(KmpExtension::class) {
@@ -68,10 +70,15 @@ internal fun Project.configureKotlinMultiplatform(
 
         sourceSets {
             commonMain.dependencies {
-                implementation(dependencies.platform(BuildConfig.KOTLIN_BOM))
-                implementation(dependencies.platform(BuildConfig.KOTLINX_COROUTINES_BOM))
-                implementation(dependencies.platform(BuildConfig.KOTLINX_SERIALIZATION_BOM))
+                val kotlinLibraries = kotlinLibrariesVersion.map { KotlinLibraries(it) }
+                implementation(kotlinLibraries.map { dependencies.platform(it.kotlinBom) })
+                implementation(kotlinLibraries.map { dependencies.platform(it.kotlinCoroutinesBom) })
+                implementation(kotlinLibraries.map { dependencies.platform(it.kotlinSerializationBom) })
             }
+        }
+
+        if (kotlinLibrariesVersion.isPresent) {
+            coreLibrariesVersion = kotlinLibrariesVersion.get()
         }
     }
 

@@ -1,9 +1,9 @@
-package io.technoirlab.conventions.common.internal
+package io.technoirlab.conventions.common.configuration
 
 import io.technoirlab.conventions.common.BuildConfig
 import org.apache.maven.artifact.versioning.ComparableVersion
 
-internal class StandardLibraries(private val kotlinVersion: String) {
+class KotlinLibraries(private val kotlinVersion: String) {
     private val kotlinVersionNumber = ComparableVersion(kotlinVersion)
 
     init {

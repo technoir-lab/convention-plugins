@@ -47,6 +47,15 @@ public final class io/technoirlab/conventions/common/configuration/KotlinKt {
 	public static synthetic fun configureKotlin$default (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;ILjava/lang/Object;)V
 }
 
+public final class io/technoirlab/conventions/common/configuration/KotlinLibraries {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getKotlinBom ()Ljava/lang/String;
+	public final fun getKotlinCoroutinesBom ()Ljava/lang/String;
+	public final fun getKotlinCoroutinesVersion ()Ljava/lang/String;
+	public final fun getKotlinSerializationBom ()Ljava/lang/String;
+	public final fun getKotlinSerializationVersion ()Ljava/lang/String;
+}
+
 public final class io/technoirlab/conventions/common/configuration/PublishingKt {
 	public static final fun configurePublishing (Lorg/gradle/api/Project;Lio/technoirlab/conventions/common/configuration/PublishingOptions;Lio/technoirlab/conventions/common/api/metadata/ProjectMetadata;Lio/technoirlab/gradle/Environment;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun configurePublishing$default (Lorg/gradle/api/Project;Lio/technoirlab/conventions/common/configuration/PublishingOptions;Lio/technoirlab/conventions/common/api/metadata/ProjectMetadata;Lio/technoirlab/gradle/Environment;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
