@@ -15,7 +15,8 @@ import kotlin.io.path.div
 class GradleRunnerExtension(
     private val resourceDir: String,
     configuration: GradleConfig.() -> Unit = {}
-) : BeforeEachCallback, AfterEachCallback {
+) : BeforeEachCallback,
+    AfterEachCallback {
 
     private val config = GradleConfig()
     private var internalRoot: GradleProject? = null

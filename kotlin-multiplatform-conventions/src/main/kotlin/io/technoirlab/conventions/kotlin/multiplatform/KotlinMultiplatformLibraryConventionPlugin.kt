@@ -23,36 +23,37 @@ import org.gradle.kotlin.dsl.create
  * DSL: [KotlinMultiplatformLibraryExtension]
  */
 class KotlinMultiplatformLibraryConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        val config = extensions.create(
-            publicType = KotlinMultiplatformLibraryExtension::class,
-            name = KotlinMultiplatformLibraryExtension.NAME,
-            instanceType = KotlinMultiplatformLibraryExtensionImpl::class,
-            project
-        ) as KotlinMultiplatformLibraryExtensionImpl
-        config.initDefaults()
+    override fun apply(project: Project) =
+        with(project) {
+            val config = extensions.create(
+                publicType = KotlinMultiplatformLibraryExtension::class,
+                name = KotlinMultiplatformLibraryExtension.NAME,
+                instanceType = KotlinMultiplatformLibraryExtensionImpl::class,
+                project
+            ) as KotlinMultiplatformLibraryExtensionImpl
+            config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+            pluginManager.apply(CommonConventionPlugin::class)
 
-        afterEvaluate {
-            configureBenchmarking(config.buildFeatures.benchmark)
-            configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
-            configureKotlinSerialization(config.buildFeatures.serialization)
-            configureMetro(config.buildFeatures.metro)
+            afterEvaluate {
+                configureBenchmarking(config.buildFeatures.benchmark)
+                configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+                configureKotlinSerialization(config.buildFeatures.serialization)
+                configureMetro(config.buildFeatures.metro)
+            }
+
+            pluginManager.apply("org.jetbrains.kotlin.multiplatform")
+            pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("org.jlleitschuh.gradle.ktlint")
+
+            val environment = Environment(providers)
+            val publishingOptions = PublishingOptions(
+                componentName = "kotlin",
+                publicationName = "kotlinMultiplatform"
+            )
+
+            configureKotlinMultiplatform(config)
+            configureDokka(environment)
+            configurePublishing(publishingOptions, config.metadata, environment)
         }
-
-        pluginManager.apply("org.jetbrains.kotlin.multiplatform")
-        pluginManager.apply("org.jetbrains.kotlinx.kover")
-        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
-
-        val environment = Environment(providers)
-        val publishingOptions = PublishingOptions(
-            componentName = "kotlin",
-            publicationName = "kotlinMultiplatform"
-        )
-
-        configureKotlinMultiplatform(config)
-        configureDokka(environment)
-        configurePublishing(publishingOptions, config.metadata, environment)
-    }
 }

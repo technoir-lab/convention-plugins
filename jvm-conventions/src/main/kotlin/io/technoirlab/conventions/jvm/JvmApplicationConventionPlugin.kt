@@ -21,32 +21,33 @@ import org.gradle.kotlin.dsl.create
  * DSL: [JvmApplicationExtension]
  */
 class JvmApplicationConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        val config = extensions.create(
-            publicType = JvmApplicationExtension::class,
-            name = JvmApplicationExtension.NAME,
-            instanceType = JvmApplicationExtensionImpl::class,
-            project
-        ) as JvmApplicationExtensionImpl
-        config.initDefaults()
+    override fun apply(project: Project) =
+        with(project) {
+            val config = extensions.create(
+                publicType = JvmApplicationExtension::class,
+                name = JvmApplicationExtension.NAME,
+                instanceType = JvmApplicationExtensionImpl::class,
+                project
+            ) as JvmApplicationExtensionImpl
+            config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+            pluginManager.apply(CommonConventionPlugin::class)
 
-        afterEvaluate {
-            configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
-            configureKotlinSerialization(config.buildFeatures.serialization)
+            afterEvaluate {
+                configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+                configureKotlinSerialization(config.buildFeatures.serialization)
+            }
+
+            pluginManager.apply("application")
+            pluginManager.apply("org.jetbrains.kotlin.jvm")
+            pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
+            pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("org.jlleitschuh.gradle.ktlint")
+
+            configureApplication(config)
+            configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
+            configureTesting()
         }
-
-        pluginManager.apply("application")
-        pluginManager.apply("org.jetbrains.kotlin.jvm")
-        pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
-        pluginManager.apply("org.jetbrains.kotlinx.kover")
-        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
-
-        configureApplication(config)
-        configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
-        configureTesting()
-    }
 
     private fun Project.configureApplication(config: JvmApplicationExtension) {
         extensions.configure(JavaApplication::class) {

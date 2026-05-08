@@ -24,39 +24,40 @@ import org.gradle.kotlin.dsl.create
  * DSL: [JvmLibraryExtension]
  */
 class JvmLibraryConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        val config = extensions.create(
-            publicType = JvmLibraryExtension::class,
-            name = JvmLibraryExtension.NAME,
-            instanceType = JvmLibraryExtensionImpl::class,
-            project
-        ) as JvmLibraryExtensionImpl
-        config.initDefaults()
+    override fun apply(project: Project) =
+        with(project) {
+            val config = extensions.create(
+                publicType = JvmLibraryExtension::class,
+                name = JvmLibraryExtension.NAME,
+                instanceType = JvmLibraryExtensionImpl::class,
+                project
+            ) as JvmLibraryExtensionImpl
+            config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+            pluginManager.apply(CommonConventionPlugin::class)
 
-        afterEvaluate {
-            configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
-            configureKotlinSerialization(config.buildFeatures.serialization)
+            afterEvaluate {
+                configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+                configureKotlinSerialization(config.buildFeatures.serialization)
+            }
+
+            pluginManager.apply("java-library")
+            pluginManager.apply("org.jetbrains.kotlin.jvm")
+            pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
+            pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("org.jlleitschuh.gradle.ktlint")
+
+            val environment = Environment(providers)
+            val publishingOptions = PublishingOptions(
+                componentName = "java",
+                publicationName = "libraryMaven",
+                docsFormats = setOf(DocsFormat.Javadoc)
+            )
+
+            configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
+            configureDokka(environment, DocsFormat.All)
+            configurePublishing(publishingOptions, config.metadata, environment)
+            configureTesting()
+            configureTestFixtures()
         }
-
-        pluginManager.apply("java-library")
-        pluginManager.apply("org.jetbrains.kotlin.jvm")
-        pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
-        pluginManager.apply("org.jetbrains.kotlinx.kover")
-        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
-
-        val environment = Environment(providers)
-        val publishingOptions = PublishingOptions(
-            componentName = "java",
-            publicationName = "libraryMaven",
-            docsFormats = setOf(DocsFormat.Javadoc)
-        )
-
-        configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
-        configureDokka(environment, DocsFormat.All)
-        configurePublishing(publishingOptions, config.metadata, environment)
-        configureTesting()
-        configureTestFixtures()
-    }
 }

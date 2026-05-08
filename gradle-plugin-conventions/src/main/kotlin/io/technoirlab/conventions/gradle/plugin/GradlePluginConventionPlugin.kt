@@ -29,53 +29,54 @@ import org.gradle.util.GradleVersion
  * DSL: [GradlePluginExtension]
  */
 class GradlePluginConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        val config = extensions.create(
-            publicType = GradlePluginExtension::class,
-            name = GradlePluginExtension.NAME,
-            instanceType = GradlePluginExtensionImpl::class,
-            project
-        ) as GradlePluginExtensionImpl
-        config.initDefaults()
+    override fun apply(project: Project) =
+        with(project) {
+            val config = extensions.create(
+                publicType = GradlePluginExtension::class,
+                name = GradlePluginExtension.NAME,
+                instanceType = GradlePluginExtensionImpl::class,
+                project
+            ) as GradlePluginExtensionImpl
+            config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+            pluginManager.apply(CommonConventionPlugin::class)
 
-        afterEvaluate {
-            configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
-            configureKotlinSerialization(config.buildFeatures.serialization)
+            afterEvaluate {
+                configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+                configureKotlinSerialization(config.buildFeatures.serialization)
+            }
+
+            pluginManager.apply("java-gradle-plugin")
+            pluginManager.apply("org.jetbrains.kotlin.jvm")
+            pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
+            pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("org.jlleitschuh.gradle.ktlint")
+
+            val gradleVersion = config.minGradleVersion.map { GradleVersion.version(it) }
+            val environment = Environment(providers)
+            val publishingOptions = PublishingOptions(
+                componentName = "java",
+                publicationName = "pluginMaven",
+                docsFormats = setOf(DocsFormat.Javadoc)
+            )
+
+            configureKotlin(
+                kotlinApiVersion = gradleVersion.map { it.kotlinApiVersion },
+                kotlinLibrariesVersion = gradleVersion.map { it.embeddedKotlinVersion },
+                enableAbiValidation = config.buildFeatures.abiValidation
+            )
+            configureDokka(environment, DocsFormat.All)
+            configurePublishing(publishingOptions, config.metadata, environment) {
+                suppressPomMetadataWarningsFor("apiElements")
+                suppressPomMetadataWarningsFor("runtimeElements")
+                suppressPomMetadataWarningsFor("apiApiElements")
+                suppressPomMetadataWarningsFor("apiRuntimeElements")
+                suppressPomMetadataWarningsFor("apiJavadocElements")
+                suppressPomMetadataWarningsFor("apiSourcesElements")
+            }
+            configurePlugin(config, environment)
+            configureTesting()
+            configureTestFixtures()
+            configureDependencyAnalysis()
         }
-
-        pluginManager.apply("java-gradle-plugin")
-        pluginManager.apply("org.jetbrains.kotlin.jvm")
-        pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
-        pluginManager.apply("org.jetbrains.kotlinx.kover")
-        pluginManager.apply("org.jlleitschuh.gradle.ktlint")
-
-        val gradleVersion = config.minGradleVersion.map { GradleVersion.version(it) }
-        val environment = Environment(providers)
-        val publishingOptions = PublishingOptions(
-            componentName = "java",
-            publicationName = "pluginMaven",
-            docsFormats = setOf(DocsFormat.Javadoc)
-        )
-
-        configureKotlin(
-            kotlinApiVersion = gradleVersion.map { it.kotlinApiVersion },
-            kotlinLibrariesVersion = gradleVersion.map { it.embeddedKotlinVersion },
-            enableAbiValidation = config.buildFeatures.abiValidation
-        )
-        configureDokka(environment, DocsFormat.All)
-        configurePublishing(publishingOptions, config.metadata, environment) {
-            suppressPomMetadataWarningsFor("apiElements")
-            suppressPomMetadataWarningsFor("runtimeElements")
-            suppressPomMetadataWarningsFor("apiApiElements")
-            suppressPomMetadataWarningsFor("apiRuntimeElements")
-            suppressPomMetadataWarningsFor("apiJavadocElements")
-            suppressPomMetadataWarningsFor("apiSourcesElements")
-        }
-        configurePlugin(config, environment)
-        configureTesting()
-        configureTestFixtures()
-        configureDependencyAnalysis()
-    }
 }

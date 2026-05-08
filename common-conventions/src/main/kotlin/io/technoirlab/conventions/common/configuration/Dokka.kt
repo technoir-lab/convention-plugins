@@ -71,8 +71,7 @@ fun Project.configureDokka(environment: Environment, docsFormats: Set<DocsFormat
     }
 }
 
-internal fun Project.dokkaJar(format: DocsFormat): TaskProvider<Jar> =
-    tasks.named<Jar>("dokka${format.name.capitalized()}Jar")
+internal fun Project.dokkaJar(format: DocsFormat): TaskProvider<Jar> = tasks.named<Jar>("dokka${format.name.capitalized()}Jar")
 
 private fun Environment.getSourceUrl(srcDir: Directory, rootDir: Directory): Provider<URI> {
     var relativePath = srcDir.asFile.toRelativeString(rootDir.asFile)

@@ -9,5 +9,4 @@ internal fun copyResources(dirName: String, targetDir: Path) {
     resourcesDir.copyToRecursively(targetDir, overwrite = false, followLinks = true)
 }
 
-internal fun readTextResource(fileName: String): String =
-    ::readTextResource.javaClass.classLoader.getResource(fileName)!!.readText()
+internal fun readTextResource(fileName: String): String = ::readTextResource.javaClass.classLoader.getResource(fileName)!!.readText()

@@ -7,12 +7,13 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 
 class RootConventionPlugin : Plugin<Project> {
-    override fun apply(project: Project) = with(project) {
-        check(path == ":") { "Root convention plugin must be applied to the root project." }
+    override fun apply(project: Project) =
+        with(project) {
+            check(path == ":") { "Root convention plugin must be applied to the root project." }
 
-        pluginManager.apply(CommonConventionPlugin::class)
-        pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply(CommonConventionPlugin::class)
+            pluginManager.apply("org.jetbrains.kotlinx.kover")
 
-        configureDokka()
-    }
+            configureDokka()
+        }
 }
