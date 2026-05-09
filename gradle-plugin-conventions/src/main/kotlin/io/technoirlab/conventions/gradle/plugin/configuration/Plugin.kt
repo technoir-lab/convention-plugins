@@ -89,7 +89,7 @@ private fun Project.configureApiVariant(variantName: String) {
 
     dependencies {
         "${variantName}Implementation"(gradleApi())
-        api(project(path)) {
+        api(project(path, configuration = null)) {
             capabilities {
                 requireCapability("$group:$name-$variantName")
             }
