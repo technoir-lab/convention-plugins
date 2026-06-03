@@ -11,7 +11,7 @@ import org.gradle.api.tasks.Nested
 @GradlePluginDsl
 interface GradlePluginExtension : CommonExtension {
     /**
-     * Minimum Gradle version supported by the plugin. Defaults to `9.0`.
+     * Minimum Gradle version supported by the plugin. Must be `8.14` or newer. Defaults to `9.0`.
      */
     val minGradleVersion: Property<String>
 

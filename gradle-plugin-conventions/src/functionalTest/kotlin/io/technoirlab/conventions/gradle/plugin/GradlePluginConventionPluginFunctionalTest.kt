@@ -218,7 +218,6 @@ class GradlePluginConventionPluginFunctionalTest {
 
     @ParameterizedTest
     @CsvSource(
-        "8.12,8.14.5,2.0.21,1.9.0,1.7.3",
         "8.14,8.14.5,2.0.21,1.9.0,1.7.3",
         "9.0,9.1.0,2.2.0,1.10.2,1.9.0",
         "9.2,9.2.1,2.2.20,1.11.0,1.9.0",

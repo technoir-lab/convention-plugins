@@ -17,10 +17,7 @@ class GradleCompatibilityTest {
         "9.2.1,2.2.20",
         "9.1.0,2.2.0",
         "9.0.0,2.2.0",
-        "8.14.5,2.0.21",
-        "8.13,2.0.21",
-        "8.12.1,2.0.21",
-        "8.11.1,2.0.20"
+        "8.14.5,2.0.21"
     )
     fun embeddedKotlinVersion(gradleVersion: String, expectedKotlinVersion: String) {
         val embeddedKotlinVersion = GradleVersion.version(gradleVersion).embeddedKotlinVersion
@@ -29,11 +26,11 @@ class GradleCompatibilityTest {
 
     @Test
     fun `embeddedKotlinVersion - unsupported Gradle version`() {
-        val gradleVersion = GradleVersion.version("7.6.6")
+        val gradleVersion = GradleVersion.version("8.13")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.embeddedKotlinVersion }
-            .withMessage("Gradle 7.6.6 is unsupported")
+            .withMessage("Gradle 8.13 is unsupported")
     }
 
     @ParameterizedTest
@@ -45,10 +42,7 @@ class GradleCompatibilityTest {
         "9.2.1,2.2",
         "9.1.0,2.2",
         "9.0.0,2.2",
-        "8.14.5,2.0",
-        "8.13,2.0",
-        "8.12.1,2.0",
-        "8.11.1,2.0"
+        "8.14.5,2.0"
     )
     fun kotlinApiVersion(gradleVersion: String, expectedKotlinApiVersion: String) {
         val kotlinApiVersion = GradleVersion.version(gradleVersion).kotlinApiVersion
@@ -57,10 +51,10 @@ class GradleCompatibilityTest {
 
     @Test
     fun `kotlinApiVersion - unsupported Gradle version`() {
-        val gradleVersion = GradleVersion.version("7.6.6")
+        val gradleVersion = GradleVersion.version("8.13")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.kotlinApiVersion }
-            .withMessage("Gradle 7.6.6 is unsupported")
+            .withMessage("Gradle 8.13 is unsupported")
     }
 }
