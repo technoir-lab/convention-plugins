@@ -9,7 +9,6 @@ gradlePluginConfig {
         abiValidation = true
 
         buildConfig {
-            buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
             buildConfigField("KOTLINX_BENCHMARK_RUNTIME", libs.kotlinx.benchmark.runtime.map { it.toString() })
         }
     }

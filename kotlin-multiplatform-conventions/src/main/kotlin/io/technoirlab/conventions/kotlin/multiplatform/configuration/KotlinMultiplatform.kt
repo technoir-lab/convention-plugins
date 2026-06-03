@@ -1,7 +1,7 @@
 package io.technoirlab.conventions.kotlin.multiplatform.configuration
 
+import io.technoirlab.conventions.common.configuration.KotlinConfig
 import io.technoirlab.conventions.common.configuration.KotlinLibraries
-import io.technoirlab.conventions.kotlin.multiplatform.BuildConfig
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformExtension
 import io.technoirlab.gradle.capitalized
 import org.gradle.api.Project
@@ -14,7 +14,6 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
@@ -32,8 +31,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension as KmpExtens
 
 internal fun Project.configureKotlinMultiplatform(
     config: KotlinMultiplatformExtension,
-    kotlinVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
-    kotlinLibrariesVersion: Provider<String> = provider { BuildConfig.KOTLIN_VERSION },
+    kotlinConfig: Provider<KotlinConfig> = provider { KotlinConfig.DEFAULT },
     executable: Boolean = false
 ) {
     extensions.configure(KmpExtension::class) {
@@ -45,8 +43,8 @@ internal fun Project.configureKotlinMultiplatform(
         }
 
         compilerOptions {
-            apiVersion.set(kotlinVersion)
-            languageVersion.set(kotlinVersion)
+            apiVersion.set(kotlinConfig.map { it.apiVersion })
+            languageVersion.set(kotlinConfig.map { it.languageVersion })
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
@@ -65,16 +63,14 @@ internal fun Project.configureKotlinMultiplatform(
 
         sourceSets {
             commonMain.dependencies {
-                val kotlinLibraries = kotlinLibrariesVersion.map { KotlinLibraries(it) }
+                val kotlinLibraries = kotlinConfig.map { KotlinLibraries(it.coreLibrariesVersion) }
                 implementation(kotlinLibraries.map { dependencies.platform(it.kotlinBom) })
                 implementation(kotlinLibraries.map { dependencies.platform(it.kotlinCoroutinesBom) })
                 implementation(kotlinLibraries.map { dependencies.platform(it.kotlinSerializationBom) })
             }
         }
 
-        if (kotlinLibrariesVersion.isPresent) {
-            coreLibrariesVersion = kotlinLibrariesVersion.get()
-        }
+        coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
     }
 
     tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
