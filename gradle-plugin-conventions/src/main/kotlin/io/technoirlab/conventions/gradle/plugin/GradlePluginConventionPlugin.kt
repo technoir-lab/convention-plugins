@@ -14,8 +14,7 @@ import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.conventions.gradle.plugin.configuration.configureDependencyAnalysis
 import io.technoirlab.conventions.gradle.plugin.configuration.configurePlugin
 import io.technoirlab.conventions.gradle.plugin.internal.GradlePluginExtensionImpl
-import io.technoirlab.conventions.gradle.plugin.internal.embeddedKotlinVersion
-import io.technoirlab.conventions.gradle.plugin.internal.kotlinApiVersion
+import io.technoirlab.conventions.gradle.plugin.internal.kotlinConfig
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -61,8 +60,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
             )
 
             configureKotlin(
-                kotlinApiVersion = gradleVersion.map { it.kotlinApiVersion },
-                kotlinLibrariesVersion = gradleVersion.map { it.embeddedKotlinVersion },
+                kotlinConfig = gradleVersion.map { it.kotlinConfig },
                 enableAbiValidation = config.buildFeatures.abiValidation
             )
             configureDokka(environment, DocsFormat.All)

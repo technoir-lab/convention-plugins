@@ -1,6 +1,5 @@
 package io.technoirlab.conventions.common.configuration
 
-import io.technoirlab.conventions.common.BuildConfig
 import io.technoirlab.gradle.dependencies.implementation
 import org.gradle.api.HasImplicitReceiver
 import org.gradle.api.Project
@@ -11,21 +10,18 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.samWithReceiver.gradle.SamWithReceiverExtension
 
 fun Project.configureKotlin(
-    kotlinApiVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
-    kotlinLanguageVersion: Provider<KotlinVersion> = provider { KotlinVersion.DEFAULT },
-    kotlinLibrariesVersion: Provider<String> = provider { BuildConfig.KOTLIN_VERSION },
+    kotlinConfig: Provider<KotlinConfig> = provider { KotlinConfig.DEFAULT },
     enableAbiValidation: Provider<Boolean>
 ) {
     extensions.configure(KotlinJvmProjectExtension::class) {
         compilerOptions {
-            apiVersion.set(kotlinApiVersion)
-            languageVersion.set(kotlinLanguageVersion)
+            apiVersion.set(kotlinConfig.map { it.apiVersion })
+            languageVersion.set(kotlinConfig.map { it.languageVersion })
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
@@ -47,9 +43,7 @@ fun Project.configureKotlin(
 
     afterEvaluate {
         extensions.configure(KotlinProjectExtension::class) {
-            if (kotlinLibrariesVersion.isPresent) {
-                coreLibrariesVersion = kotlinLibrariesVersion.get()
-            }
+            coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
         }
     }
 
@@ -60,7 +54,7 @@ fun Project.configureKotlin(
     }
 
     dependencies {
-        val kotlinLibraries = kotlinLibrariesVersion.map { KotlinLibraries(it) }
+        val kotlinLibraries = kotlinConfig.map { KotlinLibraries(it.coreLibrariesVersion) }
         implementation(kotlinLibraries.map { platform(it.kotlinBom) })
         implementation(kotlinLibraries.map { platform(it.kotlinCoroutinesBom) })
         implementation(kotlinLibraries.map { platform(it.kotlinSerializationBom) })

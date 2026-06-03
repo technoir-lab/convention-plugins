@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.gradle.plugin.internal
 
+import io.technoirlab.conventions.common.configuration.KotlinConfig
 import org.gradle.util.GradleVersion
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
@@ -22,3 +23,10 @@ internal val GradleVersion.kotlinApiVersion: KotlinVersion
         this >= GradleVersion.version("8.14") -> KotlinVersion.KOTLIN_2_0
         else -> error("$this is unsupported")
     }
+
+internal val GradleVersion.kotlinConfig: KotlinConfig
+    get() = KotlinConfig(
+        apiVersion = minOf(kotlinApiVersion, KotlinVersion.DEFAULT),
+        languageVersion = KotlinVersion.DEFAULT,
+        coreLibrariesVersion = embeddedKotlinVersion
+    )
