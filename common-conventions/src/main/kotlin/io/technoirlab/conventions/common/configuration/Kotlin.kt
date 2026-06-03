@@ -10,7 +10,6 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.samWithReceiver.gradle.SamWithReceiverExtension
 
@@ -24,14 +23,8 @@ fun Project.configureKotlin(
             languageVersion.set(kotlinConfig.map { it.languageVersion })
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
             freeCompilerArgs.addAll(
-                "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility"
             )
-        }
-
-        @OptIn(ExperimentalAbiValidation::class)
-        extensions.configure(AbiValidationExtension::class) {
-            enabled.set(enableAbiValidation)
         }
     }
 
@@ -44,12 +37,15 @@ fun Project.configureKotlin(
     afterEvaluate {
         extensions.configure(KotlinProjectExtension::class) {
             coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
-        }
-    }
 
-    tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
-        if (enableAbiValidation.get()) {
-            dependsOn(tasks.named("checkKotlinAbi"))
+            if (enableAbiValidation.get()) {
+                @OptIn(ExperimentalAbiValidation::class)
+                abiValidation {
+                    tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
+                        dependsOn(checkTaskProvider)
+                    }
+                }
+            }
         }
     }
 

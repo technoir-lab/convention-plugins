@@ -14,7 +14,6 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
-import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinNativeTargetConfigurator.Companion.RUN_GROUP
@@ -37,16 +36,10 @@ internal fun Project.configureKotlinMultiplatform(
     extensions.configure(KmpExtension::class) {
         applyDefaultHierarchyTemplate()
 
-        @OptIn(ExperimentalAbiValidation::class)
-        extensions.configure(AbiValidationMultiplatformExtension::class) {
-            enabled.set(config.buildFeatures.abiValidation)
-        }
-
         compilerOptions {
             apiVersion.set(kotlinConfig.map { it.apiVersion })
             languageVersion.set(kotlinConfig.map { it.languageVersion })
             freeCompilerArgs.addAll(
-                "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
                 "-Xexpect-actual-classes"
             )
@@ -69,13 +62,20 @@ internal fun Project.configureKotlinMultiplatform(
                 implementation(kotlinLibraries.map { dependencies.platform(it.kotlinSerializationBom) })
             }
         }
-
-        coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
     }
 
-    tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
-        if (config.buildFeatures.abiValidation.get()) {
-            dependsOn(tasks.named("checkKotlinAbi"))
+    afterEvaluate {
+        extensions.configure(KmpExtension::class) {
+            coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
+
+            if (config.buildFeatures.abiValidation.get()) {
+                @OptIn(ExperimentalAbiValidation::class)
+                abiValidation {
+                    tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
+                        dependsOn(checkTaskProvider)
+                    }
+                }
+            }
         }
     }
 }
