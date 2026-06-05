@@ -104,6 +104,7 @@ public abstract class io/technoirlab/conventions/common/internal/CommonBuildFeat
 
 public abstract class io/technoirlab/conventions/common/internal/CommonExtensionImpl : io/technoirlab/conventions/common/api/CommonExtension {
 	public fun <init> (Lorg/gradle/api/Project;)V
+	public synthetic fun getBuildFeatures ()Lio/technoirlab/conventions/common/api/CommonBuildFeatures;
 	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/common/internal/CommonBuildFeaturesImpl;
 	protected final fun getProject ()Lorg/gradle/api/Project;
 	public fun initDefaults ()V
