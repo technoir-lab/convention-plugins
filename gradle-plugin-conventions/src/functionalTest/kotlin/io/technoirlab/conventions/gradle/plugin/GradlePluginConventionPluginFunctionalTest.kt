@@ -247,7 +247,7 @@ class GradlePluginConventionPluginFunctionalTest {
 
         // Use a Kotlin 2.2 language feature to verify the supported language level
         (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
-            .replaceText("// body placeholder", """$$"multi-dollar string"""")
+            .replaceText("// body placeholder", """project.logger.lifecycle($$"multi-dollar string")""")
 
         gradleRunner.build(":example-plugin:build", ":example-plugin:publishAllPublicationsToLocalRepository") {
             gradleVersion = testedGradleVersion
