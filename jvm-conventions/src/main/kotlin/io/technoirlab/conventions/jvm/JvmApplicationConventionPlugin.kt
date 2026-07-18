@@ -42,6 +42,7 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
             pluginManager.apply("org.jetbrains.kotlin.jvm")
             pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
             pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("com.google.devtools.ksp")
             pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
             configureApplication(config)
