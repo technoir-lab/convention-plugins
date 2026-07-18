@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource
 class GradleCompatibilityTest {
     @ParameterizedTest
     @CsvSource(
-        "9.6.0,2.3.21",
+        "9.6.1,2.3.21",
         "9.5.1,2.3.20",
         "9.4.1,2.3.0",
         "9.3.1,2.2.21",
@@ -26,16 +26,16 @@ class GradleCompatibilityTest {
 
     @Test
     fun `embeddedKotlinVersion - unsupported Gradle version`() {
-        val gradleVersion = GradleVersion.version("8.13")
+        val gradleVersion = GradleVersion.version("8.13.5")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.embeddedKotlinVersion }
-            .withMessage("Gradle 8.13 is unsupported")
+            .withMessage("Gradle 8.13.5 is unsupported")
     }
 
     @ParameterizedTest
     @CsvSource(
-        "9.6.0,2.2",
+        "9.6.1,2.2",
         "9.5.1,2.2",
         "9.4.1,2.2",
         "9.3.1,2.2",
@@ -51,10 +51,10 @@ class GradleCompatibilityTest {
 
     @Test
     fun `kotlinApiVersion - unsupported Gradle version`() {
-        val gradleVersion = GradleVersion.version("8.13")
+        val gradleVersion = GradleVersion.version("8.13.5")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.kotlinApiVersion }
-            .withMessage("Gradle 8.13 is unsupported")
+            .withMessage("Gradle 8.13.5 is unsupported")
     }
 }
