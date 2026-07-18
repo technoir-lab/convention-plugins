@@ -44,6 +44,7 @@ class KotlinMultiplatformLibraryConventionPlugin : Plugin<Project> {
 
             pluginManager.apply("org.jetbrains.kotlin.multiplatform")
             pluginManager.apply("org.jetbrains.kotlinx.kover")
+            pluginManager.apply("com.google.devtools.ksp")
             pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
             val environment = Environment(providers)

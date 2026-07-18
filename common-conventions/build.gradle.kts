@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.kotlin.gradle.plugin.api)
     implementation(libs.kotlin.sam.with.receiver.gradle.plugin)
     implementation(libs.kover.gradle.plugin)
+    implementation(libs.ksp.gradle.plugin)
     implementation(libs.ktlint.gradle.plugin)
     implementation(libs.maven.artifact)
     implementation(libs.sort.dependencies.gradle.plugin)
