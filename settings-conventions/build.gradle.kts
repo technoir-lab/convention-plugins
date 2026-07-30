@@ -18,7 +18,6 @@ dependencies {
     implementation(project(":libraries:gradle-extensions"))
     implementation(libs.dependency.analysis.gradle.plugin)
     implementation(libs.develocity.gradle.plugin)
-    implementation(libs.kotlin.metadata.jvm)
     implementation(libs.nmcp.gradle.plugin)
 
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
