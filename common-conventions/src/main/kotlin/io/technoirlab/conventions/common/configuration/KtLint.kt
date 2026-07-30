@@ -1,14 +1,23 @@
 package io.technoirlab.conventions.common.configuration
 
 import io.technoirlab.conventions.common.BuildConfig
+import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 internal fun Project.configureKtLint() {
     pluginManager.withPlugin("org.jlleitschuh.gradle.ktlint") {
         extensions.configure(KtlintExtension::class) {
-            version.set(BuildConfig.KTLINT_VERSION)
+            coloredOutput.setDisallowChanges(false)
+            relative.setDisallowChanges(true)
+            version.setDisallowChanges(BuildConfig.KTLINT_VERSION)
+
+            reporters {
+                reporter(ReporterType.PLAIN)
+                reporter(ReporterType.SARIF)
+            }
         }
     }
 }
