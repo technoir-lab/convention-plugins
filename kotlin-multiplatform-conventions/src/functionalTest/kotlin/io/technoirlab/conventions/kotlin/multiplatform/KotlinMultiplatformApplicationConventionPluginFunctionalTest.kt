@@ -6,6 +6,7 @@ import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.buildScript
 import io.technoirlab.gradle.test.kit.generatedFile
+import io.technoirlab.gradle.test.kit.kotlinFile
 import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
@@ -160,5 +161,53 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             )
 
         gradleRunner.build(":kmp-application:assemble")
+    }
+
+    @Test
+    fun `SwiftPM import`() {
+        val project = gradleRunner.root.project("kmp-application")
+        project.appendBuildScript(
+            """
+            kotlin {
+                swiftPMDependencies {
+                    macosMinimumDeploymentTarget = "26.0"
+                    localSwiftPackage(
+                        directory = layout.settingsDirectory.dir("thirdparty/Greeting"),
+                        products = listOf(
+                            product(
+                                name = "Greeting",
+                                platforms = setOf(macOS())
+                            )
+                        )
+                    )
+                }
+            }
+            """.trimIndent()
+        )
+        project.kotlinFile("kmp.application.Greet", variant = "nativeMain").replaceText(
+            """
+            import kotlinx.cinterop.ExperimentalForeignApi
+
+            internal actual fun greet(name: String) {
+                @OptIn(ExperimentalForeignApi::class)
+                nativeGreet(name)
+            }
+            """.trimIndent(),
+            """
+            import kotlinx.cinterop.ExperimentalForeignApi
+            import swiftPMImport.io.technoirlab.kmp.application.Greeting
+
+            @OptIn(ExperimentalForeignApi::class)
+            internal actual fun greet(name: String) {
+                println(Greeting.message())
+            }
+            """.trimIndent()
+        )
+
+        val applicationDebug = gradleRunner.build(":kmp-application:runDebugExecutable")
+        val applicationRelease = gradleRunner.build(":kmp-application:runReleaseExecutable")
+
+        assertThat(applicationDebug.output).contains("Hello, Swift (debug)")
+        assertThat(applicationRelease.output).contains("Hello, Swift (debug)")
     }
 }
