@@ -2,6 +2,7 @@ package io.technoirlab.gradle.test.kit
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.util.GradleVersion
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -51,6 +52,8 @@ class GradleRunnerExtension(
     }
 
     private fun createRunner(tasks: Array<out String>, config: GradleConfig): GradleRunner {
+        val gradleVersion = config.gradleVersion?.let { GradleVersion.version(it) } ?: GradleVersion.current()
+
         val arguments = mutableListOf<String>()
         arguments += if (config.buildCache) "--build-cache" else "--no-build-cache"
         arguments += if (config.configurationCache) "--configuration-cache" else "--no-configuration-cache"
@@ -62,7 +65,11 @@ class GradleRunnerExtension(
             arguments += "-Dorg.gradle.configuration-cache.parallel=true"
         }
         if (config.isolatedProjects) {
-            arguments += "-Dorg.gradle.unsafe.isolated-projects=true"
+            arguments += if (gradleVersion >= GradleVersion.version("9.7")) {
+                "-Dorg.gradle.isolated-projects=true"
+            } else {
+                "-Dorg.gradle.unsafe.isolated-projects=true"
+            }
         }
         arguments += config.systemProperties.map { "-D${it.key}=${it.value}" }
         arguments += config.gradleProperties.map { "-P${it.key}=${it.value}" }
