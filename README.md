@@ -6,6 +6,7 @@ Convention plugins
 
 Convention as code for Gradle projects.
 
+* [Android](conventions/android-conventions)
 * [Kotlin Multiplatform](conventions/kotlin-multiplatform-conventions)
 * [JVM](conventions/jvm-conventions)
 * [Gradle plugin](conventions/gradle-plugin-conventions)

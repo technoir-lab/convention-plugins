@@ -1,0 +1,63 @@
+public final class io/technoirlab/conventions/android/AndroidApplicationConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public final class io/technoirlab/conventions/android/AndroidCommonConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public final class io/technoirlab/conventions/android/AndroidLibraryConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface annotation class io/technoirlab/conventions/android/api/AndroidApplicationDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/technoirlab/conventions/android/api/AndroidApplicationExtension : io/technoirlab/conventions/android/api/AndroidCommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/android/api/AndroidApplicationExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun buildFeatures (Lorg/gradle/api/Action;)V
+	public abstract fun getApplicationId ()Lorg/gradle/api/provider/Property;
+	public abstract fun getTargetSdk ()Lorg/gradle/api/provider/Property;
+	public abstract fun getVersionCode ()Lorg/gradle/api/provider/Property;
+	public abstract fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public final class io/technoirlab/conventions/android/api/AndroidApplicationExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
+public abstract interface class io/technoirlab/conventions/android/api/AndroidBuildFeatures : io/technoirlab/conventions/common/api/CommonBuildFeatures {
+	public abstract fun getParcelize ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract interface class io/technoirlab/conventions/android/api/AndroidCommonExtension : io/technoirlab/conventions/common/api/CommonExtension {
+	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/android/api/AndroidBuildFeatures;
+	public abstract fun getCompileSdk ()Lorg/gradle/api/provider/Property;
+	public abstract fun getMinSdk ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract interface class io/technoirlab/conventions/android/api/AndroidLibraryBuildFeatures : io/technoirlab/conventions/android/api/AndroidBuildFeatures {
+	public abstract fun getTestFixtures ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract interface annotation class io/technoirlab/conventions/android/api/AndroidLibraryDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/technoirlab/conventions/android/api/AndroidLibraryExtension : io/technoirlab/conventions/android/api/AndroidCommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/android/api/AndroidLibraryExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun buildFeatures (Lorg/gradle/api/Action;)V
+	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/android/api/AndroidLibraryBuildFeatures;
+}
+
+public final class io/technoirlab/conventions/android/api/AndroidLibraryExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
