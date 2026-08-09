@@ -9,8 +9,6 @@ import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
 import io.technoirlab.conventions.common.configuration.configureRedacted
-import io.technoirlab.conventions.common.configuration.configureTestFixtures
-import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.conventions.gradle.plugin.configuration.configureDependencyAnalysis
 import io.technoirlab.conventions.gradle.plugin.configuration.configurePlugin
@@ -48,6 +46,8 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         }
 
         pluginManager.apply("java-gradle-plugin")
+        pluginManager.apply("jvm-test-suite")
+        pluginManager.apply("java-test-fixtures")
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
         pluginManager.apply("org.jetbrains.kotlinx.kover")
@@ -76,8 +76,6 @@ class GradlePluginConventionPlugin : Plugin<Project> {
             suppressPomMetadataWarningsFor("apiSourcesElements")
         }
         configurePlugin(config, environment, apiKotlinConfig = gradleVersion.map { it.apiKotlinConfig })
-        configureTesting()
-        configureTestFixtures()
         configureDependencyAnalysis()
     }
 }

@@ -11,12 +11,12 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
 import org.gradle.testing.base.TestingExtension
 
-fun Project.configureTesting() {
-    pluginManager.apply("jvm-test-suite")
-
-    extensions.configure(TestingExtension::class) {
-        suites.named<JvmTestSuite>(DEFAULT_TEST_SUITE).configure {
-            configureTestSuite {}
+internal fun Project.configureTestSuites() {
+    pluginManager.withPlugin("jvm-test-suite") {
+        extensions.configure(TestingExtension::class) {
+            suites.named<JvmTestSuite>(DEFAULT_TEST_SUITE).configure {
+                configureTestSuite {}
+            }
         }
     }
 }

@@ -5,8 +5,6 @@ import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configureRedacted
-import io.technoirlab.conventions.common.configuration.configureTestFixtures
-import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.jvm.api.JvmApplicationExtension
 import io.technoirlab.conventions.jvm.internal.JvmApplicationExtensionImpl
 import org.gradle.api.Plugin
@@ -41,6 +39,8 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
         }
 
         pluginManager.apply("application")
+        pluginManager.apply("jvm-test-suite")
+        pluginManager.apply("java-test-fixtures")
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("org.jetbrains.kotlin.plugin.sam.with.receiver")
         pluginManager.apply("org.jetbrains.kotlinx.kover")
@@ -49,8 +49,6 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
 
         configureApplication(config)
         configureKotlin(enableAbiValidation = config.buildFeatures.abiValidation)
-        configureTesting()
-        configureTestFixtures()
     }
 
     private fun Project.configureApplication(config: JvmApplicationExtension) {

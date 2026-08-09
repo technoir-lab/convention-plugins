@@ -212,13 +212,8 @@ public final class io/technoirlab/conventions/common/configuration/Serialization
 	public static final fun configureKotlinSerialization (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;)V
 }
 
-public final class io/technoirlab/conventions/common/configuration/TestFixturesKt {
-	public static final fun configureTestFixtures (Lorg/gradle/api/Project;)V
-}
-
-public final class io/technoirlab/conventions/common/configuration/TestingKt {
+public final class io/technoirlab/conventions/common/configuration/TestSuitesKt {
 	public static final fun configureTestSuite (Lorg/gradle/api/plugins/jvm/JvmTestSuite;Lorg/gradle/api/Action;)V
-	public static final fun configureTesting (Lorg/gradle/api/Project;)V
 }
 
 public abstract class io/technoirlab/conventions/common/internal/CommonBuildFeaturesImpl : io/technoirlab/conventions/common/api/CommonBuildFeatures {

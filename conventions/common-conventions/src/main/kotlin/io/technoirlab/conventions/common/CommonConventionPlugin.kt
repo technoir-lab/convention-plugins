@@ -5,6 +5,8 @@ import io.technoirlab.conventions.common.configuration.configureCommon
 import io.technoirlab.conventions.common.configuration.configureCoverage
 import io.technoirlab.conventions.common.configuration.configureJava
 import io.technoirlab.conventions.common.configuration.configureKtLint
+import io.technoirlab.conventions.common.configuration.configureTestFixtures
+import io.technoirlab.conventions.common.configuration.configureTestSuites
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -23,6 +25,8 @@ class CommonConventionPlugin : Plugin<Project> {
         val projectSettings = ProjectSettingsImpl(this, environment)
         configureCommon(projectSettings)
         configureJava()
+        configureTestSuites()
+        configureTestFixtures()
         configureCoverage()
         configureKtLint()
     }
