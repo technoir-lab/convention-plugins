@@ -38,11 +38,11 @@ globalSettings {
     }
 }
 
-include(":common-conventions")
-include(":gradle-plugin-conventions")
-include(":jvm-conventions")
-include(":kotlin-multiplatform-conventions")
-include(":root-conventions")
-include(":settings-conventions")
+include(":conventions:common-conventions")
+include(":conventions:gradle-plugin-conventions")
+include(":conventions:jvm-conventions")
+include(":conventions:kotlin-multiplatform-conventions")
+include(":conventions:root-conventions")
+include(":conventions:settings-conventions")
 include(":libraries:gradle-extensions")
 include(":libraries:gradle-test-kit")

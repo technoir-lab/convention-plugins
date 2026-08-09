@@ -9,7 +9,7 @@ gradlePluginConfig {
 }
 
 dependencies {
-    apiApi(project(":common-conventions")) {
+    apiApi(project(":conventions:common-conventions")) {
         capabilities {
             requireCapability("${project.group}:common-conventions-api")
         }

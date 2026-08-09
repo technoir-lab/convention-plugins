@@ -15,19 +15,19 @@ gradlePluginConfig {
 }
 
 dependencies {
-    apiApi(project(":common-conventions")) {
+    apiApi(project(":conventions:common-conventions")) {
         capabilities {
             requireCapability("${project.group}:common-conventions-api")
         }
     }
 
-    implementation(project(":common-conventions"))
+    implementation(project(":conventions:common-conventions"))
     implementation(project(":libraries:gradle-extensions"))
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)
     implementation(libs.kotlinx.benchmark.gradle.plugin)
 
-    functionalTestImplementation(testFixtures(project(":common-conventions")))
+    functionalTestImplementation(testFixtures(project(":conventions:common-conventions")))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
 

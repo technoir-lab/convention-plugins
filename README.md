@@ -6,8 +6,8 @@ Convention plugins
 
 Convention as code for Gradle projects.
 
-* [Kotlin Multiplatform](kotlin-multiplatform-conventions)
-* [JVM](jvm-conventions)
-* [Gradle plugin](gradle-plugin-conventions)
-* [Settings](settings-conventions)
-* [Root](root-conventions)
+* [Kotlin Multiplatform](conventions/kotlin-multiplatform-conventions)
+* [JVM](conventions/jvm-conventions)
+* [Gradle plugin](conventions/gradle-plugin-conventions)
+* [Settings](conventions/settings-conventions)
+* [Root](conventions/root-conventions)
