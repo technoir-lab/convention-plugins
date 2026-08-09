@@ -8,6 +8,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.BinariesSource
@@ -19,15 +20,7 @@ fun Project.configureKotlin(
     enableAbiValidation: Provider<Boolean>,
 ) {
     extensions.configure(KotlinJvmProjectExtension::class) {
-        compilerOptions {
-            apiVersion.set(kotlinConfig.map { it.apiVersion })
-            languageVersion.set(kotlinConfig.map { it.languageVersion })
-            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
-            freeCompilerArgs.addAll(
-                "-Xconsistent-data-class-copy-visibility",
-                "-Xwarning-level=${KotlinDiagnostics.NOTHING_TO_INLINE}:disabled",
-            )
-        }
+        compilerOptions.configure(kotlinConfig)
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.plugin.sam.with.receiver") {
@@ -55,4 +48,14 @@ fun Project.configureKotlin(
         implementation(kotlinLibraries.map { platform(it.kotlinCoroutinesBom) })
         implementation(kotlinLibraries.map { platform(it.kotlinSerializationBom) })
     }
+}
+
+private fun KotlinJvmCompilerOptions.configure(kotlinConfig: Provider<KotlinConfig>) {
+    apiVersion.set(kotlinConfig.map { it.apiVersion })
+    languageVersion.set(kotlinConfig.map { it.languageVersion })
+    jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+    freeCompilerArgs.addAll(
+        "-Xconsistent-data-class-copy-visibility",
+        "-Xwarning-level=${KotlinDiagnostics.NOTHING_TO_INLINE}:disabled",
+    )
 }
