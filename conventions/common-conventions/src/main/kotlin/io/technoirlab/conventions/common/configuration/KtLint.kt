@@ -18,6 +18,11 @@ internal fun Project.configureKtLint() {
                 reporter(ReporterType.PLAIN)
                 reporter(ReporterType.SARIF)
             }
+
+            filter {
+                val buildDirectory = layout.buildDirectory.get().asFile.toPath().toAbsolutePath().normalize()
+                exclude { it.file.toPath().toAbsolutePath().normalize().startsWith(buildDirectory) }
+            }
         }
     }
 }
