@@ -37,6 +37,7 @@ dependencies {
     functionalTestImplementation(libs.assertj.core)
 
     runtimeOnly(libs.kotlin.serialization.gradle.plugin)
+    runtimeOnly(libs.redacted.compiler.gradle.plugin)
 
     testFixturesImplementation(project(":libraries:gradle-test-kit"))
 

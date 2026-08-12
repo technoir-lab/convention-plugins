@@ -20,9 +20,11 @@ jvmApplication {
 
     // Optional build features
     buildFeatures {
-        // Enable ABI validation
+        // Enable ABI validation. Disabled by default.
         abiValidation = true
-        // Enable Kotlin serialization
+        // Enable `toString()` redaction. Disabled by default.
+        redacted = true
+        // Enable Kotlin serialization. Disabled by default.
         serialization = true
 
         // Configuration of `BuildConfig` class generation
@@ -49,9 +51,11 @@ jvmLibrary {
 
     // Optional build features
     buildFeatures {
-        // Enable ABI validation
+        // Enable ABI validation. Disabled by default.
         abiValidation = true
-        // Enable Kotlin serialization
+        // Enable `toString()` redaction. Disabled by default.
+        redacted = true
+        // Enable Kotlin serialization. Disabled by default.
         serialization = true
 
         // Configuration of `BuildConfig` class generation

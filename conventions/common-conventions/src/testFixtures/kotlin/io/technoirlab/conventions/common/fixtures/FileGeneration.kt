@@ -62,3 +62,48 @@ fun GradleProject.createBenchmark(className: String = "com.example.Benchmark") =
             """.trimIndent(),
         )
 }
+
+fun GradleProject.createRedactedFixtures(
+    className: String = "com.example.RedactedClass",
+    variant: String = "main",
+    testVariant: String = "test",
+) {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile(className, variant)
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            package $packageName
+            
+            import dev.zacsweers.redacted.annotations.Redacted
+            
+            internal data class $classNameWithoutPackage(
+                @Redacted val secret: String,
+                val nonSecret: String,
+            )
+            """.trimIndent(),
+        )
+    kotlinFile(className, variant = testVariant)
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            package $packageName
+            
+            import kotlin.test.Test
+            import kotlin.test.assertEquals
+            
+            class ${classNameWithoutPackage}Test {
+                @Test
+                fun `redacts secrets from string representation`() {
+                    assertEquals(
+                        "$classNameWithoutPackage(secret=██, nonSecret=not a secret)",
+                        $classNameWithoutPackage("secret", "not a secret").toString(),
+                    )
+                }
+            }
+            """.trimIndent(),
+        )
+}

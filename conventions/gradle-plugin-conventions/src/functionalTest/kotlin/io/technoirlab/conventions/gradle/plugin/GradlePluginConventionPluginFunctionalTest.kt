@@ -2,6 +2,7 @@ package io.technoirlab.conventions.gradle.plugin
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
+import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -86,6 +87,27 @@ class GradlePluginConventionPluginFunctionalTest {
         val buildResult = gradleRunner.build(":example-plugin:koverLog")
 
         assertThat(buildResult.output).contains("application line coverage: 100%")
+    }
+
+    @Test
+    fun `toString() redaction`() {
+        gradleRunner.root.project("example-plugin")
+            .appendBuildScript(
+                """
+                gradlePluginConfig {
+                    buildFeatures {
+                        redacted = true
+                    }
+                }
+                
+                dependencies {
+                    testImplementation(kotlin("test"))
+                }
+                """.trimIndent(),
+            )
+            .createRedactedFixtures()
+
+        gradleRunner.build(":example-plugin:test")
     }
 
     @Test

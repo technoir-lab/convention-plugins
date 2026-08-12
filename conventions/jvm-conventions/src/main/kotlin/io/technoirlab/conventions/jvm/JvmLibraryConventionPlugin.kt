@@ -8,6 +8,7 @@ import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
+import io.technoirlab.conventions.common.configuration.configureRedacted
 import io.technoirlab.conventions.common.configuration.configureTestFixtures
 import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.jvm.api.JvmLibraryExtension
@@ -37,6 +38,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
 
         afterEvaluate {
             configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+            configureRedacted(config.buildFeatures.redacted)
             configureKotlinSerialization(config.buildFeatures.serialization)
         }
 

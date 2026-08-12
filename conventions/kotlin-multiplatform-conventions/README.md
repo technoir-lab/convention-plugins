@@ -14,15 +14,17 @@ kotlinMultiplatformApplication {
 
     // Optional build features
     buildFeatures {
-        // Enable ABI validation
+        // Enable ABI validation. Disabled by default.
         abiValidation = true
-        // Enable benchmarking
+        // Enable benchmarking. Disabled by default.
         benchmark = true
-        // Enable Metro dependency injection
+        // Enable Metro dependency injection. Disabled by default.
         metro = true
-        // Enable Kotlin serialization
+        // Enable `toString()` redaction. Disabled by default.
+        redacted = true
+        // Enable Kotlin serialization. Disabled by default.
         serialization = true
-        // Enable C interop
+        // Enable C interop. Disabled by default.
         cinterop = true
 
         // Configuration of `BuildConfig` class generation
@@ -55,15 +57,17 @@ kotlinLibrary {
 
     // Optional build features
     buildFeatures {
-        // Enable ABI validation
+        // Enable ABI validation. Disabled by default.
         abiValidation = true
-        // Enable benchmarking
+        // Enable benchmarking. Disabled by default.
         benchmark = true
-        // Enable Metro dependency injection
+        // Enable Metro dependency injection. Disabled by default.
         metro = true
-        // Enable Kotlin serialization
+        // Enable `toString()` redaction. Disabled by default.
+        redacted = true
+        // Enable Kotlin serialization. Disabled by default.
         serialization = true
-        // Enable C interop
+        // Enable C interop. Disabled by default.
         cinterop = true
 
         // Configuration of `BuildConfig` class generation

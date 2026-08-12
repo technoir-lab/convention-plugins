@@ -5,6 +5,7 @@ import io.technoirlab.conventions.common.api.CommonBuildFeatures
 abstract class CommonBuildFeaturesImpl : CommonBuildFeatures {
     open fun initDefaults() {
         abiValidation.convention(false)
+        redacted.convention(false)
         serialization.convention(false)
     }
 }

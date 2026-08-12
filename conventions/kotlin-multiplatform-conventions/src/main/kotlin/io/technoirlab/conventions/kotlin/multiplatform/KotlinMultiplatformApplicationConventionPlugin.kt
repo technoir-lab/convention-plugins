@@ -3,6 +3,7 @@ package io.technoirlab.conventions.kotlin.multiplatform
 import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
+import io.technoirlab.conventions.common.configuration.configureRedacted
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformApplicationExtension
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureBenchmarking
 import io.technoirlab.conventions.kotlin.multiplatform.configuration.configureKotlinMultiplatform
@@ -33,6 +34,7 @@ class KotlinMultiplatformApplicationConventionPlugin : Plugin<Project> {
         afterEvaluate {
             configureBenchmarking(config.buildFeatures.benchmark)
             configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+            configureRedacted(config.buildFeatures.redacted)
             configureKotlinSerialization(config.buildFeatures.serialization)
             configureMetro(config.buildFeatures.metro)
         }
