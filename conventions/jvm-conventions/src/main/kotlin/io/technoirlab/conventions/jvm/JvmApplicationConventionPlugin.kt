@@ -4,6 +4,7 @@ import io.technoirlab.conventions.common.CommonConventionPlugin
 import io.technoirlab.conventions.common.configuration.configureBuildConfig
 import io.technoirlab.conventions.common.configuration.configureKotlin
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
+import io.technoirlab.conventions.common.configuration.configureRedacted
 import io.technoirlab.conventions.common.configuration.configureTesting
 import io.technoirlab.conventions.jvm.api.JvmApplicationExtension
 import io.technoirlab.conventions.jvm.internal.JvmApplicationExtensionImpl
@@ -34,6 +35,7 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
 
         afterEvaluate {
             configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
+            configureRedacted(config.buildFeatures.redacted)
             configureKotlinSerialization(config.buildFeatures.serialization)
         }
 

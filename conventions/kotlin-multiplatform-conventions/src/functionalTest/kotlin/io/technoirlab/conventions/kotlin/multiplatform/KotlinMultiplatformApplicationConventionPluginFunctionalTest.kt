@@ -1,11 +1,13 @@
 package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
+import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.buildScript
 import io.technoirlab.gradle.test.kit.generatedFile
+import io.technoirlab.gradle.test.kit.kotlinFile
 import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
 import kotlin.io.path.moveTo
+import kotlin.io.path.writeText
 
 class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     @RegisterExtension
@@ -100,6 +103,23 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             .createDependencyGraph()
 
         gradleRunner.build(":kmp-application:assemble")
+    }
+
+    @Test
+    fun `toString() redaction`() {
+        gradleRunner.root.project("kmp-application")
+            .appendBuildScript(
+                """
+                kotlinMultiplatformApplication {
+                    buildFeatures {
+                        redacted = true
+                    }
+                }
+                """.trimIndent(),
+            )
+            .createRedactedFixtures(variant = "commonMain", testVariant = "commonTest")
+
+        gradleRunner.build(":kmp-application:jvmTest")
     }
 
     @Test

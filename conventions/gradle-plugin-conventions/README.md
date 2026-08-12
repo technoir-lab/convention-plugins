@@ -14,9 +14,11 @@ gradlePluginConfig {
 
     // Optional build features
     buildFeatures {
-        // Enable ABI validation
-        abiValidation = true
-        // Enable Kotlin serialization
+        // Disable ABI validation. Enabled by default.
+        abiValidation = false
+        // Enable `toString()` redaction. Disabled by default.
+        redacted = true
+        // Enable Kotlin serialization. Disabled by default.
         serialization = true
 
         // Configuration of `BuildConfig` class generation

@@ -84,6 +84,10 @@ public final class io/technoirlab/conventions/common/configuration/PublishingOpt
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/technoirlab/conventions/common/configuration/RedactedKt {
+	public static final fun configureRedacted (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;)V
+}
+
 public final class io/technoirlab/conventions/common/configuration/SerializationKt {
 	public static final fun configureKotlinSerialization (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;)V
 }

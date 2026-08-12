@@ -4,6 +4,7 @@ import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
 import io.technoirlab.conventions.common.fixtures.createBenchmark
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
+import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -104,6 +105,23 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             .createDependencyGraph()
 
         gradleRunner.build(":kmp-library:assemble")
+    }
+
+    @Test
+    fun `toString() redaction`() {
+        gradleRunner.root.project("kmp-library")
+            .appendBuildScript(
+                """
+                kotlinMultiplatformLibrary {
+                    buildFeatures {
+                        redacted = true
+                    }
+                }
+                """.trimIndent(),
+            )
+            .createRedactedFixtures(variant = "commonMain", testVariant = "commonTest")
+
+        gradleRunner.build(":kmp-library:jvmTest")
     }
 
     @Test

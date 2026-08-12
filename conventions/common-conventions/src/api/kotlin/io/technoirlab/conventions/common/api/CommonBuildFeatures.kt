@@ -20,6 +20,11 @@ interface CommonBuildFeatures {
     val buildConfig: BuildConfigSpec
 
     /**
+     * Enable `toString()` redaction. Disabled by default.
+     */
+    val redacted: Property<Boolean>
+
+    /**
      * Enable Kotlin serialization. Disabled by default.
      */
     val serialization: Property<Boolean>

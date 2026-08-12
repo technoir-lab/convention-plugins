@@ -18,7 +18,7 @@ interface KotlinMultiplatformBuildFeatures : CommonBuildFeatures {
     val cinterop: Property<Boolean>
 
     /**
-     * Enable Metro dependency injection.
+     * Enable Metro dependency injection. Disabled by default.
      */
     val metro: Property<Boolean>
 }

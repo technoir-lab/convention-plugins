@@ -1,13 +1,16 @@
 package io.technoirlab.conventions.jvm
 
+import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.generatedFile
+import io.technoirlab.gradle.test.kit.kotlinFile
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import kotlin.io.path.writeText
 
 class JvmApplicationConventionPluginFunctionalTest {
     @RegisterExtension
@@ -77,6 +80,27 @@ class JvmApplicationConventionPluginFunctionalTest {
         val buildResult = gradleRunner.build(":jvm-application:koverLog")
 
         assertThat(buildResult.output).contains("application line coverage: 100%")
+    }
+
+    @Test
+    fun `toString() redaction`() {
+        gradleRunner.root.project("jvm-application")
+            .appendBuildScript(
+                """
+                jvmApplication {
+                    buildFeatures {
+                        redacted = true
+                    }
+                }
+                
+                dependencies {
+                    testImplementation(kotlin("test"))
+                }
+                """.trimIndent(),
+            )
+            .createRedactedFixtures()
+
+        gradleRunner.build(":jvm-application:test")
     }
 
     @Test
