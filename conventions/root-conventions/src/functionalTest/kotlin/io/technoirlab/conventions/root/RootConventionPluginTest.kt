@@ -27,7 +27,7 @@ class RootConventionPluginTest {
             dependencies {
                 kover(project(":jvm-library"))
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val buildResult = gradleRunner.build(":koverLog")
@@ -47,7 +47,7 @@ class RootConventionPluginTest {
             dependencies {
                 dokka(project(":jvm-library"))
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val buildResult = gradleRunner.build(":dokkaGenerate")

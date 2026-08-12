@@ -27,5 +27,5 @@ internal val GradleVersion.kotlinConfig: KotlinConfig
     get() = KotlinConfig(
         apiVersion = minOf(kotlinApiVersion, KotlinVersion.DEFAULT),
         languageVersion = KotlinVersion.DEFAULT,
-        coreLibrariesVersion = embeddedKotlinVersion
+        coreLibrariesVersion = embeddedKotlinVersion,
     )

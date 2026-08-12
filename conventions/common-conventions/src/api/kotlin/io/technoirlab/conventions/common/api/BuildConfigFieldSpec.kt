@@ -6,7 +6,7 @@ data class BuildConfigFieldSpec<T : Serializable>(
     val name: String,
     val type: Class<T>,
     val value: T?,
-    val variant: String?
+    val variant: String?,
 ) : Serializable {
 
     /**

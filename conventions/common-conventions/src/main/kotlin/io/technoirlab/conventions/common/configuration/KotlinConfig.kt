@@ -6,13 +6,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 data class KotlinConfig(
     val apiVersion: KotlinVersion,
     val languageVersion: KotlinVersion = apiVersion,
-    val coreLibrariesVersion: String
+    val coreLibrariesVersion: String,
 ) {
     companion object {
         val DEFAULT = KotlinConfig(
             apiVersion = KotlinVersion.DEFAULT,
             languageVersion = KotlinVersion.DEFAULT,
-            coreLibrariesVersion = BuildConfig.KOTLIN_VERSION
+            coreLibrariesVersion = BuildConfig.KOTLIN_VERSION,
         )
     }
 }

@@ -42,7 +42,7 @@ class JvmApplicationConventionPluginFunctionalTest {
                     }
                 }
                 description = "Project description"
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":jvm-application:classes")
@@ -95,7 +95,7 @@ class JvmApplicationConventionPluginFunctionalTest {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         gradleRunner.build(":jvm-application:assemble")

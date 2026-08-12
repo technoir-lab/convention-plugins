@@ -23,7 +23,7 @@ fun Project.configurePublishing(
     options: PublishingOptions,
     metadata: ProjectMetadata,
     environment: Environment,
-    extraConfiguration: MavenPublication.() -> Unit = {}
+    extraConfiguration: MavenPublication.() -> Unit = {},
 ) {
     pluginManager.apply("maven-publish")
 

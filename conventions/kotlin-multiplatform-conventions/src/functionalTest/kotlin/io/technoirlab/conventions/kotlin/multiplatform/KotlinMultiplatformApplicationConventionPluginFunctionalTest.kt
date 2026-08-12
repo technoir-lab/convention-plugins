@@ -48,7 +48,7 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
                     }
                 }
                 description = "Project description"
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":kmp-application:generateBuildConfig")
@@ -95,7 +95,7 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
                         metro = true
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
             .createDependencyGraph()
 
@@ -110,7 +110,7 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             """
             kotlinMultiplatformApplication {
                 packageName = "com.example.kmp.application"
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val newMainKt = project.dir / "src/commonMain/kotlin/com/example/kmp/application/Main.kt"
@@ -124,7 +124,7 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             package com.example.kmp.application
             
             import kmp.application.greet
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         (project.dir / "src/nativeMain/kotlin/kmp/application/Greet.kt")
@@ -156,7 +156,7 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
                         }
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":kmp-application:assemble")

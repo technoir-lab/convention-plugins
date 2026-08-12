@@ -5,7 +5,7 @@ import java.io.Serializable
 data class LicenseInfo(
     val name: String,
     val url: String,
-    val distribution: String?
+    val distribution: String?,
 ) : Serializable {
 
     /**

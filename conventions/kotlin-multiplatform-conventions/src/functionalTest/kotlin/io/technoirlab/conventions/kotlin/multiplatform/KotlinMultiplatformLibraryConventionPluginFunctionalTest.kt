@@ -52,7 +52,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                     }
                 }
                 description = "Project description"
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":kmp-library:generateBuildConfig")
@@ -99,7 +99,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                         metro = true
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
             .createDependencyGraph()
 
@@ -114,7 +114,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             """
             kotlinMultiplatformLibrary {
                 packageName = "com.example.kmp.library"
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         (project.dir / "src/nativeMain/kotlin/kmp/library/Greet.kt")
@@ -160,7 +160,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             gradleProperties += mapOf(
                 "project.groupId" to "com.example.kmp",
                 "project.version" to "v1",
-                "publish.local.url" to repoDir.toUri()
+                "publish.local.url" to repoDir.toUri(),
             )
         }
 
@@ -180,7 +180,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
             environmentVariables += mapOf(
                 "GITHUB_SERVER_URL" to "https://github.com",
-                "GITHUB_REPOSITORY" to "example-org/example-project"
+                "GITHUB_REPOSITORY" to "example-org/example-project",
             )
         }
 
@@ -208,7 +208,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                     }
                 }
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         gradleRunner.build(":kmp-library:assemble")
@@ -224,7 +224,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                         abiValidation = true
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":kmp-library:updateKotlinAbi")
@@ -238,7 +238,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                 abstract interface kmp.library/KmpLibrary { // kmp.library/KmpLibrary|null[0]
                     abstract fun hello(kotlin/String) // kmp.library/KmpLibrary.hello|hello(kotlin.String){}[0]
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         (project.dir / "src/commonMain/kotlin/kmp/library/internal/KmpLibraryImpl.kt")
@@ -250,7 +250,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         assertThat(buildResult.output).contains(
             """
             +    final fun hello() // kmp.library.internal/KmpLibraryImpl.hello|hello(){}[0]
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 
@@ -274,7 +274,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                         benchmark = true
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
             .createBenchmark()
 

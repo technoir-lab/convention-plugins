@@ -7,7 +7,7 @@ data class DeveloperInfo(
     val name: String,
     val email: String?,
     val organization: String?,
-    val organizationUrl: String?
+    val organizationUrl: String?,
 ) : Serializable {
 
     /**

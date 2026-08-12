@@ -22,7 +22,7 @@ class CommonConventionPluginFunctionalTest {
             """
             project.groupId=com.example
             project.version=1.0.0
-            """.trimIndent()
+            """.trimIndent(),
         )
         gradleRunner.root.settingsScript.appendText(
             // language=kotlin
@@ -30,7 +30,7 @@ class CommonConventionPluginFunctionalTest {
             gradle.lifecycle.afterProject {
                 logger.lifecycle("Path: '$path', group: '$group', version: '$version'")
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         gradleRunner.root.project("library2").gradleProperties
@@ -39,7 +39,7 @@ class CommonConventionPluginFunctionalTest {
                 """
                 project.groupId=com.example2
                 project.version=2.0.0
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         val buildResult = gradleRunner.build("help")
@@ -57,7 +57,7 @@ class CommonConventionPluginFunctionalTest {
             dependencies {
                 implementation("io.technoirlab.conventions:gradle-extensions")
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         gradleRunner.build(":library1:jar")
@@ -72,7 +72,7 @@ class CommonConventionPluginFunctionalTest {
                     implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
                     api("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":library1:sortDependencies")
@@ -87,7 +87,7 @@ class CommonConventionPluginFunctionalTest {
                 
                     implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
     }
 }

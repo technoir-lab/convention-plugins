@@ -12,5 +12,5 @@ inline fun URI.copy(
     port: Int = this.port,
     path: String? = this.path,
     query: String? = this.query,
-    fragment: String? = this.fragment
+    fragment: String? = this.fragment,
 ): URI = URI(scheme, userInfo, host, port, path, query, fragment)

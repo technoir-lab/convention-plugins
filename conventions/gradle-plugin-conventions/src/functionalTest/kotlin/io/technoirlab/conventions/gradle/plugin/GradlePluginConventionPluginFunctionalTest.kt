@@ -51,7 +51,7 @@ class GradlePluginConventionPluginFunctionalTest {
                     }
                 }
                 description = "Project description"
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":example-plugin:classes")
@@ -133,7 +133,7 @@ class GradlePluginConventionPluginFunctionalTest {
             gradleProperties += mapOf(
                 "project.groupId" to "com.example",
                 "project.version" to "v1",
-                "publish.local.url" to repoDir.toUri()
+                "publish.local.url" to repoDir.toUri(),
             )
         }
 
@@ -153,7 +153,7 @@ class GradlePluginConventionPluginFunctionalTest {
             gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
             environmentVariables += mapOf(
                 "GITHUB_SERVER_URL" to "https://github.com",
-                "GITHUB_REPOSITORY" to "example-org/example-project"
+                "GITHUB_REPOSITORY" to "example-org/example-project",
             )
         }
 
@@ -173,7 +173,7 @@ class GradlePluginConventionPluginFunctionalTest {
                         abiValidation = true
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":example-plugin:updateKotlinAbi")
@@ -188,7 +188,7 @@ class GradlePluginConventionPluginFunctionalTest {
                 	public synthetic fun apply (Ljava/lang/Object;)V
                 	public fun apply (Lorg/gradle/api/Project;)V
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
@@ -201,7 +201,7 @@ class GradlePluginConventionPluginFunctionalTest {
             """
             |   	public fun apply (Lorg/gradle/api/Project;)V
             |  +	public final fun hello ()V
-            """.trimMargin()
+            """.trimMargin(),
         )
     }
 
@@ -224,14 +224,14 @@ class GradlePluginConventionPluginFunctionalTest {
         "9.4,9.4.1,2.3.0,1.11.0,1.10.0",
         "9.5,9.5.1,2.3.20,1.11.0,1.11.0",
         "9.6,9.6.1,2.3.21,1.11.0,1.11.0",
-        "9.7,9.7.0,2.4.0,1.11.0,1.11.0"
+        "9.7,9.7.0,2.4.0,1.11.0,1.11.0",
     )
     fun `Gradle compatibility`(
         minGradleVersion: String,
         testedGradleVersion: String,
         kotlinStdlibVersion: String,
         kotlinCoroutinesVersion: String,
-        kotlinSerializationVersion: String
+        kotlinSerializationVersion: String,
     ) {
         val repoDir = gradleRunner.root.dir / "repo"
 
@@ -242,7 +242,7 @@ class GradlePluginConventionPluginFunctionalTest {
                 minGradleVersion = "$minGradleVersion"
             }
             
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         // Use a Kotlin 2.2 language feature to verify the supported language level
@@ -265,7 +265,7 @@ class GradlePluginConventionPluginFunctionalTest {
                 |      <version>$kotlinStdlibVersion</version>
                 |      <scope>compile</scope>
                 |    </dependency>
-                """.trimMargin()
+                """.trimMargin(),
             )
             .containsIgnoringNewLines(
                 """
@@ -276,7 +276,7 @@ class GradlePluginConventionPluginFunctionalTest {
                 |        <type>pom</type>
                 |        <scope>import</scope>
                 |      </dependency>
-                """.trimMargin()
+                """.trimMargin(),
             )
             .containsIgnoringNewLines(
                 """
@@ -287,7 +287,7 @@ class GradlePluginConventionPluginFunctionalTest {
                 |        <type>pom</type>
                 |        <scope>import</scope>
                 |      </dependency>
-                """.trimMargin()
+                """.trimMargin(),
             )
     }
 }

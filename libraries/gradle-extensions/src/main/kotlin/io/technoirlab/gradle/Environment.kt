@@ -27,12 +27,11 @@ class Environment(private val providerFactory: ProviderFactory) {
     val vcsUrl: Provider<String>
         get() = repositoryUrl.map { "$it.git" }
 
-    fun getMavenRepositories(prefix: String): Provider<List<MavenRepository>> =
-        providerFactory.gradlePropertiesPrefixedBy("$prefix.")
-            .map { properties ->
-                val names = properties.keys.mapTo(mutableSetOf()) { it.removePrefix("$prefix.").substringBeforeLast('.') }
-                names.map { name -> createMavenRepository(name, prefix, properties) }
-            }
+    fun getMavenRepositories(prefix: String): Provider<List<MavenRepository>> = providerFactory.gradlePropertiesPrefixedBy("$prefix.")
+        .map { properties ->
+            val names = properties.keys.mapTo(mutableSetOf()) { it.removePrefix("$prefix.").substringBeforeLast('.') }
+            names.map { name -> createMavenRepository(name, prefix, properties) }
+        }
 
     private fun createMavenRepository(name: String, prefix: String, properties: Map<String, String>): MavenRepository {
         val usernameProperty = "$prefix.$name.username"
@@ -43,11 +42,11 @@ class Environment(private val providerFactory: ProviderFactory) {
             credentials = if (usernameProperty in properties || passwordProperty in properties) {
                 MavenRepository.Credentials(
                     username = properties.getValue(usernameProperty),
-                    password = properties.getValue(passwordProperty)
+                    password = properties.getValue(passwordProperty),
                 )
             } else {
                 null
-            }
+            },
         )
     }
 }

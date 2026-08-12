@@ -17,7 +17,7 @@ class GradleCompatibilityTest {
         "9.3.1,2.2.21",
         "9.2.1,2.2.20",
         "9.1.0,2.2.0",
-        "9.0.0,2.2.0"
+        "9.0.0,2.2.0",
     )
     fun embeddedKotlinVersion(gradleVersion: String, expectedKotlinVersion: String) {
         val embeddedKotlinVersion = GradleVersion.version(gradleVersion).embeddedKotlinVersion
@@ -42,7 +42,7 @@ class GradleCompatibilityTest {
         "9.3.1,2.2",
         "9.2.1,2.2",
         "9.1.0,2.2",
-        "9.0.0,2.2"
+        "9.0.0,2.2",
     )
     fun kotlinApiVersion(gradleVersion: String, expectedKotlinApiVersion: String) {
         val kotlinApiVersion = GradleVersion.version(gradleVersion).kotlinApiVersion

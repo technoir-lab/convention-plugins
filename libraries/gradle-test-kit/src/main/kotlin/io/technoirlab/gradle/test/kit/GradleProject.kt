@@ -7,7 +7,7 @@ import kotlin.io.path.div
 
 class GradleProject internal constructor(
     val dir: Path,
-    val rootDir: Path
+    val rootDir: Path,
 ) {
     fun project(name: String): GradleProject {
         require(":" !in name) { "Project name must not contain ':'" }

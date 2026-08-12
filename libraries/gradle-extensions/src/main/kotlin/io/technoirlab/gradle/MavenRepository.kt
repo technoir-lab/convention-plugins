@@ -19,7 +19,7 @@ data class MavenRepository(
     /**
      * The credentials for authentication, if any.
      */
-    val credentials: Credentials? = null
+    val credentials: Credentials? = null,
 ) : Serializable {
     /**
      * Username/password credentials that can be used to log in to a password-protected remote repository.
@@ -32,7 +32,7 @@ data class MavenRepository(
         /**
          * The password to use when authenticating to the repository.
          */
-        val password: String
+        val password: String,
     )
 
     private companion object {

@@ -59,5 +59,5 @@ val POM_EXPECTED = arrayOf(
     |      <organizationUrl>https://example.org</organizationUrl>
     |    </developer>
     |  </developers>
-    """.trimMargin()
+    """.trimMargin(),
 )

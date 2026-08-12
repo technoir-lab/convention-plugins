@@ -15,7 +15,7 @@ import org.jetbrains.kotlin.samWithReceiver.gradle.SamWithReceiverExtension
 
 fun Project.configureKotlin(
     kotlinConfig: Provider<KotlinConfig> = provider { KotlinConfig.DEFAULT },
-    enableAbiValidation: Provider<Boolean>
+    enableAbiValidation: Provider<Boolean>,
 ) {
     extensions.configure(KotlinJvmProjectExtension::class) {
         compilerOptions {
@@ -23,7 +23,7 @@ fun Project.configureKotlin(
             languageVersion.set(kotlinConfig.map { it.languageVersion })
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
             freeCompilerArgs.addAll(
-                "-Xconsistent-data-class-copy-visibility"
+                "-Xconsistent-data-class-copy-visibility",
             )
         }
     }

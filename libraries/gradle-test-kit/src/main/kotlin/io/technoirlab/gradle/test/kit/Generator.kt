@@ -4,10 +4,9 @@ import java.nio.file.Path
 import kotlin.io.path.Path
 
 enum class Generator {
-    BuildConfig
+    BuildConfig,
 }
 
-internal fun Generator.outputPath(variant: String, className: String): Path =
-    when (this) {
-        Generator.BuildConfig -> Path("generated/sources/buildConfig/$variant/${className.replace('.', '/')}.kt")
-    }
+internal fun Generator.outputPath(variant: String, className: String): Path = when (this) {
+    Generator.BuildConfig -> Path("generated/sources/buildConfig/$variant/${className.replace('.', '/')}.kt")
+}

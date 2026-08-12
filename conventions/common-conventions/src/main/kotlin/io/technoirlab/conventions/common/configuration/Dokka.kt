@@ -84,28 +84,27 @@ private fun Environment.getSourceUrl(srcDir: Directory, rootDir: Directory): Pro
     }
 }
 
-private fun getExternalLinks(gradleVersion: String): Map<String, DocumentationLink> =
-    mapOf(
-        "gradle-api" to DocumentationLink(
-            url = "https://docs.gradle.org/$gradleVersion/javadoc/",
-            packageListUrl = "https://docs.gradle.org/$gradleVersion/javadoc/element-list"
-        ),
-        "kotlinx-coroutines" to DocumentationLink(
-            url = "https://kotlinlang.org/api/kotlinx.coroutines/"
-        ),
-        "kotlinx-datetime" to DocumentationLink(
-            url = "https://kotlinlang.org/api/kotlinx-datetime/",
-            packageListUrl = "https://kotlinlang.org/api/kotlinx-datetime/package-list"
-        ),
-        "kotlinx-io" to DocumentationLink(
-            url = "https://kotlinlang.org/api/kotlinx-io/"
-        ),
-        "kotlinx-serialization" to DocumentationLink(
-            url = "https://kotlinlang.org/api/kotlinx.serialization/"
-        )
-    )
+private fun getExternalLinks(gradleVersion: String): Map<String, DocumentationLink> = mapOf(
+    "gradle-api" to DocumentationLink(
+        url = "https://docs.gradle.org/$gradleVersion/javadoc/",
+        packageListUrl = "https://docs.gradle.org/$gradleVersion/javadoc/element-list",
+    ),
+    "kotlinx-coroutines" to DocumentationLink(
+        url = "https://kotlinlang.org/api/kotlinx.coroutines/",
+    ),
+    "kotlinx-datetime" to DocumentationLink(
+        url = "https://kotlinlang.org/api/kotlinx-datetime/",
+        packageListUrl = "https://kotlinlang.org/api/kotlinx-datetime/package-list",
+    ),
+    "kotlinx-io" to DocumentationLink(
+        url = "https://kotlinlang.org/api/kotlinx-io/",
+    ),
+    "kotlinx-serialization" to DocumentationLink(
+        url = "https://kotlinlang.org/api/kotlinx.serialization/",
+    ),
+)
 
 private data class DocumentationLink(
     val url: String,
-    val packageListUrl: String? = null
+    val packageListUrl: String? = null,
 )

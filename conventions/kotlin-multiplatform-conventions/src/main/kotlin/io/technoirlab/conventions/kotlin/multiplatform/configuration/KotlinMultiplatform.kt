@@ -31,7 +31,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension as KmpExtens
 internal fun Project.configureKotlinMultiplatform(
     config: KotlinMultiplatformExtension,
     kotlinConfig: Provider<KotlinConfig> = provider { KotlinConfig.DEFAULT },
-    executable: Boolean = false
+    executable: Boolean = false,
 ) {
     extensions.configure(KmpExtension::class) {
         applyDefaultHierarchyTemplate()
@@ -41,7 +41,7 @@ internal fun Project.configureKotlinMultiplatform(
             languageVersion.set(kotlinConfig.map { it.languageVersion })
             freeCompilerArgs.addAll(
                 "-Xconsistent-data-class-copy-visibility",
-                "-Xexpect-actual-classes"
+                "-Xexpect-actual-classes",
             )
         }
 
@@ -89,7 +89,7 @@ private fun <T> T.configureJvmTarget() where T : KotlinTarget, T : HasConfigurab
 private fun KotlinNativeTarget.configureNativeTarget(
     packageName: Provider<String>,
     enableCInterop: Property<Boolean>,
-    executable: Boolean
+    executable: Boolean,
 ) {
     if (enableCInterop.get()) {
         compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {

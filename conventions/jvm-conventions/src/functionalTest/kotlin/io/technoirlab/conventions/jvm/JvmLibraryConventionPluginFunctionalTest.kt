@@ -49,7 +49,7 @@ class JvmLibraryConventionPluginFunctionalTest {
                     }
                 }
                 description = "Project description"
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":jvm-library:classes")
@@ -124,7 +124,7 @@ class JvmLibraryConventionPluginFunctionalTest {
             gradleProperties += mapOf(
                 "project.groupId" to "com.example",
                 "project.version" to "v1",
-                "publish.local.url" to repoDir.toUri()
+                "publish.local.url" to repoDir.toUri(),
             )
         }
 
@@ -144,7 +144,7 @@ class JvmLibraryConventionPluginFunctionalTest {
             gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
             environmentVariables += mapOf(
                 "GITHUB_SERVER_URL" to "https://github.com",
-                "GITHUB_REPOSITORY" to "example-org/example-project"
+                "GITHUB_REPOSITORY" to "example-org/example-project",
             )
         }
 
@@ -164,7 +164,7 @@ class JvmLibraryConventionPluginFunctionalTest {
                     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":jvm-library:assemble")
@@ -180,7 +180,7 @@ class JvmLibraryConventionPluginFunctionalTest {
                         abiValidation = true
                     }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         gradleRunner.build(":jvm-library:updateKotlinAbi")
@@ -193,7 +193,7 @@ class JvmLibraryConventionPluginFunctionalTest {
                 public abstract interface class com/example/jvm/library/JvmLibrary {
                 	public abstract fun hello (Ljava/lang/String;)V
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
 
         (project.dir / "src/main/kotlin/com/example/jvm/library/internal/JvmLibraryImpl.kt")
@@ -205,7 +205,7 @@ class JvmLibraryConventionPluginFunctionalTest {
         assertThat(buildResult.output).contains(
             """
             +	public final fun hello ()V
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 

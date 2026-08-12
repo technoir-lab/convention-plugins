@@ -41,7 +41,7 @@ class KotlinLibrariesTest {
         "2.0.21,1.9.0",
         "2.0.20,1.9.0",
         "2.0.10,1.9.0",
-        "2.0.0,1.9.0"
+        "2.0.0,1.9.0",
     )
     fun kotlinCoroutinesVersion(kotlinVersion: String, expectedKotlinCoroutinesVersion: String) {
         val kotlinCoroutinesVersion = KotlinLibraries(kotlinVersion).kotlinCoroutinesVersion
@@ -65,7 +65,7 @@ class KotlinLibrariesTest {
         "2.0.21,1.7.3",
         "2.0.20,1.7.3",
         "2.0.10,1.7.1",
-        "2.0.0,1.7.1"
+        "2.0.0,1.7.1",
     )
     fun kotlinSerializationVersion(kotlinVersion: String, expectedKotlinSerializationVersion: String) {
         val kotlinSerializationVersion = KotlinLibraries(kotlinVersion).kotlinSerializationVersion
