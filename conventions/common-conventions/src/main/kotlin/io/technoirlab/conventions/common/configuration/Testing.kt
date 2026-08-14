@@ -22,7 +22,7 @@ fun Project.configureTesting() {
 }
 
 fun JvmTestSuite.configureTestSuite(testTaskConfiguration: Action<Test>) {
-    useJUnitJupiter(BuildConfig.JUNIT5_VERSION)
+    useJUnitJupiter(BuildConfig.JUNIT_VERSION)
 
     targets.configureEach {
         testTask.configure(testTaskConfiguration)

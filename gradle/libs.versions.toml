@@ -5,7 +5,7 @@ dependency-analysis-gradle-plugin = "3.18.0"
 develocity-gradle-plugin = "4.5.0"
 dokka = "2.1.0"
 foojay-resolver-gradle-plugin = "1.0.0"
-junit5 = "5.14.4"
+junit = "6.1.3"
 kotlin = "2.4.10"
 kotlinx-benchmark = "0.4.17"
 kotlinx-coroutines = "1.11.0"
@@ -27,7 +27,7 @@ dependency-analysis-gradle-plugin = { module = "com.autonomousapps:dependency-an
 develocity-gradle-plugin = { module = "com.gradle:develocity-gradle-plugin", version.ref = "develocity-gradle-plugin" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 foojay-resolver-gradle-plugin = { module = "org.gradle.toolchains:foojay-resolver", version.ref = "foojay-resolver-gradle-plugin" }
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

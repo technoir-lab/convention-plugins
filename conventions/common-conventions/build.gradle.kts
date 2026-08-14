@@ -11,7 +11,7 @@ gradlePluginConfig {
         buildConfig {
             buildConfigField("GROUP_ID", provider { "$group" })
             buildConfigField("VERSION", provider { "$version" })
-            buildConfigField("JUNIT5_VERSION", libs.versions.junit5)
+            buildConfigField("JUNIT_VERSION", libs.versions.junit)
             buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
             buildConfigField("KOTLINX_COROUTINES_VERSION", libs.versions.kotlinx.coroutines)
             buildConfigField("KOTLINX_SERIALIZATION_VERSION", libs.versions.kotlinx.serialization)
