@@ -8,9 +8,12 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.Path
 import kotlin.io.path.absolutePathString
+import kotlin.io.path.createDirectories
 import kotlin.io.path.deleteRecursively
 import kotlin.io.path.div
+import kotlin.io.path.isDirectory
 
 class GradleRunnerExtension(
     private val resourceDir: String,
@@ -29,7 +32,7 @@ class GradleRunnerExtension(
     }
 
     override fun beforeEach(context: ExtensionContext) {
-        val projectDir = Files.createTempDirectory("project-")
+        val projectDir = Files.createTempDirectory(testKitDir, "project-")
         context.getStore(NAMESPACE).put(this, CloseablePath(projectDir))
         copyResources(resourceDir, projectDir)
         internalRoot = GradleProject(projectDir, rootDir = projectDir)
@@ -82,6 +85,13 @@ class GradleRunnerExtension(
             }
             .forwardOutput()
     }
+
+    private val testKitDir: Path
+        get() {
+            val buildDir = Path(System.getProperty("user.dir")) / "build"
+            require(buildDir.isDirectory()) { "$buildDir does not exist" }
+            return (buildDir / "intermediates" / "gradle-test-kit").createDirectories()
+        }
 
     private class CloseablePath(private val dir: Path) : AutoCloseable {
         override fun close() {
