@@ -6,8 +6,6 @@ import java.util.zip.ZipEntry
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
 
-operator fun Path.div(other: Collection<String>): Path = other.fold(this) { current, segment -> current.resolve(segment) }
-
 fun Path.replaceText(oldText: String, newText: String) {
     require(oldText != newText) { "oldText and newText must be different" }
 

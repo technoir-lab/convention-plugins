@@ -3,7 +3,7 @@ package io.technoirlab.conventions.kotlin.multiplatform.configuration
 import io.technoirlab.conventions.common.configuration.KotlinConfig
 import io.technoirlab.conventions.common.configuration.KotlinLibraries
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformExtension
-import io.technoirlab.gradle.capitalized
+import io.technoirlab.core.capitalized
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider

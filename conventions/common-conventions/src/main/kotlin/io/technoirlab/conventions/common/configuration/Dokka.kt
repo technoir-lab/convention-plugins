@@ -1,8 +1,8 @@
 package io.technoirlab.conventions.common.configuration
 
+import io.technoirlab.core.capitalized
+import io.technoirlab.core.copy
 import io.technoirlab.gradle.Environment
-import io.technoirlab.gradle.capitalized
-import io.technoirlab.gradle.copy
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider

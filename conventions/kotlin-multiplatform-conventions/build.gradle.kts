@@ -22,6 +22,7 @@ dependencies {
     }
 
     implementation(project(":conventions:common-conventions"))
+    implementation(project(":libraries:core-utils"))
     implementation(project(":libraries:gradle-extensions"))
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin.api)

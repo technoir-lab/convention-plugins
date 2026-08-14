@@ -1,0 +1,13 @@
+public final class io/technoirlab/core/PathsKt {
+	public static final fun div (Ljava/nio/file/Path;Ljava/util/Collection;)Ljava/nio/file/Path;
+}
+
+public final class io/technoirlab/core/StringsKt {
+	public static final fun capitalized (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/technoirlab/core/URIsKt {
+	public static final fun copy (Ljava/net/URI;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/net/URI;
+	public static synthetic fun copy$default (Ljava/net/URI;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/net/URI;
+}
+

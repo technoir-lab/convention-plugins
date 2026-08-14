@@ -1,7 +1,7 @@
 package io.technoirlab.conventions.kotlin.multiplatform.configuration
 
 import io.technoirlab.conventions.kotlin.multiplatform.BuildConfig
-import io.technoirlab.gradle.capitalized
+import io.technoirlab.core.capitalized
 import kotlinx.benchmark.gradle.BenchmarksExtension
 import org.gradle.api.Project
 import org.gradle.api.provider.Property

@@ -55,15 +55,6 @@ public final class io/technoirlab/gradle/ProvidersKt {
 	public static final fun localGradleProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
 }
 
-public final class io/technoirlab/gradle/StringsKt {
-	public static final fun capitalized (Ljava/lang/String;)Ljava/lang/String;
-}
-
-public final class io/technoirlab/gradle/URIsKt {
-	public static final fun copy (Ljava/net/URI;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/net/URI;
-	public static synthetic fun copy$default (Ljava/net/URI;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/net/URI;
-}
-
 public final class io/technoirlab/gradle/dependencies/DependenciesKt {
 	public static final fun api (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Lorg/gradle/api/artifacts/ModuleDependency;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/artifacts/ModuleDependency;
 	public static final fun implementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
