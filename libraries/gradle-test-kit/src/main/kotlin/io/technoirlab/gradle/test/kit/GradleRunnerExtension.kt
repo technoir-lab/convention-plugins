@@ -3,7 +3,6 @@ package io.technoirlab.gradle.test.kit
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.util.GradleVersion
-import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import java.nio.file.Files
@@ -16,8 +15,7 @@ import kotlin.io.path.div
 class GradleRunnerExtension(
     private val resourceDir: String,
     configuration: GradleConfig.() -> Unit = {},
-) : BeforeEachCallback,
-    AfterEachCallback {
+) : BeforeEachCallback {
 
     private val config = GradleConfig()
     private var internalRoot: GradleProject? = null
@@ -32,15 +30,11 @@ class GradleRunnerExtension(
 
     override fun beforeEach(context: ExtensionContext) {
         val projectDir = Files.createTempDirectory("project-")
+        context.getStore(NAMESPACE).put(this, CloseablePath(projectDir))
         copyResources(resourceDir, projectDir)
         internalRoot = GradleProject(projectDir, rootDir = projectDir)
         initScript = projectDir / "gradle-test-kit.init.gradle.kts"
         InitScriptGenerator().generate(initScript)
-    }
-
-    override fun afterEach(context: ExtensionContext) {
-        @OptIn(ExperimentalPathApi::class)
-        internalRoot?.dir?.deleteRecursively()
     }
 
     fun build(vararg tasks: String, expectFailure: Boolean = false, configuration: GradleConfig.() -> Unit = {}): BuildResult {
@@ -87,5 +81,16 @@ class GradleRunnerExtension(
                 }
             }
             .forwardOutput()
+    }
+
+    private class CloseablePath(private val dir: Path) : AutoCloseable {
+        override fun close() {
+            @OptIn(ExperimentalPathApi::class)
+            dir.deleteRecursively()
+        }
+    }
+
+    private companion object {
+        private val NAMESPACE = ExtensionContext.Namespace.create(GradleRunnerExtension::class.java)
     }
 }

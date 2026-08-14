@@ -52,10 +52,9 @@ public final class io/technoirlab/gradle/test/kit/GradleProjectKt {
 	public static synthetic fun kotlinFile$default (Lio/technoirlab/gradle/test/kit/GradleProject;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/nio/file/Path;
 }
 
-public final class io/technoirlab/gradle/test/kit/GradleRunnerExtension : org/junit/jupiter/api/extension/AfterEachCallback, org/junit/jupiter/api/extension/BeforeEachCallback {
+public final class io/technoirlab/gradle/test/kit/GradleRunnerExtension : org/junit/jupiter/api/extension/BeforeEachCallback {
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun afterEach (Lorg/junit/jupiter/api/extension/ExtensionContext;)V
 	public fun beforeEach (Lorg/junit/jupiter/api/extension/ExtensionContext;)V
 	public final fun build ([Ljava/lang/String;ZLkotlin/jvm/functions/Function1;)Lorg/gradle/testkit/runner/BuildResult;
 	public static synthetic fun build$default (Lio/technoirlab/gradle/test/kit/GradleRunnerExtension;[Ljava/lang/String;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/testkit/runner/BuildResult;
