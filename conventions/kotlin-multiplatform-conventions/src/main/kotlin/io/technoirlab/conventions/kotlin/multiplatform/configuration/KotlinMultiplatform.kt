@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.Executable
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 import org.jetbrains.kotlin.konan.target.Family
@@ -112,6 +113,11 @@ private fun KotlinNativeTarget.configureNativeTarget(
                 if (packageName.isPresent) {
                     entryPoint = "${packageName.get()}.main"
                 }
+            }
+        }
+        configureEach {
+            if (buildType == NativeBuildType.DEBUG) {
+                freeCompilerArgs = freeCompilerArgs + "-ea"
             }
         }
         if (HostManager.host == konanTarget) {

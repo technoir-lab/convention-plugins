@@ -181,4 +181,28 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
 
         gradleRunner.build(":kmp-application:assemble")
     }
+
+    @Test
+    fun `debug binaries enable assertions`() {
+        gradleRunner.root.project("kmp-application")
+            .kotlinFile("kmp.application.Main", variant = "commonMain")
+            .writeText(
+                """
+                package kmp.application
+                
+                import kotlin.experimental.ExperimentalNativeApi
+                
+                @OptIn(ExperimentalNativeApi::class)
+                fun main() {
+                    assert(false)
+                }
+                """.trimIndent(),
+            )
+
+        val debugResult = gradleRunner.build(":kmp-application:runDebugExecutable", expectFailure = true)
+
+        assertThat(debugResult.output).contains("AssertionError")
+
+        gradleRunner.build(":kmp-application:runReleaseExecutable")
+    }
 }
