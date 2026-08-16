@@ -10,7 +10,7 @@ concurrency:
 jobs:
   packages:
     name: Packages
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     permissions:
       contents: write # Required for creating release
@@ -57,7 +57,7 @@ jobs:
 
   documentation:
     name: Documentation
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     environment:
       name: github-pages
