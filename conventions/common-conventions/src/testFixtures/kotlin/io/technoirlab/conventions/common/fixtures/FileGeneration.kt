@@ -5,7 +5,6 @@ import io.technoirlab.gradle.test.kit.kotlinFile
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.writeText
 
-@Suppress("SpreadOperator")
 fun GradleProject.createDependencyGraph(className: String = "com.example.AppGraph") = apply {
     val packageName = className.substringBeforeLast('.')
     val classNameWithoutPackage = className.substringAfterLast('.')

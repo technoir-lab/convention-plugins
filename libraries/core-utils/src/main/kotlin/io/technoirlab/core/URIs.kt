@@ -4,7 +4,6 @@ package io.technoirlab.core
 
 import java.net.URI
 
-@Suppress("LongParameterList")
 inline fun URI.copy(
     scheme: String? = this.scheme,
     userInfo: String? = this.userInfo,

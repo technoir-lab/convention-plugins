@@ -5,7 +5,6 @@ import java.nio.file.Path
 import kotlin.io.path.writeText
 
 internal class InitScriptGenerator {
-    @Suppress("MagicNumber")
     fun generate(initScriptFile: Path) {
         val template = readTextResource("gradle-test-kit.init.gradle.kts")
         val pluginsBlock = getPluginIds().entries.joinToString(separator = "\n") {

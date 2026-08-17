@@ -2,7 +2,6 @@ package io.technoirlab.gradle.test.kit
 
 import java.nio.file.Path
 
-@Suppress("LongParameterList")
 class GradleConfig internal constructor(
     var buildCache: Boolean = false,
     var configurationCache: Boolean = true,

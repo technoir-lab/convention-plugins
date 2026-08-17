@@ -73,7 +73,6 @@ class GradleRunnerExtension(
         arguments += config.initScripts.flatMap { listOf("--init-script", it.absolutePathString()) }
         arguments += tasks
 
-        @Suppress("SpreadOperator")
         return GradleRunner.create()
             .withArguments(*arguments.toTypedArray())
             .withProjectDir(root.dir.toFile())

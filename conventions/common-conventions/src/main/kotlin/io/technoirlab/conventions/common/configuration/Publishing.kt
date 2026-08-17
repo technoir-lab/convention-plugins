@@ -91,7 +91,6 @@ private fun Project.configureSigning(publications: PublicationContainer) {
     }
 }
 
-@Suppress("NoNameShadowing", "UnusedPrivateMember") // false positive
 private fun MavenPom.configure(metadata: ProjectMetadata, environment: Environment, artifactId: String) {
     name.set(metadata.name.orElse(artifactId))
     url.set(metadata.url.orElse(environment.repositoryUrl.map { it.toString() }))
@@ -104,7 +103,6 @@ private fun MavenPom.configure(metadata: ProjectMetadata, environment: Environme
     }
 }
 
-@Suppress("UnusedPrivateMember") // false positive
 private fun MavenPom.configure(licenses: List<LicenseInfo>, developers: List<DeveloperInfo>) {
     licenses {
         licenses.forEach { license ->
