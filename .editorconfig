@@ -27,6 +27,3 @@ ij_properties_keep_blank_lines = true
 
 [{*.yaml,*.yml}]
 indent_size = 2
-
-[{**/build/generated/**/*.kt,**/build/resources/**/*.kts}]
-ktlint = disabled
