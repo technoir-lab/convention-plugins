@@ -93,10 +93,10 @@ class GradleRunnerExtension(
             return (buildDir / "intermediates" / "gradle-test-kit").createDirectories()
         }
 
-    private class CloseablePath(private val dir: Path) : AutoCloseable {
+    private class CloseablePath(private val path: Path) : AutoCloseable {
         override fun close() {
             @OptIn(ExperimentalPathApi::class)
-            dir.deleteRecursively()
+            path.deleteRecursively()
         }
     }
 
