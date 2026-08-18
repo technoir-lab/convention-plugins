@@ -18,7 +18,7 @@ maven-artifact = "3.9.16"
 metro = "1.4.2"
 nmcp = "1.6.1"
 redacted = "1.18.0"
-sort-dependencies-gradle-plugin = "0.20.0"
+sort-dependencies-gradle-plugin = "0.21.0"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
