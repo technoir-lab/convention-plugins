@@ -22,6 +22,9 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.testing.base.TestingExtension
 import org.jetbrains.dokka.gradle.DokkaExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
+import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
 internal fun Project.configurePlugin(config: GradlePluginExtension, environment: Environment) {
     configurations.dependencyScope("${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly")
@@ -54,6 +57,15 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
             }
 
             testSourceSet(functionalTestSuite.get().sources)
+        }
+    }
+
+    extensions.configure(KotlinJvmExtension::class) {
+        val mainCompilation = target.compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME)
+        target.compilations.named(FUNCTIONAL_TEST_VARIANT_NAME) {
+            compileTaskProvider.configure {
+                (this as BaseKotlinCompile).friendPaths.from(mainCompilation.map { it.output.classesDirs })
+            }
         }
     }
 

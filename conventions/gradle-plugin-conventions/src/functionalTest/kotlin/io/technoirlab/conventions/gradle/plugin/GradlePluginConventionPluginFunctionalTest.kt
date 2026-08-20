@@ -9,6 +9,7 @@ import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.buildDir
 import io.technoirlab.gradle.test.kit.generatedFile
 import io.technoirlab.gradle.test.kit.jarEntries
+import io.technoirlab.gradle.test.kit.kotlinFile
 import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
@@ -17,7 +18,9 @@ import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import kotlin.io.path.createDirectories
+import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
+import kotlin.io.path.writeText
 
 class GradlePluginConventionPluginFunctionalTest {
     @RegisterExtension
@@ -80,6 +83,31 @@ class GradlePluginConventionPluginFunctionalTest {
         val buildResult = gradleRunner.build(":example-plugin:test")
 
         assertThat(buildResult.task(":example-plugin:test")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `functional tests can call internal symbols from main`() {
+        val project = gradleRunner.root.project("example-plugin")
+        project.kotlinFile("com.example.plugin.internal.ExampleExtensionImplFunctionalTest", variant = "functionalTest")
+            .createParentDirectories()
+            .writeText(
+                //language=kotlin
+                """
+                package com.example.plugin.internal
+                
+                import org.junit.jupiter.api.Assertions.assertNotNull
+                import org.junit.jupiter.api.Test
+                
+                class ExampleExtensionImplFunctionalTest {
+                    @Test
+                    fun `functional tests can call internal symbols from main`() {
+                        assertNotNull(ExampleExtensionImpl::class)
+                    }
+                }
+                """.trimIndent(),
+            )
+
+        gradleRunner.build(":example-plugin:functionalTest")
     }
 
     @Test
