@@ -1,6 +1,7 @@
 package io.technoirlab.conventions.common.configuration
 
 import io.technoirlab.conventions.common.BuildConfig
+import io.technoirlab.gradle.asPath
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -20,7 +21,7 @@ internal fun Project.configureKtLint() {
             }
 
             filter {
-                val buildDirectory = layout.buildDirectory.get().asFile.toPath().toAbsolutePath().normalize()
+                val buildDirectory = layout.buildDirectory.get().asPath().toAbsolutePath().normalize()
                 exclude { it.file.toPath().toAbsolutePath().normalize().startsWith(buildDirectory) }
             }
         }
