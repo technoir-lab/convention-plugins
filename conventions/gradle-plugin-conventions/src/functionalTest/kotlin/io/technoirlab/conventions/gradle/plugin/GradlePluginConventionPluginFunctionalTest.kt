@@ -240,6 +240,15 @@ class GradlePluginConventionPluginFunctionalTest {
                 }
                 """.trimIndent(),
             )
+            // Defined in API compilation
+            .contains(
+                $$"""
+                public abstract interface class com/example/plugin/api/ExampleExtension {
+                	public static final field Companion Lcom/example/plugin/api/ExampleExtension$Companion;
+                	public static final field NAME Ljava/lang/String;
+                }
+                """.trimIndent(),
+            )
 
         (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
             .replaceText("// function placeholder", "fun hello() = Unit")

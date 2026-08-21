@@ -82,7 +82,6 @@ private fun Project.configureApiVariant(variantName: String) {
     extensions.configure(JavaPluginExtension::class) {
         val apiSourceSet = sourceSets.create(variantName)
 
-        // TODO: Make 'api' artifact work with ABI validation
         registerFeature(variantName) {
             withSourcesJar()
             usingSourceSet(apiSourceSet)
