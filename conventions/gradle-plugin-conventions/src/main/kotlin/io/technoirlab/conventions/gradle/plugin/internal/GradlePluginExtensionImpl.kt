@@ -14,6 +14,6 @@ internal abstract class GradlePluginExtensionImpl(project: Project) :
 
     override fun initDefaults() {
         super.initDefaults()
-        minGradleVersion.convention("9.0")
+        minGradleVersion.convention("9.1")
     }
 }
