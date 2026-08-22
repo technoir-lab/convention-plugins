@@ -4,3 +4,22 @@ public final class io/technoirlab/conventions/gradle/plugin/GradlePluginConventi
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public abstract interface class io/technoirlab/conventions/gradle/plugin/api/GradlePluginBuildFeatures : io/technoirlab/conventions/common/api/CommonBuildFeatures {
+}
+
+public abstract interface annotation class io/technoirlab/conventions/gradle/plugin/api/GradlePluginDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/technoirlab/conventions/gradle/plugin/api/GradlePluginExtension : io/technoirlab/conventions/common/api/CommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/gradle/plugin/api/GradlePluginExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun buildFeatures (Lorg/gradle/api/Action;)V
+	public synthetic fun getBuildFeatures ()Lio/technoirlab/conventions/common/api/CommonBuildFeatures;
+	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/gradle/plugin/api/GradlePluginBuildFeatures;
+	public abstract fun getMinGradleVersion ()Lorg/gradle/api/provider/Property;
+}
+
+public final class io/technoirlab/conventions/gradle/plugin/api/GradlePluginExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
