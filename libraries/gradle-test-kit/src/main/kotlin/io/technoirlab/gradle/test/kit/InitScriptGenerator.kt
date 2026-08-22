@@ -15,8 +15,8 @@ internal class InitScriptGenerator {
     }
 
     private fun getPluginIds(): Map<String, String> {
-        val pluginVersion = systemProperty("gradle.test.kit.plugin.version")
-        val pluginIds = systemProperty("gradle.test.kit.plugin.ids")
+        val pluginVersion = systemProperty(GradleTestKitProperties.PLUGIN_VERSION)
+        val pluginIds = systemProperty(GradleTestKitProperties.PLUGIN_IDS)
             .split(',')
             .filter(String::isNotEmpty)
         return pluginIds.associateWith { pluginVersion } + mapOf(

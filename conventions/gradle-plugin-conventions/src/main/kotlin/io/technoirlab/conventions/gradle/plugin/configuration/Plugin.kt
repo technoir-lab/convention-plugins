@@ -9,6 +9,8 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.plugins.jvm.JvmTestSuite
+import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
@@ -20,6 +22,7 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugin.devel.tasks.ValidatePlugins
+import org.gradle.process.CommandLineArgumentProvider
 import org.gradle.testing.base.TestingExtension
 import org.jetbrains.dokka.gradle.DokkaExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmExtension
@@ -35,7 +38,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
     extensions.configure(TestingExtension::class) {
         val functionalTestSuite = suites.register(FUNCTIONAL_TEST_VARIANT_NAME, JvmTestSuite::class) {
             configureTestSuite {
-                configureFunctionalTestTask()
+                configureFunctionalTestTask(config)
             }
             dependencies {
                 implementation.add(project())
@@ -108,10 +111,15 @@ private fun Project.configureApiVariant(variantName: String) {
     }
 }
 
-private fun Test.configureFunctionalTestTask() {
-    val pluginIds = project.the<GradlePluginDevelopmentExtension>().plugins.map { it.id }
-    systemProperty("gradle.test.kit.plugin.ids", pluginIds.joinToString(","))
-    systemProperty("gradle.test.kit.plugin.version", "${project.version}")
+private fun Test.configureFunctionalTestTask(config: GradlePluginExtension) {
+    val plugins = project.the<GradlePluginDevelopmentExtension>().plugins
+    jvmArgumentProviders.add(
+        GradleTestKitPropertiesArgumentProvider(
+            pluginIds = project.provider { plugins.map { it.id } },
+            pluginVersion = project.provider { "${project.version}" },
+            minGradleVersion = config.minGradleVersion,
+        ),
+    )
     dependsOn(project.tasks.named("publishToMavenLocal"))
 
     DEPENDENCY_CONFIGURATIONS.forEach { configurationName ->
@@ -121,6 +129,18 @@ private fun Test.configureFunctionalTestTask() {
             }
         }
     }
+}
+
+private class GradleTestKitPropertiesArgumentProvider(
+    @get:Input val pluginIds: Provider<List<String>>,
+    @get:Input val pluginVersion: Provider<String>,
+    @get:Input val minGradleVersion: Provider<String>,
+) : CommandLineArgumentProvider {
+    override fun asArguments(): Iterable<String> = listOf(
+        "-D${GradleTestKitProperties.PLUGIN_IDS}=${pluginIds.get().joinToString(",")}",
+        "-D${GradleTestKitProperties.PLUGIN_VERSION}=${pluginVersion.get()}",
+        "-D${GradleTestKitProperties.MIN_GRADLE_VERSION}=${minGradleVersion.get()}",
+    )
 }
 
 private const val API_VARIANT_NAME = "api"

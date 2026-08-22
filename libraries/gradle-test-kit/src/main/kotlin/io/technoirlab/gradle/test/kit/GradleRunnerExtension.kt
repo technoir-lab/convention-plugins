@@ -49,7 +49,12 @@ class GradleRunnerExtension(
     }
 
     private fun createRunner(tasks: Array<out String>, config: GradleConfig): GradleRunner {
-        val gradleVersion = config.gradleVersion?.let { GradleVersion.version(it) } ?: GradleVersion.current()
+        val configuredGradleVersion = config.gradleVersion?.toGradleVersion()
+        val minGradleVersion = System.getProperty(GradleTestKitProperties.MIN_GRADLE_VERSION)?.toGradleVersion()
+        val distributionVersion = (configuredGradleVersion ?: minGradleVersion)?.toFullVersion()
+        check(configuredGradleVersion == null || minGradleVersion == null || configuredGradleVersion >= minGradleVersion) {
+            "$configuredGradleVersion is less than the minimum required $minGradleVersion"
+        }
 
         val arguments = mutableListOf<String>()
         arguments += if (config.buildCache) "--build-cache" else "--no-build-cache"
@@ -62,7 +67,7 @@ class GradleRunnerExtension(
             arguments += "-Dorg.gradle.configuration-cache.parallel=true"
         }
         if (config.isolatedProjects) {
-            arguments += if (gradleVersion >= GradleVersion.version("9.7")) {
+            arguments += if ((distributionVersion ?: GradleVersion.current()) >= GradleVersion.version("9.7")) {
                 "-Dorg.gradle.isolated-projects=true"
             } else {
                 "-Dorg.gradle.unsafe.isolated-projects=true"
@@ -77,7 +82,9 @@ class GradleRunnerExtension(
             .withArguments(*arguments.toTypedArray())
             .withProjectDir(root.dir.toFile())
             .apply {
-                config.gradleVersion?.let { withGradleVersion(it) }
+                if (distributionVersion != null) {
+                    withGradleVersion(distributionVersion.version)
+                }
                 if (config.environmentVariables.isNotEmpty()) {
                     withEnvironment(config.environmentVariables.mapValues { "${it.value}" })
                 }
