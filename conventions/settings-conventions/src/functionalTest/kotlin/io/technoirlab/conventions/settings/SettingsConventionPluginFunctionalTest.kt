@@ -2,10 +2,13 @@ package io.technoirlab.conventions.settings
 
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
+import io.technoirlab.gradle.test.kit.buildDir
+import io.technoirlab.gradle.test.kit.jarEntries
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import kotlin.io.path.div
 
 class SettingsConventionPluginFunctionalTest {
     @RegisterExtension
@@ -56,5 +59,12 @@ class SettingsConventionPluginFunctionalTest {
         val buildResult = gradleRunner.build(":nmcpZipAggregation")
 
         assertThat(buildResult.task(":nmcpZipAggregation")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+
+        val entries = (gradleRunner.root.buildDir / "nmcp/zip/aggregation.zip").jarEntries()
+        assertThat(entries.filter { it.endsWith(".md5") }).isNotEmpty
+        assertThat(entries.filter { it.endsWith(".sha1") }).isNotEmpty
+        // Optional checksums get filtered-out
+        assertThat(entries.filter { it.endsWith(".sha256") }).isEmpty()
+        assertThat(entries.filter { it.endsWith(".sha512") }).isEmpty()
     }
 }
