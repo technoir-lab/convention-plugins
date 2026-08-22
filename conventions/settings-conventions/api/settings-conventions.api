@@ -4,3 +4,19 @@ public final class io/technoirlab/conventions/settings/SettingsConventionPlugin 
 	public fun apply (Lorg/gradle/api/initialization/Settings;)V
 }
 
+public abstract interface annotation class io/technoirlab/conventions/settings/api/SettingsDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/technoirlab/conventions/settings/api/SettingsExtension {
+	public static final field Companion Lio/technoirlab/conventions/settings/api/SettingsExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public abstract fun getDevelocityUrl ()Lorg/gradle/api/provider/Property;
+	public abstract fun getMetadata ()Lio/technoirlab/conventions/common/api/metadata/ProjectMetadata;
+	public abstract fun getProjectId ()Lorg/gradle/api/provider/Property;
+	public fun metadata (Lorg/gradle/api/Action;)V
+}
+
+public final class io/technoirlab/conventions/settings/api/SettingsExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+

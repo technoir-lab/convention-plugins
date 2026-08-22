@@ -10,3 +10,38 @@ public final class io/technoirlab/conventions/jvm/JvmLibraryConventionPlugin : o
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public abstract interface annotation class io/technoirlab/conventions/jvm/api/JvmApplicationDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/technoirlab/conventions/jvm/api/JvmApplicationExtension : io/technoirlab/conventions/common/api/CommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/jvm/api/JvmApplicationExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun buildFeatures (Lorg/gradle/api/Action;)V
+	public synthetic fun getBuildFeatures ()Lio/technoirlab/conventions/common/api/CommonBuildFeatures;
+	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/jvm/api/JvmBuildFeatures;
+	public abstract fun getJvmArgs ()Lorg/gradle/api/provider/ListProperty;
+	public abstract fun getMainClass ()Lorg/gradle/api/provider/Property;
+}
+
+public final class io/technoirlab/conventions/jvm/api/JvmApplicationExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
+public abstract interface class io/technoirlab/conventions/jvm/api/JvmBuildFeatures : io/technoirlab/conventions/common/api/CommonBuildFeatures {
+}
+
+public abstract interface annotation class io/technoirlab/conventions/jvm/api/JvmLibraryDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/technoirlab/conventions/jvm/api/JvmLibraryExtension : io/technoirlab/conventions/common/api/CommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/jvm/api/JvmLibraryExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun buildFeatures (Lorg/gradle/api/Action;)V
+	public synthetic fun getBuildFeatures ()Lio/technoirlab/conventions/common/api/CommonBuildFeatures;
+	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/jvm/api/JvmBuildFeatures;
+}
+
+public final class io/technoirlab/conventions/jvm/api/JvmLibraryExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
