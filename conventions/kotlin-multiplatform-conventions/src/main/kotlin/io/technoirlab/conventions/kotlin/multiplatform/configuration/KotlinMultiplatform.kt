@@ -9,7 +9,6 @@ import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
-import org.gradle.kotlin.dsl.withType
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
@@ -119,9 +118,10 @@ private fun KotlinNativeTarget.configureNativeTarget(
             if (buildType == NativeBuildType.DEBUG) {
                 freeCompilerArgs = freeCompilerArgs + "-ea"
             }
-        }
-        if (HostManager.host == konanTarget) {
-            withType<Executable>().configureEach {
+            if (konanTarget.family == Family.ANDROID) {
+                linkerOpts("-Wl,-z,max-page-size=16384", "-Wl,-z,common-page-size=16384")
+            }
+            if (this is Executable && HostManager.host == konanTarget) {
                 val executableName = name
                 project.tasks.register("run${executableName.capitalized()}") {
                     group = RUN_GROUP
