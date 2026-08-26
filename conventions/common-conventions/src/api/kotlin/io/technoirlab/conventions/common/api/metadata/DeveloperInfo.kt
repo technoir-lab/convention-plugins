@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.common.api.metadata
 
+import java.io.Serial
 import java.io.Serializable
 
 data class DeveloperInfo(
@@ -14,6 +15,7 @@ data class DeveloperInfo(
      * @suppress
      */
     companion object {
+        @Serial
         private const val serialVersionUID: Long = -1066512827450854604L
     }
 }

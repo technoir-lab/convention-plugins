@@ -1,6 +1,7 @@
 package io.technoirlab.gradle
 
 import org.gradle.api.artifacts.dsl.RepositoryHandler
+import java.io.Serial
 import java.io.Serializable
 import java.net.URI
 
@@ -36,6 +37,7 @@ data class MavenRepository(
     )
 
     private companion object {
+        @Serial
         private const val serialVersionUID: Long = 7505042977132764269L
     }
 }

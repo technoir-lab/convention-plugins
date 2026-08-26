@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.common.api
 
+import java.io.Serial
 import java.io.Serializable
 
 data class BuildConfigFieldSpec<T : Serializable>(
@@ -13,6 +14,7 @@ data class BuildConfigFieldSpec<T : Serializable>(
      * @suppress
      */
     companion object {
+        @Serial
         private const val serialVersionUID: Long = 2151125696433872655L
     }
 }
