@@ -2,8 +2,10 @@ package io.technoirlab.conventions.gradle.plugin.configuration
 
 import io.technoirlab.conventions.common.configuration.configureTestSuite
 import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
+import io.technoirlab.conventions.gradle.plugin.apiOf
 import io.technoirlab.gradle.Environment
 import io.technoirlab.gradle.dependencies.api
+import io.technoirlab.gradle.dependencies.compileOnly
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
@@ -29,12 +31,12 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
+@Suppress("UnstableApiUsage")
 internal fun Project.configurePlugin(config: GradlePluginExtension, environment: Environment) {
     configurations.dependencyScope("${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly")
 
     configureApiVariant(API_VARIANT_NAME)
 
-    @Suppress("UnstableApiUsage")
     extensions.configure(TestingExtension::class) {
         val functionalTestSuite = suites.register(FUNCTIONAL_TEST_VARIANT_NAME, JvmTestSuite::class) {
             configureTestSuite {
@@ -77,7 +79,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
     }
 
     dependencies {
-        "compileOnly"(gradleKotlinDsl())
+        compileOnly(gradleKotlinDsl())
     }
 }
 
@@ -103,11 +105,7 @@ private fun Project.configureApiVariant(variantName: String) {
 
     dependencies {
         "${variantName}Implementation"(gradleApi())
-        api(project(path, configuration = null)) {
-            capabilities {
-                requireCapability("$group:$name-$variantName")
-            }
-        }
+        api(apiOf(project(path, configuration = null)))
     }
 }
 
@@ -143,7 +141,7 @@ private class GradleTestKitPropertiesArgumentProvider(
     )
 }
 
-private const val API_VARIANT_NAME = "api"
+internal const val API_VARIANT_NAME = "api"
 private const val FUNCTIONAL_TEST_VARIANT_NAME = "functionalTest"
 private val DEPENDENCY_CONFIGURATIONS = listOf(
     "implementation",

@@ -61,7 +61,8 @@ public final class io/technoirlab/gradle/ProvidersKt {
 }
 
 public final class io/technoirlab/gradle/dependencies/DependenciesKt {
-	public static final fun api (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Lorg/gradle/api/artifacts/ModuleDependency;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/artifacts/ModuleDependency;
+	public static final fun api (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun compileOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun implementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 }
 

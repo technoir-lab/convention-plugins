@@ -4,6 +4,12 @@ public final class io/technoirlab/conventions/gradle/plugin/GradlePluginConventi
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public final class io/technoirlab/conventions/gradle/plugin/GradlePluginDslExtensionsKt {
+	public static final fun apiOf (Lorg/gradle/api/artifacts/dsl/DependencyHandler;Ljava/lang/String;)Lorg/gradle/api/artifacts/ModuleDependency;
+	public static final fun apiOf (Lorg/gradle/api/artifacts/dsl/DependencyHandler;Lorg/gradle/api/artifacts/ModuleDependency;)Lorg/gradle/api/artifacts/ModuleDependency;
+	public static final fun apiOf (Lorg/gradle/api/artifacts/dsl/DependencyHandler;Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+}
+
 public abstract interface class io/technoirlab/conventions/gradle/plugin/api/GradlePluginBuildFeatures : io/technoirlab/conventions/common/api/CommonBuildFeatures {
 }
 

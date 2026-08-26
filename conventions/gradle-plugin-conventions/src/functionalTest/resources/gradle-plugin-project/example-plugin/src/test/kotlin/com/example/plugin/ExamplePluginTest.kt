@@ -11,6 +11,7 @@ class ExamplePluginTest {
     @BeforeEach
     fun setUp() {
         project = ProjectBuilder.builder().build()
+        ExamplePluginFixture()
     }
 
     @Test

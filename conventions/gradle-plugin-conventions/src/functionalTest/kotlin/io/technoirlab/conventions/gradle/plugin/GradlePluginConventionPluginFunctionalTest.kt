@@ -349,4 +349,9 @@ class GradlePluginConventionPluginFunctionalTest {
                 """.trimMargin(),
             )
     }
+
+    @Test
+    fun `dependent plugin can consume feature variants`() {
+        gradleRunner.build(":dependent-plugin:build")
+    }
 }
