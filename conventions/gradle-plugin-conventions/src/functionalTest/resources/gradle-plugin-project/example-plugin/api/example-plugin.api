@@ -1,0 +1,18 @@
+public final class com/example/plugin/ExamplePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface annotation class com/example/plugin/api/ExampleDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class com/example/plugin/api/ExampleExtension {
+	public static final field Companion Lcom/example/plugin/api/ExampleExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+}
+
+public final class com/example/plugin/api/ExampleExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
