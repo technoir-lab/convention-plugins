@@ -5,13 +5,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.util.ServiceLoader
 
-class TechnoirLabRuleSetTest {
+class TechnoirLabRuleSetProviderTest {
     @Test
     fun `discoverable via ServiceLoader`() {
         val ruleSetProviders = ServiceLoader.load(RuleSetProviderV3::class.java)
 
         assertThat(ruleSetProviders)
             .flatExtracting({ it.id.value })
-            .contains(TechnoirLabRuleSet.ID)
+            .contains(TechnoirLabRuleSetProvider.ID)
     }
 }

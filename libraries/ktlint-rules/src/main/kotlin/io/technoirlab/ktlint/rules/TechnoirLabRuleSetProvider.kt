@@ -5,7 +5,7 @@ import com.pinterest.ktlint.rule.engine.core.api.RuleProvider
 import com.pinterest.ktlint.rule.engine.core.api.RuleSetId
 import java.io.Serial
 
-class TechnoirLabRuleSet : RuleSetProviderV3(RuleSetId(ID)) {
+class TechnoirLabRuleSetProvider : RuleSetProviderV3(RuleSetId(ID)) {
     override fun getRuleProviders(): Set<RuleProvider> = emptySet()
 
     internal companion object {
