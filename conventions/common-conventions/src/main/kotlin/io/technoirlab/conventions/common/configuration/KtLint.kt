@@ -25,5 +25,13 @@ internal fun Project.configureKtLint() {
                 exclude { it.file.toPath().toAbsolutePath().normalize().startsWith(buildDirectory) }
             }
         }
+
+        configurations.configureEach {
+            resolutionStrategy.eachDependency {
+                if (requested.name == "com.pinterest.ktlint" && requested.version.isNullOrEmpty()) {
+                    useVersion(BuildConfig.KTLINT_VERSION)
+                }
+            }
+        }
     }
 }
