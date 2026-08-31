@@ -33,6 +33,8 @@ dependencies {
     functionalTestImplementation(libs.assertj.core)
 
     runtimeOnly(libs.metro.gradle.plugin)
+
+    functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }
 
 gradlePlugin {
