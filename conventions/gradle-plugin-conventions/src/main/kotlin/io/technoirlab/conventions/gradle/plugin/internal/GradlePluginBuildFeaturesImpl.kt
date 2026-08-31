@@ -5,4 +5,10 @@ import io.technoirlab.conventions.gradle.plugin.api.GradlePluginBuildFeatures
 
 internal abstract class GradlePluginBuildFeaturesImpl :
     CommonBuildFeaturesImpl(),
-    GradlePluginBuildFeatures
+    GradlePluginBuildFeatures {
+
+    override fun initDefaults() {
+        super.initDefaults()
+        abiValidation.convention(true)
+    }
+}
