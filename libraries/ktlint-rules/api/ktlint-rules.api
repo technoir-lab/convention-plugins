@@ -1,0 +1,5 @@
+public final class io/technoirlab/ktlint/rules/TechnoirLabRuleSet : com/pinterest/ktlint/cli/ruleset/core/api/RuleSetProviderV3 {
+	public fun <init> ()V
+	public fun getRuleProviders ()Ljava/util/Set;
+}
+

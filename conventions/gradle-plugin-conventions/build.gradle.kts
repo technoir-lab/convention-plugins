@@ -28,6 +28,8 @@ dependencies {
     compileOnly(libs.dependency.analysis.gradle.plugin)
 
     testImplementation(libs.assertj.core)
+
+    functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }
 
 gradlePlugin {

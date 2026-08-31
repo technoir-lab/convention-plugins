@@ -5,6 +5,7 @@ import io.technoirlab.gradle.asPath
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
@@ -32,6 +33,10 @@ internal fun Project.configureKtLint() {
                     useVersion(BuildConfig.KTLINT_VERSION)
                 }
             }
+        }
+
+        dependencies {
+            "ktlintRuleset"("${BuildConfig.GROUP_ID}:ktlint-rules")
         }
     }
 }

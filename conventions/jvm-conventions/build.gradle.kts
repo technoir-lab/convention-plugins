@@ -23,6 +23,8 @@ dependencies {
     functionalTestImplementation(testFixtures(project(":conventions:common-conventions")))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
+
+    functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }
 
 gradlePlugin {
