@@ -18,6 +18,7 @@ maven-artifact = "3.9.16"
 metro = "1.4.2"
 nmcp = "1.6.1"
 redacted = "1.18.0"
+slf4j = "2.0.18"
 sort-dependencies-gradle-plugin = "0.21.0"
 
 [libraries]
@@ -29,6 +30,7 @@ dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", vers
 foojay-resolver-gradle-plugin = { module = "org.gradle.toolchains:foojay-resolver", version.ref = "foojay-resolver-gradle-plugin" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.strictly = "2.4.10" }
 kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-sam-with-receiver-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-sam-with-receiver", version.ref = "kotlin" }
@@ -40,6 +42,7 @@ kotlinx-serialization-bom = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 kover-gradle-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover-gradle-plugin" }
 ksp-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 ktlint-cli-ruleset-core = { module = "com.pinterest.ktlint:ktlint-cli-ruleset-core", version.ref = "ktlint-core" }
+ktlint-rule-engine = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint-core" }
 ktlint-rule-engine-core = { module = "com.pinterest.ktlint:ktlint-rule-engine-core", version.ref = "ktlint-core" }
 ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktlint-core" }
 ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
@@ -47,4 +50,5 @@ maven-artifact = { module = "org.apache.maven:maven-artifact", version.ref = "ma
 metro-gradle-plugin = { module = "dev.zacsweers.metro:gradle-plugin", version.ref = "metro" }
 nmcp-gradle-plugin = { module = "com.gradleup.nmcp:nmcp", version.ref = "nmcp" }
 redacted-compiler-gradle-plugin = { module = "dev.zacsweers.redacted:redacted-compiler-plugin-gradle", version.ref = "redacted" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 sort-dependencies-gradle-plugin = { module = "com.squareup:sort-dependencies-gradle-plugin", version.ref = "sort-dependencies-gradle-plugin" }
