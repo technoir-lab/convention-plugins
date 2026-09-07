@@ -154,6 +154,12 @@ class GradlePluginConventionPluginFunctionalTest {
             .isDirectoryContaining("glob:**example-plugin-dev-javadoc.*")
             .isDirectoryContaining("glob:**example-plugin-dev-api.*")
             .isDirectoryContaining("glob:**example-plugin-dev-api-sources.*")
+            .isDirectoryNotContaining("glob:**example-plugin-dev-test-fixtures*")
+
+        val moduleFile = artifactDir / "example-plugin-dev.module"
+        assertThat(moduleFile)
+            .content()
+            .doesNotContain("testFixturesApiElements", "testFixturesRuntimeElements", "test-fixtures")
 
         val pomFile = artifactDir / "example-plugin-dev.pom"
         assertThat(pomFile)
