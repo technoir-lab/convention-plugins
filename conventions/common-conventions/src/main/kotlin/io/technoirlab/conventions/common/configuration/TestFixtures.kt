@@ -1,20 +1,15 @@
 package io.technoirlab.conventions.common.configuration
 
 import org.gradle.api.Project
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
+import org.gradle.api.component.AdhocComponentWithVariants
+import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.named
 
 fun Project.configureTestFixtures() {
     pluginManager.apply("java-test-fixtures")
 
-    pluginManager.withPlugin("maven-publish") {
-        extensions.configure(PublishingExtension::class) {
-            publications.withType<MavenPublication>().configureEach {
-                suppressPomMetadataWarningsFor("testFixturesApiElements")
-                suppressPomMetadataWarningsFor("testFixturesRuntimeElements")
-            }
-        }
+    components.named<AdhocComponentWithVariants>("java") {
+        withVariantsFromConfiguration(configurations["testFixturesApiElements"]) { skip() }
+        withVariantsFromConfiguration(configurations["testFixturesRuntimeElements"]) { skip() }
     }
 }
