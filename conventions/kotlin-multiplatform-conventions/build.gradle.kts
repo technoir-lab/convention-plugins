@@ -6,8 +6,6 @@ gradlePluginConfig {
     packageName = "io.technoirlab.conventions.kotlin.multiplatform"
 
     buildFeatures {
-        abiValidation = true
-
         buildConfig {
             buildConfigField("KOTLINX_BENCHMARK_RUNTIME", libs.kotlinx.benchmark.runtime.map { it.toString() })
         }
