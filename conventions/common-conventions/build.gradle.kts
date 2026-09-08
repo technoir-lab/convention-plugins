@@ -6,8 +6,6 @@ gradlePluginConfig {
     packageName = "io.technoirlab.conventions.common"
 
     buildFeatures {
-        abiValidation = true
-
         buildConfig {
             buildConfigField("GROUP_ID", provider { "$group" })
             buildConfigField("VERSION", provider { "$version" })

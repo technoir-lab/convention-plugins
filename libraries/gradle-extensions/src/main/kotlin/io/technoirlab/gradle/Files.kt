@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package io.technoirlab.gradle
 
 import org.gradle.api.file.Directory

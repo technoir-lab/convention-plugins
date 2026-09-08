@@ -2,12 +2,6 @@ plugins {
     id("io.technoirlab.conventions.gradle-plugin")
 }
 
-gradlePluginConfig {
-    buildFeatures {
-        abiValidation = true
-    }
-}
-
 dependencies {
     implementation(project(":conventions:common-conventions"))
     implementation(libs.dokka.gradle.plugin)

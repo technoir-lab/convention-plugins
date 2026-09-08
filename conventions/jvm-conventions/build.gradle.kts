@@ -4,10 +4,6 @@ plugins {
 
 gradlePluginConfig {
     packageName = "io.technoirlab.conventions.jvm"
-
-    buildFeatures {
-        abiValidation = true
-    }
 }
 
 dependencies {
