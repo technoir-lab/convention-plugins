@@ -18,7 +18,7 @@ maven-artifact = "3.9.16"
 metro = "1.4.2"
 nmcp = "1.6.2"
 redacted = "1.18.0"
-slf4j = "2.0.18"
+slf4j = "2.0.19"
 sort-dependencies-gradle-plugin = "0.21.0"
 
 [libraries]
