@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import java.nio.file.Path
+import java.util.jar.JarFile
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
@@ -360,4 +362,19 @@ class GradlePluginConventionPluginFunctionalTest {
     fun `dependent plugin can consume feature variants`() {
         gradleRunner.build(":dependent-plugin:build")
     }
+
+    @Test
+    fun `main JAR manifest contains project implementation version`() {
+        val project = gradleRunner.root.project("example-plugin")
+        val version = "v1"
+
+        gradleRunner.build(":example-plugin:jar") {
+            gradleProperties += "project.version" to version
+        }
+
+        val jar = project.buildDir / "libs/example-plugin-$version.jar"
+        assertThat(jar.jarManifestAttribute("Implementation-Version")).isEqualTo(version)
+    }
+
+    private fun Path.jarManifestAttribute(key: String): String? = JarFile(toFile()).use { it.manifest.mainAttributes.getValue(key) }
 }

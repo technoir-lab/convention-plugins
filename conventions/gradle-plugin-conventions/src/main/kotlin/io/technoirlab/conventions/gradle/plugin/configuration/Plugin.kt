@@ -9,14 +9,17 @@ import io.technoirlab.gradle.dependencies.compileOnly
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.gradleKotlinDsl
+import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.the
@@ -36,6 +39,11 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
     configurations.dependencyScope("${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly")
 
     configureApiVariant(API_VARIANT_NAME)
+
+    val projectVersion = provider { version.toString() }
+    tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
+        manifest.attributes(mapOf("Implementation-Version" to projectVersion))
+    }
 
     extensions.configure(TestingExtension::class) {
         val functionalTestSuite = suites.register(FUNCTIONAL_TEST_VARIANT_NAME, JvmTestSuite::class) {
