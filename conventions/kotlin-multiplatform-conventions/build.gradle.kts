@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.kotlinx.benchmark.gradle.plugin)
 
     functionalTestImplementation(testFixtures(project(":conventions:common-conventions")))
+    functionalTestImplementation(project(":libraries:core-utils"))
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
 
