@@ -44,6 +44,19 @@ kotlin {
 }
 ```
 
+### Binaries
+
+For the targets declared in `kotlin { ... }`, the plugin registers:
+
+* Apple targets (macOS, iOS, tvOS, and watchOS): debug and release static frameworks with the `static` name prefix
+  (`staticDebugFramework` and `staticReleaseFramework`). The framework base name is the project name.
+* Desktop native targets (macOS, Linux, and Windows): debug and release executables
+  (`debugExecutable` and `releaseExecutable`), with `runDebugExecutable` and `runReleaseExecutable` tasks for the host target.
+  The entry point is `main` in the configured `packageName`.
+* Android native targets: debug and release shared libraries (`debugShared` and `releaseShared`) for embedding in Android applications.
+* Wasm/JS targets: executable binaries.
+* Other targets: no additional production binaries.
+
 ## KMP Library
 
 ```kotlin

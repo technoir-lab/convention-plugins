@@ -2,6 +2,7 @@ package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
 import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.core.capitalized
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -180,6 +181,41 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             )
 
         gradleRunner.build(":kmp-application:assemble")
+    }
+
+    @Test
+    fun `default binaries`() {
+        gradleRunner.root.project("kmp-application")
+            .appendBuildScript(
+                """
+                kotlin {
+                    androidNativeArm64()
+                    androidNativeX64()
+                    iosArm64()
+                    tvosArm64()
+                    watchosArm64()
+                }
+                """.trimIndent(),
+            )
+
+        val buildResult = gradleRunner.build(":kmp-application:build") { dryRun = true }
+
+        val buildTypes = listOf("debug", "release")
+        val executableTargets = listOf("linuxX64", "macosArm64", "mingwX64")
+        val sharedLibraryTargets = listOf("androidNativeArm64", "androidNativeX64")
+        val staticFrameworkTargets = listOf("macosArm64", "iosArm64", "tvosArm64", "watchosArm64")
+        val expectedTasks = buildTypes.flatMap { buildType ->
+            val buildTypeName = buildType.capitalized()
+            executableTargets.map { target ->
+                "link${buildTypeName}Executable${target.capitalized()}"
+            } + sharedLibraryTargets.map { target ->
+                "link${buildTypeName}Shared${target.capitalized()}"
+            } + staticFrameworkTargets.map { target ->
+                "linkStatic${buildTypeName}Framework${target.capitalized()}"
+            }
+        }
+
+        assertThat(buildResult.output).contains(expectedTasks.map { ":kmp-application:$it SKIPPED" })
     }
 
     @Test

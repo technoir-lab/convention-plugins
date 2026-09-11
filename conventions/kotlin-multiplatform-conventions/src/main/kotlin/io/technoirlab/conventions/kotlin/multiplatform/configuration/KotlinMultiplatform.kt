@@ -102,37 +102,50 @@ private fun KotlinNativeTarget.configureNativeTarget(
         }
     }
 
-    binaries {
-        if (konanTarget.family in setOf(Family.IOS, Family.TVOS, Family.WATCHOS)) {
-            framework {
-                isStatic = true
-                baseName = project.name
-            }
-        } else if (executable) {
-            executable {
-                if (packageName.isPresent) {
-                    entryPoint = "${packageName.get()}.main"
-                }
-            }
+    if (executable) {
+        registerApplicationBinaries(packageName)
+    }
+
+    binaries.configureEach {
+        if (buildType == NativeBuildType.DEBUG) {
+            freeCompilerArgs = freeCompilerArgs + "-ea"
         }
-        configureEach {
-            if (buildType == NativeBuildType.DEBUG) {
-                freeCompilerArgs = freeCompilerArgs + "-ea"
-            }
-            if (konanTarget.family == Family.ANDROID) {
-                linkerOpts("-Wl,-z,max-page-size=16384", "-Wl,-z,common-page-size=16384")
-            }
-            if (this is Executable && HostManager.host == konanTarget) {
-                val executableName = name
-                project.tasks.register("run${executableName.capitalized()}") {
-                    group = RUN_GROUP
-                    description = "Executes Kotlin/Native executable $executableName for target ${target.name}"
-                    dependsOn(runTaskName!!)
-                }
+        if (konanTarget.family == Family.ANDROID) {
+            linkerOpts("-Wl,-z,max-page-size=16384", "-Wl,-z,common-page-size=16384")
+        }
+        if (this is Executable && HostManager.host == konanTarget) {
+            val executableName = name
+            project.tasks.register("run${executableName.capitalized()}") {
+                group = RUN_GROUP
+                description = "Executes Kotlin/Native executable $executableName for target ${target.name}"
+                dependsOn(runTaskName!!)
             }
         }
     }
 }
+
+private fun KotlinNativeTarget.registerApplicationBinaries(packageName: Provider<String>) {
+    if (konanTarget.family == Family.ANDROID) {
+        binaries.sharedLib()
+    }
+    if (konanTarget.family.isAppleFamily) {
+        // Static framework for embedding
+        binaries.framework(namePrefix = "static") {
+            isStatic = true
+            baseName = project.name
+        }
+    }
+    if (konanTarget.family.isDesktop) {
+        binaries.executable {
+            if (packageName.isPresent) {
+                entryPoint = "${packageName.get()}.main"
+            }
+        }
+    }
+}
+
+private val Family.isDesktop: Boolean
+    get() = this == Family.LINUX || this == Family.OSX || this == Family.MINGW
 
 private fun KotlinWasmJsTargetDsl.configureJsTarget(executable: Boolean) {
     if (executable) {
