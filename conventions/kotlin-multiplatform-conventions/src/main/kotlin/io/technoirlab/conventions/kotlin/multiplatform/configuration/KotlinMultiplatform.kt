@@ -9,6 +9,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.withType
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
@@ -50,7 +51,7 @@ internal fun Project.configureKotlinMultiplatform(
             when (this) {
                 is KotlinAndroidTarget -> configureJvmTarget()
                 is KotlinJvmTarget -> configureJvmTarget()
-                is KotlinNativeTarget -> configureNativeTarget(config.packageName, config.buildFeatures.cinterop, executable)
+                is KotlinNativeTarget -> configureNativeTarget(executable)
                 is KotlinWasmJsTargetDsl -> configureJsTarget(executable)
             }
         }
@@ -68,6 +69,10 @@ internal fun Project.configureKotlinMultiplatform(
     afterEvaluate {
         extensions.configure(KmpExtension::class) {
             coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
+
+            targets.withType<KotlinNativeTarget>().configureEach {
+                configureNativeTargetAfterEvaluate(config.packageName, config.buildFeatures.cinterop)
+            }
 
             if (config.buildFeatures.abiValidation.get()) {
                 @OptIn(ExperimentalAbiValidation::class)
@@ -87,23 +92,9 @@ private fun <T> T.configureJvmTarget() where T : KotlinTarget, T : HasConfigurab
     }
 }
 
-private fun KotlinNativeTarget.configureNativeTarget(
-    packageName: Provider<String>,
-    enableCInterop: Property<Boolean>,
-    executable: Boolean,
-) {
-    if (enableCInterop.get()) {
-        compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
-            cinterops.register(project.name) {
-                packageName(packageName.get())
-                val srcPath = Path("src", "nativeInterop", "cinterop")
-                compilerOpts("-I$srcPath")
-            }
-        }
-    }
-
+private fun KotlinNativeTarget.configureNativeTarget(executable: Boolean) {
     if (executable) {
-        registerApplicationBinaries(packageName)
+        registerApplicationBinaries()
     }
 
     binaries.configureEach {
@@ -124,7 +115,29 @@ private fun KotlinNativeTarget.configureNativeTarget(
     }
 }
 
-private fun KotlinNativeTarget.registerApplicationBinaries(packageName: Provider<String>) {
+private fun KotlinNativeTarget.configureNativeTargetAfterEvaluate(packageName: Provider<String>, enableCInterop: Property<Boolean>) {
+    if (enableCInterop.get()) {
+        compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
+            cinterops.register(project.name) {
+                packageName(packageName.get())
+                val srcPath = Path("src", "nativeInterop", "cinterop")
+                compilerOpts("-I$srcPath")
+            }
+        }
+    }
+
+    if (konanTarget.family.isDesktop) {
+        for (buildType in listOf(NativeBuildType.DEBUG, NativeBuildType.RELEASE)) {
+            binaries.findExecutable(buildType)?.apply {
+                if (entryPoint == null && packageName.isPresent) {
+                    entryPoint = "${packageName.get()}.main"
+                }
+            }
+        }
+    }
+}
+
+private fun KotlinNativeTarget.registerApplicationBinaries() {
     if (konanTarget.family == Family.ANDROID) {
         binaries.sharedLib()
     }
@@ -136,11 +149,7 @@ private fun KotlinNativeTarget.registerApplicationBinaries(packageName: Provider
         }
     }
     if (konanTarget.family.isDesktop) {
-        binaries.executable {
-            if (packageName.isPresent) {
-                entryPoint = "${packageName.get()}.main"
-            }
-        }
+        binaries.executable()
     }
 }
 
