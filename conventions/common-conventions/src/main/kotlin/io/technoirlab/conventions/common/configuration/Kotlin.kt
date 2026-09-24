@@ -6,7 +6,6 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
@@ -44,9 +43,6 @@ fun Project.configureKotlin(
                 @OptIn(ExperimentalAbiValidation::class)
                 abiValidation {
                     binariesSource.set(BinariesSource.NON_TEST_COMPILATIONS)
-                    tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
-                        dependsOn(checkTaskProvider)
-                    }
                 }
             }
         }

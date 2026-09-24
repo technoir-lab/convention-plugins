@@ -10,7 +10,6 @@ import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
@@ -76,11 +75,7 @@ internal fun Project.configureKotlinMultiplatform(
 
             if (config.buildFeatures.abiValidation.get()) {
                 @OptIn(ExperimentalAbiValidation::class)
-                abiValidation {
-                    tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
-                        dependsOn(checkTaskProvider)
-                    }
-                }
+                abiValidation()
             }
         }
     }
