@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.common.configuration
 
+import io.technoirlab.conventions.common.KotlinDiagnostics
 import io.technoirlab.gradle.dependencies.implementation
 import org.gradle.api.HasImplicitReceiver
 import org.gradle.api.Project
@@ -24,7 +25,7 @@ fun Project.configureKotlin(
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
             freeCompilerArgs.addAll(
                 "-Xconsistent-data-class-copy-visibility",
-                "-Xwarning-level=NOTHING_TO_INLINE:disabled",
+                "-Xwarning-level=${KotlinDiagnostics.NOTHING_TO_INLINE}:disabled",
             )
         }
     }

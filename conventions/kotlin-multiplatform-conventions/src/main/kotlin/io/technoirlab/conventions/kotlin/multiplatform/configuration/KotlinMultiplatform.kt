@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.kotlin.multiplatform.configuration
 
+import io.technoirlab.conventions.common.KotlinDiagnostics
 import io.technoirlab.conventions.common.configuration.KotlinConfig
 import io.technoirlab.conventions.common.configuration.KotlinLibraries
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformExtension
@@ -42,7 +43,7 @@ internal fun Project.configureKotlinMultiplatform(
             freeCompilerArgs.addAll(
                 "-Xconsistent-data-class-copy-visibility",
                 "-Xexpect-actual-classes",
-                "-Xwarning-level=NOTHING_TO_INLINE:disabled",
+                "-Xwarning-level=${KotlinDiagnostics.NOTHING_TO_INLINE}:disabled",
             )
         }
 

@@ -4,6 +4,11 @@ public final class io/technoirlab/conventions/common/CommonConventionPlugin : or
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public final class io/technoirlab/conventions/common/KotlinDiagnostics {
+	public static final field INSTANCE Lio/technoirlab/conventions/common/KotlinDiagnostics;
+	public static final field NOTHING_TO_INLINE Ljava/lang/String;
+}
+
 public final class io/technoirlab/conventions/common/api/BuildConfigFieldSpec : java/io/Serializable {
 	public static final field Companion Lio/technoirlab/conventions/common/api/BuildConfigFieldSpec$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/Class;Ljava/io/Serializable;Ljava/lang/String;)V
