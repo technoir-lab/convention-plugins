@@ -2,7 +2,7 @@
 assertj = "3.27.7"
 buildconfig = "6.1.1"
 dependency-analysis-gradle-plugin = "3.19.2"
-develocity-gradle-plugin = "4.5.1"
+develocity-gradle-plugin = "4.6.0"
 dokka = "2.1.0"
 foojay-resolver-gradle-plugin = "1.0.0"
 junit = "6.1.3"
