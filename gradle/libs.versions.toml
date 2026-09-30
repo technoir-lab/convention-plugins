@@ -1,6 +1,6 @@
 [versions]
 assertj = "3.27.7"
-buildconfig = "6.1.1"
+buildconfig = "6.1.2"
 dependency-analysis-gradle-plugin = "3.19.2"
 develocity-gradle-plugin = "4.6.0"
 dokka = "2.1.0"
