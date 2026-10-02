@@ -52,6 +52,11 @@ public final class io/technoirlab/gradle/PluginsKt {
 }
 
 public final class io/technoirlab/gradle/PropertiesKt {
+	public static final fun setDisallowChanges (Lorg/gradle/api/file/FileSystemLocationProperty;Ljava/io/File;)V
+	public static final fun setDisallowChanges (Lorg/gradle/api/provider/HasMultipleValues;Ljava/lang/Iterable;)V
+	public static final fun setDisallowChanges (Lorg/gradle/api/provider/HasMultipleValues;Lorg/gradle/api/provider/Provider;)V
+	public static final fun setDisallowChanges (Lorg/gradle/api/provider/MapProperty;Ljava/util/Map;)V
+	public static final fun setDisallowChanges (Lorg/gradle/api/provider/MapProperty;Lorg/gradle/api/provider/Provider;)V
 	public static final fun setDisallowChanges (Lorg/gradle/api/provider/Property;Ljava/lang/Object;)V
 	public static final fun setDisallowChanges (Lorg/gradle/api/provider/Property;Lorg/gradle/api/provider/Provider;)V
 }
