@@ -8,6 +8,7 @@ jvmLibrary {
 
         buildConfig {
             buildConfigField("KOTLIN_VERSION", libs.versions.kotlin)
+            buildConfigField("KTLINT_GRADLE_VERSION", libs.versions.ktlint.gradle)
         }
     }
 }

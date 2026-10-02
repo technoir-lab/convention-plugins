@@ -22,6 +22,9 @@ internal class InitScriptGenerator {
         return pluginIds.associateWith { pluginVersion } + mapOf(
             "org.jetbrains.kotlin.jvm" to BuildConfig.KOTLIN_VERSION,
             "org.jetbrains.kotlin.multiplatform" to BuildConfig.KOTLIN_VERSION,
+            "org.jetbrains.kotlin.plugin.compose" to BuildConfig.KOTLIN_VERSION,
+            "org.jetbrains.kotlin.plugin.serialization" to BuildConfig.KOTLIN_VERSION,
+            "org.jlleitschuh.gradle.ktlint" to BuildConfig.KTLINT_GRADLE_VERSION,
         )
     }
 
