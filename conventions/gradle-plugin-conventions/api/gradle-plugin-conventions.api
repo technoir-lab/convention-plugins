@@ -20,7 +20,6 @@ public abstract interface class io/technoirlab/conventions/gradle/plugin/api/Gra
 	public static final field Companion Lio/technoirlab/conventions/gradle/plugin/api/GradlePluginExtension$Companion;
 	public static final field NAME Ljava/lang/String;
 	public fun buildFeatures (Lorg/gradle/api/Action;)V
-	public synthetic fun getBuildFeatures ()Lio/technoirlab/conventions/common/api/CommonBuildFeatures;
 	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/gradle/plugin/api/GradlePluginBuildFeatures;
 	public abstract fun getMinGradleVersion ()Lorg/gradle/api/provider/Property;
 }

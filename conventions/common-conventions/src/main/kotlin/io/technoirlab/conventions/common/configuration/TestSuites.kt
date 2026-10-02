@@ -8,13 +8,13 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.base.TestingExtension
 
 internal fun Project.configureTestSuites() {
     pluginManager.withPlugin("jvm-test-suite") {
         extensions.configure(TestingExtension::class) {
-            suites.named<JvmTestSuite>(DEFAULT_TEST_SUITE).configure {
+            suites.named { it == DEFAULT_TEST_SUITE }.withType<JvmTestSuite>().configureEach {
                 configureTestSuite {}
             }
         }
