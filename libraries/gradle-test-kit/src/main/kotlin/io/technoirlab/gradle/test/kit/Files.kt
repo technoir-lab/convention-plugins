@@ -10,7 +10,7 @@ fun Path.replaceText(oldText: String, newText: String) {
     require(oldText != newText) { "oldText and newText must be different" }
 
     val content = readText()
-    val newContent = content.replaceFirst(oldText, newText)
+    val newContent = content.replace(oldText, newText)
     check(content != newContent) { "Text '$oldText' not found in file '$this'" }
     writeText(newContent)
 }
