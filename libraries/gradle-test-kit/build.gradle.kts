@@ -15,4 +15,6 @@ jvmLibrary {
 dependencies {
     implementation(gradleTestKit())
     implementation(libs.junit.jupiter.api)
+
+    compileOnly(libs.jetbrains.annotations)
 }

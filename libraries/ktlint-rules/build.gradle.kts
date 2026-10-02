@@ -9,12 +9,15 @@ jvmLibrary {
 }
 
 dependencies {
+    implementation(libs.ec4j.core)
+    implementation(libs.kotlin.compiler.embeddable)
     implementation(libs.ktlint.cli.ruleset.core)
     implementation(libs.ktlint.rule.engine.core)
 
     testImplementation(libs.assertj.core)
-    testImplementation(libs.ktlint.rule.engine)
     testImplementation(libs.ktlint.test)
-    testRuntimeOnly(libs.kotlin.compiler.embeddable)
+
+    testCompileOnly(libs.jetbrains.annotations)
+
     testRuntimeOnly(libs.slf4j.simple)
 }

@@ -27,16 +27,16 @@ dependencies {
     implementation(libs.kotlin.gradle.plugin.api)
     implementation(libs.kotlin.sam.with.receiver.gradle.plugin)
     implementation(libs.kover.gradle.plugin)
-    implementation(libs.ksp.gradle.plugin)
     implementation(libs.ktlint.gradle.plugin)
     implementation(libs.maven.artifact)
-    implementation(libs.sort.dependencies.gradle.plugin)
 
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
 
     runtimeOnly(libs.kotlin.serialization.gradle.plugin)
+    runtimeOnly(libs.ksp.gradle.plugin)
     runtimeOnly(libs.redacted.compiler.gradle.plugin)
+    runtimeOnly(libs.sort.dependencies.gradle.plugin)
 
     testFixturesImplementation(project(":libraries:gradle-test-kit"))
 
