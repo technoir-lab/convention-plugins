@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.gradle.plugin.configuration
 
+import io.technoirlab.conventions.common.configuration.KotlinConfig
 import io.technoirlab.conventions.common.configuration.configureTestSuite
 import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.conventions.gradle.plugin.apiOf
@@ -35,10 +36,10 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
 @Suppress("UnstableApiUsage")
-internal fun Project.configurePlugin(config: GradlePluginExtension, environment: Environment) {
+internal fun Project.configurePlugin(config: GradlePluginExtension, environment: Environment, apiKotlinConfig: Provider<KotlinConfig>) {
     configurations.dependencyScope("${FUNCTIONAL_TEST_VARIANT_NAME}PublishOnly")
 
-    configureApiVariant(API_VARIANT_NAME)
+    configureApiVariant(API_VARIANT_NAME, apiKotlinConfig)
 
     val projectVersion = provider { version.toString() }
     tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
@@ -91,7 +92,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
     }
 }
 
-private fun Project.configureApiVariant(variantName: String) {
+private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provider<KotlinConfig>) {
     extensions.configure(JavaPluginExtension::class) {
         val apiSourceSet = sourceSets.create(variantName)
 
@@ -106,6 +107,17 @@ private fun Project.configureApiVariant(variantName: String) {
                 dokkaSourceSets.named("main") {
                     sourceRoots.from(apiSourceSet.allSource.srcDirs)
                     classpath.from(apiSourceSet.compileClasspath)
+                }
+            }
+        }
+    }
+
+    extensions.configure(KotlinJvmExtension::class) {
+        target.compilations.named(variantName) {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    apiVersion.set(kotlinConfig.map { it.apiVersion })
+                    languageVersion.set(kotlinConfig.map { it.languageVersion })
                 }
             }
         }

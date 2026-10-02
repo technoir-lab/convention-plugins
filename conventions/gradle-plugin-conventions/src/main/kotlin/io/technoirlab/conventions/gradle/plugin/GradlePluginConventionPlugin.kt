@@ -15,7 +15,8 @@ import io.technoirlab.conventions.gradle.plugin.api.GradlePluginExtension
 import io.technoirlab.conventions.gradle.plugin.configuration.configureDependencyAnalysis
 import io.technoirlab.conventions.gradle.plugin.configuration.configurePlugin
 import io.technoirlab.conventions.gradle.plugin.internal.GradlePluginExtensionImpl
-import io.technoirlab.conventions.gradle.plugin.internal.kotlinConfig
+import io.technoirlab.conventions.gradle.plugin.internal.apiKotlinConfig
+import io.technoirlab.conventions.gradle.plugin.internal.implementationKotlinConfig
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -62,7 +63,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         )
 
         configureKotlin(
-            kotlinConfig = gradleVersion.map { it.kotlinConfig },
+            kotlinConfig = gradleVersion.map { it.implementationKotlinConfig },
             enableAbiValidation = config.buildFeatures.abiValidation,
         )
         configureDokka(environment, DocsFormat.All)
@@ -74,7 +75,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
             suppressPomMetadataWarningsFor("apiJavadocElements")
             suppressPomMetadataWarningsFor("apiSourcesElements")
         }
-        configurePlugin(config, environment)
+        configurePlugin(config, environment, apiKotlinConfig = gradleVersion.map { it.apiKotlinConfig })
         configureTesting()
         configureTestFixtures()
         configureDependencyAnalysis()

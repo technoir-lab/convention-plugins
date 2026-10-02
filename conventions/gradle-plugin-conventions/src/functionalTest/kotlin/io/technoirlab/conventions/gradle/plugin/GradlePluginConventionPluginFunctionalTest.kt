@@ -13,6 +13,7 @@ import io.technoirlab.gradle.test.kit.kotlinFile
 import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
+import org.gradle.util.GradleVersion
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
@@ -308,9 +309,26 @@ class GradlePluginConventionPluginFunctionalTest {
             """.trimIndent(),
         )
 
-        // Use a Kotlin 2.2 language feature to verify the supported language level
-        (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
-            .replaceText("// body placeholder", """project.logger.lifecycle($$"multi-dollar string")""")
+        val libraryCheck = if (GradleVersion.version(minGradleVersion) >= GradleVersion.version("9.7")) {
+            "\n        check(listOf(1, 2, 3).isSorted())"
+        } else {
+            ""
+        }
+
+        // Context parameters require Kotlin 2.4; isSorted requires the Kotlin 2.4 standard library.
+        project.kotlinFile("com.example.plugin.ExamplePlugin").apply {
+            replaceText("// body placeholder", "with(project) { verifyCompatibility() }$libraryCheck")
+            replaceText(
+                "// function placeholder",
+                //language=kotlin
+                """
+                context(project: Project)
+                private fun verifyCompatibility() {
+                    project.logger.lifecycle($$"multi-dollar string")
+                }
+                """.trimIndent().prependIndent("    ").trimStart(),
+            )
+        }
 
         gradleRunner.build(":example-plugin:build", ":example-plugin:publishAllPublicationsToLocalRepository") {
             gradleVersion = testedGradleVersion
@@ -352,6 +370,68 @@ class GradlePluginConventionPluginFunctionalTest {
                 |      </dependency>
                 """.trimMargin(),
             )
+    }
+
+    @Test
+    fun `API and implementation reject Kotlin features newer than their supported levels`() {
+        val project = gradleRunner.root.project("example-plugin")
+            .appendBuildScript(
+                //language=kotlin
+                """
+                gradlePluginConfig {
+                    minGradleVersion = "9.6"
+                }
+                
+                dependencies {
+                    implementation(kotlin("stdlib", "2.4.10"))
+                }
+                """.trimIndent(),
+            )
+        project.kotlinFile("com.example.plugin.ExamplePlugin")
+            .replaceText("// body placeholder", "check(listOf(1, 2, 3).isSorted())")
+
+        val implementationBuildResult = gradleRunner.build(":example-plugin:compileKotlin", expectFailure = true) {
+            gradleVersion = "9.8.0"
+        }
+
+        assertThat(implementationBuildResult.task(":example-plugin:compileKotlin")?.outcome).isEqualTo(TaskOutcome.FAILED)
+        assertThat(implementationBuildResult.output).contains("Unresolved reference 'isSorted'")
+
+        val apiKotlinFile = project.kotlinFile("com.example.plugin.api.KotlinCompatibility", variant = "api")
+        apiKotlinFile.writeText(
+            //language=kotlin
+            """
+            package com.example.plugin.api
+            
+            class KotlinCompatibility {
+                typealias Names = List<String>
+            }
+            """.trimIndent(),
+        )
+
+        val apiLanguageBuildResult = gradleRunner.build(":example-plugin:compileApiKotlin", expectFailure = true) {
+            gradleVersion = "9.8.0"
+        }
+
+        assertThat(apiLanguageBuildResult.task(":example-plugin:compileApiKotlin")?.outcome).isEqualTo(TaskOutcome.FAILED)
+        assertThat(apiLanguageBuildResult.output)
+            .contains("The feature \"nested type aliases\" is only available since language version 2.3")
+
+        apiKotlinFile.writeText(
+            //language=kotlin
+            """
+            package com.example.plugin.api
+            
+            fun sorted(): Boolean = listOf(1, 2, 3).isSorted()
+            """.trimIndent(),
+        )
+
+        val apiLibraryBuildResult = gradleRunner.build(":example-plugin:compileApiKotlin", expectFailure = true) {
+            gradleVersion = "9.8.0"
+        }
+
+        assertThat(apiLibraryBuildResult.task(":example-plugin:compileApiKotlin")?.outcome).isEqualTo(TaskOutcome.FAILED)
+        assertThat(apiLibraryBuildResult.output).contains("Unresolved reference 'isSorted'")
     }
 
     @Test
