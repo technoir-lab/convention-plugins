@@ -1,25 +1,26 @@
 package io.technoirlab.conventions.common.fixtures
 
 // language=kotlin
-val PROJECT_METADATA = """
-metadata {
-    name = "Example project"
-    description = "Example description"
-    url = "https://example.org/example-project"
-
-    developer(name = "Example developer 1", email = "example-dev1@example.org")
-    developer(
-        id = "example-dev2",
-        name = "Example developer 2",
-        email = "example-dev2@example.org",
-        organization = "Example org",
-        organizationUrl = "https://example.org"
-    )
-
-    license("The Apache Software License, Version 2.0", "https://www.apache.org/licenses/LICENSE-2.0.txt")
-    license("MIT License", "http://opensource.org/licenses/MIT", distribution = "repo")
-}
-""".trimIndent()
+val PROJECT_METADATA =
+    """
+    metadata {
+        name = "Example project"
+        description = "Example description"
+        url = "https://example.org/example-project"
+    
+        developer(name = "Example developer 1", email = "example-dev1@example.org")
+        developer(
+            id = "example-dev2",
+            name = "Example developer 2",
+            email = "example-dev2@example.org",
+            organization = "Example org",
+            organizationUrl = "https://example.org"
+        )
+    
+        license("The Apache Software License, Version 2.0", "https://www.apache.org/licenses/LICENSE-2.0.txt")
+        license("MIT License", "http://opensource.org/licenses/MIT", distribution = "repo")
+    }
+    """.trimIndent()
 
 // language=xml
 val POM_EXPECTED = arrayOf(
