@@ -8,3 +8,9 @@ fun DependencyHandlerScope.api(dependencyNotation: Any): Dependency? = "api"(dep
 fun DependencyHandlerScope.compileOnly(dependencyNotation: Any): Dependency? = "compileOnly"(dependencyNotation)
 
 fun DependencyHandlerScope.implementation(dependencyNotation: Any): Dependency? = "implementation"(dependencyNotation)
+
+fun DependencyHandlerScope.testCompileOnly(dependencyNotation: Any): Dependency? = "testCompileOnly"(dependencyNotation)
+
+fun DependencyHandlerScope.testImplementation(dependencyNotation: Any): Dependency? = "testImplementation"(dependencyNotation)
+
+fun DependencyHandlerScope.testRuntimeOnly(dependencyNotation: Any): Dependency? = "testRuntimeOnly"(dependencyNotation)

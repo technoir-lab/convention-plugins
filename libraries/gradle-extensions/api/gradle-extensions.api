@@ -73,5 +73,8 @@ public final class io/technoirlab/gradle/dependencies/DependenciesKt {
 	public static final fun api (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun compileOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun implementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testCompileOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testImplementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testRuntimeOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 }
 
