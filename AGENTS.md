@@ -15,10 +15,10 @@
 
 Run commands from the repository root. Use the Gradle wrapper; the daemon and CI use JDK 25.
 
-- `make check`: run checks.
+- `make check`: run standard checks.
 - `make test`: run unit tests.
-- `make functional-test`: run Gradle TestKit integration tests.
-- `make format`: run KtLint formatting and sort build-script dependencies.
+- `make functional-test`: run Gradle TestKit tests.
+- `make format`: apply KtLint formatting and sort dependencies.
 - `make docs`: generate Dokka API documentation in `build/dokka/html`.
 - `make abi`: regenerate Kotlin ABI snapshots after intentional public API changes; review the diff.
 - `make publish-local`: publish artifacts to Maven Local for consumer testing.
@@ -40,9 +40,10 @@ Add regression coverage for changed behavior and extend the relevant fixture pro
 Run focused suites with `./gradlew :conventions:jvm-conventions:functionalTest`.
 Kover generates coverage reports; no repository-wide percentage threshold is configured.
 
-## Commit & Pull Request Guidelines
+## Commits and Pull Requests
 
-Keep commits focused. History uses imperative subjects such as `Refactor Kotlin compiler configuration`, without mandatory type prefixes.
-Never add a `Co-Authored-By` trailer. Use descriptive branch names without a `codex` prefix.
-PR descriptions should explain the problem and resulting behavior, and should not mention checks performed.
-Update affected module READMEs and intentional ABI changes alongside code.
+- Use descriptive branch names without AI harness prefixes (such as `codex/`, `claude/`, `cursor/`, or `junie/`).
+- Keep commits focused and use short, imperative commit subjects.
+- Do not add a `Co-Authored-By` trailer.
+- PR descriptions should explain the problem, the changes made, and the resulting behavior. Include compatibility impacts, remaining limitations, and links to related issues when relevant. Do not include checks performed, validation commands, or validation results.
+- Update affected module READMEs and intentional ABI changes alongside code.
