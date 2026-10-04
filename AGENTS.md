@@ -19,6 +19,7 @@ Run commands from the repository root. Use the Gradle wrapper; the daemon and CI
 - `make test`: run unit tests.
 - `make functional-test`: run Gradle TestKit integration tests.
 - `make format`: run KtLint formatting and sort build-script dependencies.
+- `make docs`: generate Dokka API documentation in `build/dokka/html`.
 - `make abi`: regenerate Kotlin ABI snapshots after intentional public API changes; review the diff.
 - `make publish-local`: publish artifacts to Maven Local for consumer testing.
 

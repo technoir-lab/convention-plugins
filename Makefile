@@ -1,4 +1,4 @@
-.PHONY: clean check format abi test functional-test publish-local help
+.PHONY: clean check format abi test functional-test docs publish-local help
 .DEFAULT_GOAL := help
 
 clean: ## Remove build outputs
@@ -18,6 +18,9 @@ test: ## Run unit tests
 
 functional-test: ## Run functional tests
 	@./gradlew functionalTest $(GRADLE_ARGS)
+
+docs: ## Generate API documentation
+	@./gradlew :dokkaGenerate $(GRADLE_ARGS)
 
 publish-local: ## Publish artifacts to Maven Local
 	@./gradlew publishToMavenLocal $(GRADLE_ARGS)
