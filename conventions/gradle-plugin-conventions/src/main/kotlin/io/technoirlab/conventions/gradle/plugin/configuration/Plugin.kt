@@ -57,7 +57,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
             }
         }
 
-        tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure {
+        tasks.named(LifecycleBasePlugin.BUILD_TASK_NAME).configure {
             dependsOn(functionalTestSuite)
         }
 

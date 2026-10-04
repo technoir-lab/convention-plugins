@@ -31,7 +31,9 @@ class GradlePluginConventionPluginFunctionalTest {
 
     @Test
     fun `builds successfully`() {
-        gradleRunner.build(":example-plugin:build")
+        val buildResult = gradleRunner.build(":example-plugin:build")
+
+        assertThat(buildResult.task(":example-plugin:functionalTest")).isNotNull()
     }
 
     @Test
