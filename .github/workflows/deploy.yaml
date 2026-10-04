@@ -8,8 +8,8 @@ concurrency:
   group: ${{ github.workflow_ref }}
 
 jobs:
-  check:
-    name: Check
+  checks:
+    name: Checks
     runs-on: ubuntu-26.04
 
     permissions:
@@ -35,7 +35,7 @@ jobs:
 
   packages:
     name: Packages
-    needs: check
+    needs: checks
     runs-on: ubuntu-26.04
 
     permissions:
@@ -82,7 +82,7 @@ jobs:
 
   documentation:
     name: Documentation
-    needs: check
+    needs: checks
     runs-on: ubuntu-26.04
 
     environment:

@@ -13,8 +13,44 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  build:
-    name: Build
+  checks:
+    name: Checks
+    runs-on: ubuntu-26.04
+
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v6.0.1
+        with:
+          java-version: 25
+          distribution: corretto
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.3.0
+        with:
+          cache-provider: basic
+
+      - name: Run checks
+        run: make check GRADLE_ARGS="--scan"
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v6.5.0
+        if: success() || failure()
+        with:
+          check_name: Test Report
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          annotate_only: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
+          detailed_summary: true
+          fail_on_parse_error: true
+
+  functional-tests:
+    name: Functional Tests
     runs-on: ubuntu-26.04
 
     permissions:
@@ -44,14 +80,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-konan-
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Run functional tests
+        run: make functional-test
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v6.5.0
         if: success() || failure()
         with:
-          report_paths: '**/build/test-results/*Test/TEST-*.xml'
+          check_name: Functional Test Report
+          report_paths: '**/build/test-results/functionalTest/TEST-*.xml'
           annotate_only: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
           detailed_summary: true
           fail_on_parse_error: true
