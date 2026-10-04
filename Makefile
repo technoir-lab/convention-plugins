@@ -4,8 +4,8 @@
 clean: ## Remove build outputs
 	@./gradlew clean $(GRADLE_ARGS)
 
-check: ## Run checks excluding functional tests
-	@./gradlew check -x functionalTest $(GRADLE_ARGS)
+check: ## Run checks
+	@./gradlew check $(GRADLE_ARGS)
 
 format: ## Format code and build scripts
 	@./gradlew ktlintFormat sortDependencies $(GRADLE_ARGS)
