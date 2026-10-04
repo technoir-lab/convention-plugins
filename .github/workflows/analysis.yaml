@@ -34,7 +34,7 @@ jobs:
           cache-provider: basic
 
       - name: Analyse build health on base branch
-        run: ./gradlew :buildHealth --scan
+        run: ./gradlew :buildHealth
 
       - name: Store base build health report
         run: cp build/reports/dependency-analysis/build-health-report.txt build-health-report.base.txt
@@ -45,7 +45,7 @@ jobs:
           clean: false
 
       - name: Analyse build health
-        run: ./gradlew :buildHealth --scan
+        run: ./gradlew :buildHealth
 
       - name: Publish report
         run: |

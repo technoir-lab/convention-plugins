@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-konan-
 
       - name: Build with Gradle
-        run: ./gradlew build --scan
+        run: ./gradlew build
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v6.5.0
