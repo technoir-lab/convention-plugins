@@ -12,7 +12,6 @@ internal class ProjectSettingsImpl(
     private val project: Project,
     private val environment: Environment,
 ) : ProjectSettings {
-
     override val groupId: Provider<String>
         get() = project.localGradleProperty("project.groupId").orElse(DEFAULT_GROUP_ID)
 

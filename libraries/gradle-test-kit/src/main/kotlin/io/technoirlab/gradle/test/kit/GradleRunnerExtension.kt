@@ -19,7 +19,6 @@ class GradleRunnerExtension(
     private val resourceDir: String,
     configuration: GradleConfig.() -> Unit = {},
 ) : BeforeEachCallback {
-
     private val config = GradleConfig()
     private var internalRoot: GradleProject? = null
     private lateinit var initScript: Path

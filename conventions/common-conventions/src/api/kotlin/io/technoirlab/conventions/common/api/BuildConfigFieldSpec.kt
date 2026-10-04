@@ -9,7 +9,6 @@ data class BuildConfigFieldSpec<T : Serializable>(
     val value: T?,
     val variant: String?,
 ) : Serializable {
-
     /**
      * @suppress
      */

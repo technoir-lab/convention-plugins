@@ -10,7 +10,6 @@ data class DeveloperInfo(
     val organization: String?,
     val organizationUrl: String?,
 ) : Serializable {
-
     /**
      * @suppress
      */

@@ -8,7 +8,6 @@ import org.gradle.api.tasks.Nested
 internal abstract class JvmLibraryExtensionImpl(project: Project) :
     CommonExtensionImpl(project),
     JvmLibraryExtension {
-
     @get:Nested
     abstract override val buildFeatures: JvmBuildFeaturesImpl
 }

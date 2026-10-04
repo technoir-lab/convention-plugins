@@ -8,7 +8,6 @@ data class LicenseInfo(
     val url: String,
     val distribution: String?,
 ) : Serializable {
-
     /**
      * @suppress
      */

@@ -8,7 +8,6 @@ import org.gradle.api.tasks.Nested
 internal abstract class GradlePluginExtensionImpl(project: Project) :
     CommonExtensionImpl(project),
     GradlePluginExtension {
-
     @get:Nested
     abstract override val buildFeatures: GradlePluginBuildFeaturesImpl
 
