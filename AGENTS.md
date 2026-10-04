@@ -15,7 +15,7 @@
 
 Run commands from the repository root. Use the Gradle wrapper; the daemon and CI use JDK 25.
 
-- `make check`: run checks excluding functional tests.
+- `make check`: run checks.
 - `make test`: run unit tests.
 - `make functional-test`: run Gradle TestKit integration tests.
 - `make format`: run KtLint formatting and sort build-script dependencies.
