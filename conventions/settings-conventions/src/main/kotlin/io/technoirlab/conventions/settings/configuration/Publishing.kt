@@ -16,7 +16,7 @@ internal fun Settings.configurePublishing() {
         centralPortal {
             username.set(centralPortalUsername)
             password.set(centralPortalPassword)
-            publishingType.set("USER_MANAGED")
+            publishingType.set("AUTOMATIC")
         }
     }
 }
