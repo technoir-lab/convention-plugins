@@ -60,7 +60,11 @@ public final class io/technoirlab/gradle/test/kit/GradleRunnerExtension : org/ju
 	public final fun getRoot ()Lio/technoirlab/gradle/test/kit/GradleProject;
 }
 
-public final class io/technoirlab/gradle/test/kit/ProjectsKt {
+public final class io/technoirlab/gradle/test/kit/ProjectBuilderKt {
+	public static final fun createRootProject (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Project;
+	public static synthetic fun createRootProject$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/api/Project;
 	public static final fun evaluate (Lorg/gradle/api/Project;)V
+	public static final fun subProject (Lorg/gradle/api/Project;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Project;
+	public static synthetic fun subProject$default (Lorg/gradle/api/Project;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/api/Project;
 }
 
