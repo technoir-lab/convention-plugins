@@ -8,6 +8,9 @@ dependencies {
 
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
+
+    testImplementation(project(":libraries:gradle-test-kit"))
+    testImplementation(gradleKotlinDsl())
 }
 
 gradlePlugin {

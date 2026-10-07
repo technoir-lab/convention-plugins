@@ -40,6 +40,8 @@ dependencies {
 
     testFixturesImplementation(project(":libraries:gradle-test-kit"))
 
+    testImplementation(project(":libraries:gradle-test-kit"))
+    testImplementation(gradleKotlinDsl())
     testImplementation(libs.assertj.core)
 }
 

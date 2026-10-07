@@ -60,3 +60,7 @@ public final class io/technoirlab/gradle/test/kit/GradleRunnerExtension : org/ju
 	public final fun getRoot ()Lio/technoirlab/gradle/test/kit/GradleProject;
 }
 
+public final class io/technoirlab/gradle/test/kit/ProjectsKt {
+	public static final fun evaluate (Lorg/gradle/api/Project;)V
+}
+
