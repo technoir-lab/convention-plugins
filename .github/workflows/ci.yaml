@@ -37,7 +37,7 @@ jobs:
           cache-provider: basic
 
       - name: Run checks
-        run: make check GRADLE_ARGS="--scan"
+        run: make check
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v6.5.0
