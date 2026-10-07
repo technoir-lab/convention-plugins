@@ -7,6 +7,7 @@ import io.technoirlab.conventions.gradle.plugin.apiOf
 import io.technoirlab.gradle.Environment
 import io.technoirlab.gradle.dependencies.api
 import io.technoirlab.gradle.dependencies.compileOnly
+import io.technoirlab.gradle.dependencies.testImplementation
 import io.technoirlab.gradle.setDisallowChanges
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
@@ -89,6 +90,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
 
     dependencies {
         compileOnly(gradleKotlinDsl())
+        testImplementation(gradleKotlinDsl())
     }
 }
 
