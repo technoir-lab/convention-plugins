@@ -1,6 +1,8 @@
 JVM conventions
 ===============
 
+See [common conventions](../common-conventions/README.md#kotlin-compiler-options) for shared Kotlin compiler options.
+
 ## JVM application
 
 ```kotlin

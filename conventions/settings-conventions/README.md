@@ -1,6 +1,8 @@
 Settings conventions
 ====================
 
+See [common conventions](../common-conventions/README.md) for shared project metadata configuration.
+
 ## Usage
 
 ```kotlin

@@ -1,6 +1,8 @@
 Kotlin multiplatform conventions
 ================================
 
+See [common conventions](../common-conventions/README.md#kotlin-compiler-options) for shared Kotlin compiler options.
+
 ## KMP Application
 
 ```kotlin

@@ -1,8 +1,8 @@
 package io.technoirlab.conventions.kotlin.multiplatform.configuration
 
-import io.technoirlab.conventions.common.KotlinDiagnostics
 import io.technoirlab.conventions.common.configuration.KotlinConfig
 import io.technoirlab.conventions.common.configuration.KotlinLibraries
+import io.technoirlab.conventions.common.configuration.configure
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformExtension
 import io.technoirlab.core.capitalized
 import org.gradle.api.Project
@@ -38,14 +38,8 @@ internal fun Project.configureKotlinMultiplatform(
         applyDefaultHierarchyTemplate()
 
         compilerOptions {
-            apiVersion.set(kotlinConfig.map { it.apiVersion })
-            languageVersion.set(kotlinConfig.map { it.languageVersion })
-            extraWarnings.set(true)
-            freeCompilerArgs.addAll(
-                "-Xconsistent-data-class-copy-visibility",
-                "-Xexpect-actual-classes",
-                "-Xwarning-level=${KotlinDiagnostics.NOTHING_TO_INLINE}:disabled",
-            )
+            configure(kotlinConfig)
+            freeCompilerArgs.add("-Xexpect-actual-classes")
         }
 
         targets.configureEach {

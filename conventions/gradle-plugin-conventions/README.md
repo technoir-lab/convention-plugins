@@ -1,6 +1,8 @@
 Gradle plugin conventions
 =========================
 
+See [common conventions](../common-conventions/README.md#kotlin-compiler-options) for shared Kotlin compiler options.
+
 ## Usage
 
 ```kotlin
