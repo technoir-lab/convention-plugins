@@ -45,12 +45,14 @@ fun Project.configureKotlin(
         }
     }
 
+    val kotlinLibraries = kotlinConfig.map { KotlinLibraries(it.coreLibrariesVersion) }
     dependencies {
-        val kotlinLibraries = kotlinConfig.map { KotlinLibraries(it.coreLibrariesVersion) }
         implementation(kotlinLibraries.map { platform(it.kotlinBom) })
         implementation(kotlinLibraries.map { platform(it.kotlinCoroutinesBom) })
         implementation(kotlinLibraries.map { platform(it.kotlinSerializationBom) })
     }
+
+    configureTestFixtures(kotlinLibraries)
 }
 
 fun KotlinCommonCompilerOptions.configure(kotlinConfig: Provider<KotlinConfig>) {
