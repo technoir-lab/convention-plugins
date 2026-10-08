@@ -40,6 +40,7 @@ internal fun Project.configureKotlinMultiplatform(
         compilerOptions {
             apiVersion.set(kotlinConfig.map { it.apiVersion })
             languageVersion.set(kotlinConfig.map { it.languageVersion })
+            extraWarnings.set(true)
             freeCompilerArgs.addAll(
                 "-Xconsistent-data-class-copy-visibility",
                 "-Xexpect-actual-classes",
