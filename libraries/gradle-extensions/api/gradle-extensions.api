@@ -72,8 +72,14 @@ public final class io/technoirlab/gradle/TasksKt {
 public final class io/technoirlab/gradle/dependencies/DependenciesKt {
 	public static final fun api (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun compileOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun compileOnlyApi (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun implementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun testCompileOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testFixturesApi (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testFixturesCompileOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testFixturesCompileOnlyApi (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testFixturesImplementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
+	public static final fun testFixturesRuntimeOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun testImplementation (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 	public static final fun testRuntimeOnly (Lorg/gradle/kotlin/dsl/DependencyHandlerScope;Ljava/lang/Object;)Lorg/gradle/api/artifacts/Dependency;
 }
