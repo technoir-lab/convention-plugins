@@ -54,6 +54,7 @@ private fun KotlinJvmCompilerOptions.configure(kotlinConfig: Provider<KotlinConf
     apiVersion.set(kotlinConfig.map { it.apiVersion })
     languageVersion.set(kotlinConfig.map { it.languageVersion })
     jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+    extraWarnings.set(true)
     freeCompilerArgs.addAll(
         "-Xconsistent-data-class-copy-visibility",
         "-Xwarning-level=${KotlinDiagnostics.NOTHING_TO_INLINE}:disabled",
