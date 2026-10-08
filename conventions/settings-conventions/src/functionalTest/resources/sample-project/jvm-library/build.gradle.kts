@@ -7,7 +7,7 @@ plugins {
 
 publishing {
     publications {
-        val libraryMaven by registering(MavenPublication::class) {
+        register<MavenPublication>("libraryMaven") {
             from(components["java"])
         }
     }
