@@ -1,3 +1,5 @@
+import io.technoirlab.conventions.gradle.plugin.apiOf
+
 plugins {
     id("io.technoirlab.conventions.gradle-plugin")
 }
@@ -7,11 +9,7 @@ gradlePluginConfig {
 }
 
 dependencies {
-    apiApi(project(":conventions:common-conventions")) {
-        capabilities {
-            requireCapability("${project.group}:common-conventions-api")
-        }
-    }
+    apiApi(apiOf(project(":conventions:common-conventions")))
 
     implementation(project(":conventions:common-conventions"))
     implementation(project(":libraries:gradle-extensions"))
