@@ -37,7 +37,7 @@ class GradlePluginConventionPlugin : Plugin<Project> {
         ) as GradlePluginExtensionImpl
         config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+        apply<CommonConventionPlugin>()
 
         afterEvaluate {
             configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)

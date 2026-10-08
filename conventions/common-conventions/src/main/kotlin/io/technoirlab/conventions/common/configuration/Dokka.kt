@@ -24,7 +24,7 @@ fun Project.configureDokka(environment: Environment, docsFormats: Set<DocsFormat
         pluginManager.apply("org.jetbrains.dokka-javadoc")
     }
 
-    extensions.configure(DokkaExtension::class) {
+    configure<DokkaExtension> {
         dokkaPublications.configureEach {
             suppressInheritedMembers.set(true)
 
@@ -67,7 +67,7 @@ fun Project.configureDokka(environment: Environment, docsFormats: Set<DocsFormat
     }
 
     tasks.named(LifecycleBasePlugin.BUILD_TASK_NAME) {
-        dependsOn(tasks.withType(DokkaGeneratePublicationTask::class))
+        dependsOn(tasks.withType<DokkaGeneratePublicationTask>())
     }
 }
 

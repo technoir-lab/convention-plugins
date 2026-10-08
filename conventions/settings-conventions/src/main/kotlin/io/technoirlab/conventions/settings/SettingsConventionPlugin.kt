@@ -46,7 +46,7 @@ class SettingsConventionPlugin : Plugin<Settings> {
 
     private fun Project.configureMetadata(metadata: ProjectMetadata) {
         pluginManager.withPlugin("io.technoirlab.conventions.common") {
-            extensions.findByType(CommonExtension::class)?.metadata?.initWith(metadata)
+            extensions.findByType<CommonExtension>()?.metadata?.initWith(metadata)
         }
     }
 

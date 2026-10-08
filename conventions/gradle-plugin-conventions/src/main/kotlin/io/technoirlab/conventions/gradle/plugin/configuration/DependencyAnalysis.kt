@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.configure
 
 internal fun Project.configureDependencyAnalysis() {
     pluginManager.withPlugin("com.autonomousapps.dependency-analysis") {
-        extensions.configure(DependencyAnalysisSubExtension::class) {
+        configure<DependencyAnalysisSubExtension> {
             issues {
                 // Do not suggest changing the dependency on api feature variant from api to implementation
                 onIncorrectConfiguration {

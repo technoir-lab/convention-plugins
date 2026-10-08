@@ -29,7 +29,7 @@ class KotlinMultiplatformApplicationConventionPlugin : Plugin<Project> {
         ) as KotlinMultiplatformApplicationExtensionImpl
         config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+        apply<CommonConventionPlugin>()
 
         afterEvaluate {
             configureBenchmarking(config.buildFeatures.benchmark)

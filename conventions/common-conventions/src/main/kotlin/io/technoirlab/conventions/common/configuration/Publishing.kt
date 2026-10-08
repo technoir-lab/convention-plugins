@@ -28,12 +28,12 @@ fun Project.configurePublishing(
     pluginManager.apply("maven-publish")
 
     if ("java" in components.names) {
-        extensions.configure(JavaPluginExtension::class) {
+        configure<JavaPluginExtension> {
             withSourcesJar()
         }
     }
 
-    extensions.configure(PublishingExtension::class) {
+    configure<PublishingExtension> {
         publications.withType<MavenPublication>().configureEach {
             versionMapping {
                 usage(Usage.JAVA_API) {
@@ -63,10 +63,10 @@ fun Project.configurePublishing(
     }
 
     afterEvaluate {
-        extensions.configure(PublishingExtension::class) {
+        configure<PublishingExtension> {
             publications {
                 if (options.publicationName !in names) {
-                    register(options.publicationName, MavenPublication::class) {
+                    register<MavenPublication>(options.publicationName) {
                         from(components[options.componentName])
                     }
                 }
@@ -82,7 +82,7 @@ fun Project.configurePublishing(
 private fun Project.configureSigning(publications: PublicationContainer) {
     pluginManager.apply("signing")
 
-    extensions.configure(SigningExtension::class) {
+    configure<SigningExtension> {
         val secretKey = providers.environmentVariable("SIGNING_KEY")
         val password = providers.environmentVariable("SIGNING_PASSWORD")
         useInMemoryPgpKeys(secretKey.orNull, password.orNull)

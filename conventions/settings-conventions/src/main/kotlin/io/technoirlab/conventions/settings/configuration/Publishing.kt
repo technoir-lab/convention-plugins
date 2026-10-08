@@ -12,7 +12,7 @@ internal fun Settings.configurePublishing() {
     // TODO: Remove .orNull when Nmcp bug is fixed
     val centralPortalUsername = providers.environmentVariable("CENTRAL_PORTAL_USER").orNull
     val centralPortalPassword = providers.environmentVariable("CENTRAL_PORTAL_PASSWORD").orNull
-    extensions.configure(NmcpSettings::class) {
+    configure<NmcpSettings> {
         centralPortal {
             username.set(centralPortalUsername)
             password.set(centralPortalPassword)
@@ -23,7 +23,7 @@ internal fun Settings.configurePublishing() {
 
 internal fun Project.configurePublishing() {
     pluginManager.withPlugin("com.gradleup.nmcp.aggregation") {
-        extensions.configure<NmcpAggregationExtension> {
+        configure<NmcpAggregationExtension> {
             allowDuplicateProjectNames.set(true)
         }
 

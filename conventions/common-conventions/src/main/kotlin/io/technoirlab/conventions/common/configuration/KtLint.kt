@@ -11,7 +11,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 internal fun Project.configureKtLint() {
     pluginManager.withPlugin("org.jlleitschuh.gradle.ktlint") {
-        extensions.configure(KtlintExtension::class) {
+        configure<KtlintExtension> {
             coloredOutput.setDisallowChanges(false)
             relative.setDisallowChanges(true)
             version.setDisallowChanges(BuildConfig.KTLINT_VERSION)

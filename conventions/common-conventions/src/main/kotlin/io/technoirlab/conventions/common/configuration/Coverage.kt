@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.configure
 
 internal fun Project.configureCoverage() {
     pluginManager.withPlugin("org.jetbrains.kotlinx.kover") {
-        extensions.configure(KoverProjectExtension::class) {
+        configure<KoverProjectExtension> {
             currentProject {
                 instrumentation {
                     disabledForTestTasks.add("functionalTest")

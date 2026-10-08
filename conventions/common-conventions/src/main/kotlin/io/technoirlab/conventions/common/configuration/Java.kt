@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.configure
 
 internal fun Project.configureJava() {
     pluginManager.withPlugin("java-base") {
-        extensions.configure(JavaPluginExtension::class) {
+        configure<JavaPluginExtension> {
             toolchain {
                 languageVersion.set(JavaLanguageVersion.of(JDK_VERSION))
             }

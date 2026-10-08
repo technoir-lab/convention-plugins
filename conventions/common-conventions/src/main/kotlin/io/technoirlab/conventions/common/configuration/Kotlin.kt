@@ -19,7 +19,7 @@ fun Project.configureKotlin(
     kotlinConfig: Provider<KotlinConfig> = provider { KotlinConfig.DEFAULT },
     enableAbiValidation: Provider<Boolean>,
 ) {
-    extensions.configure(KotlinJvmProjectExtension::class) {
+    configure<KotlinJvmProjectExtension> {
         compilerOptions {
             configure(kotlinConfig)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
@@ -27,13 +27,13 @@ fun Project.configureKotlin(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.plugin.sam.with.receiver") {
-        extensions.configure(SamWithReceiverExtension::class) {
+        configure<SamWithReceiverExtension> {
             annotation(checkNotNull(HasImplicitReceiver::class.qualifiedName))
         }
     }
 
     afterEvaluate {
-        extensions.configure(KotlinProjectExtension::class) {
+        configure<KotlinProjectExtension> {
             coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
 
             if (enableAbiValidation.get()) {

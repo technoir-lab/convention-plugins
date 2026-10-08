@@ -12,7 +12,7 @@ fun Project.configureBuildConfig(buildConfigSpec: BuildConfigSpec, packageName: 
 
     pluginManager.apply("com.github.gmazzo.buildconfig")
 
-    extensions.configure(BuildConfigExtension::class) {
+    configure<BuildConfigExtension> {
         this.packageName.set(packageName)
 
         buildConfigFields.filter { field -> field.variant == null }.forEach { field ->

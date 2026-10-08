@@ -17,7 +17,7 @@ internal fun Project.configureBenchmarking(enable: Property<Boolean>) {
     pluginManager.apply("org.jetbrains.kotlinx.benchmark")
 
     val benchmarksExtension = the<BenchmarksExtension>()
-    extensions.configure(KotlinMultiplatformExtension::class) {
+    configure<KotlinMultiplatformExtension> {
         val benchmarkSourceSet = sourceSets.create("benchmark")
         targets.matching { it !is KotlinMetadataTarget }.configureEach {
             val mainCompilation = compilations["main"]

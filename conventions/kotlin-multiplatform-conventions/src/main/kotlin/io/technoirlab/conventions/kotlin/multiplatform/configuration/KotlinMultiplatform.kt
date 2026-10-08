@@ -34,7 +34,7 @@ internal fun Project.configureKotlinMultiplatform(
     kotlinConfig: Provider<KotlinConfig> = provider { KotlinConfig.DEFAULT },
     executable: Boolean = false,
 ) {
-    extensions.configure(KmpExtension::class) {
+    configure<KmpExtension> {
         applyDefaultHierarchyTemplate()
 
         compilerOptions {
@@ -62,7 +62,7 @@ internal fun Project.configureKotlinMultiplatform(
     }
 
     afterEvaluate {
-        extensions.configure(KmpExtension::class) {
+        configure<KmpExtension> {
             coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion
 
             targets.withType<KotlinNativeTarget>().configureEach {

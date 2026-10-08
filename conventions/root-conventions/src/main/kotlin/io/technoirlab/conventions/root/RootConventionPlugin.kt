@@ -10,7 +10,7 @@ class RootConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) = with(project) {
         check(path == ":") { "Root convention plugin must be applied to the root project." }
 
-        pluginManager.apply(CommonConventionPlugin::class)
+        apply<CommonConventionPlugin>()
         pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         configureDokka()

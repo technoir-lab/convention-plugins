@@ -47,8 +47,8 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
         manifest.attributes(mapOf("Implementation-Version" to projectVersion))
     }
 
-    extensions.configure(TestingExtension::class) {
-        val functionalTestSuite = suites.register(FUNCTIONAL_TEST_VARIANT_NAME, JvmTestSuite::class) {
+    configure<TestingExtension> {
+        val functionalTestSuite = suites.register<JvmTestSuite>(FUNCTIONAL_TEST_VARIANT_NAME) {
             configureTestSuite {
                 configureFunctionalTestTask(config)
             }
@@ -62,7 +62,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
             dependsOn(functionalTestSuite)
         }
 
-        extensions.configure(GradlePluginDevelopmentExtension::class) {
+        configure<GradlePluginDevelopmentExtension> {
             website.setDisallowChanges(config.metadata.url)
             vcsUrl.setDisallowChanges(environment.vcsUrl)
 
@@ -75,7 +75,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
         }
     }
 
-    extensions.configure(KotlinJvmExtension::class) {
+    configure<KotlinJvmExtension> {
         val mainCompilation = target.compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME)
         target.compilations.named(FUNCTIONAL_TEST_VARIANT_NAME) {
             compileTaskProvider.configure {
@@ -95,7 +95,7 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
 }
 
 private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provider<KotlinConfig>) {
-    extensions.configure(JavaPluginExtension::class) {
+    configure<JavaPluginExtension> {
         val apiSourceSet = sourceSets.create(variantName)
 
         registerFeature(variantName) {
@@ -105,7 +105,7 @@ private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provi
         }
 
         if (pluginManager.hasPlugin("org.jetbrains.dokka")) {
-            extensions.configure(DokkaExtension::class) {
+            configure<DokkaExtension> {
                 dokkaSourceSets.named("main") {
                     sourceRoots.from(apiSourceSet.allSource.srcDirs)
                     classpath.from(apiSourceSet.compileClasspath)
@@ -114,7 +114,7 @@ private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provi
         }
     }
 
-    extensions.configure(KotlinJvmExtension::class) {
+    configure<KotlinJvmExtension> {
         target.compilations.named(variantName) {
             compileTaskProvider.configure {
                 compilerOptions {

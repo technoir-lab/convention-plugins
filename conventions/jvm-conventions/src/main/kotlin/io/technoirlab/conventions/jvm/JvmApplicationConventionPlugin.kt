@@ -30,7 +30,7 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
         ) as JvmApplicationExtensionImpl
         config.initDefaults()
 
-        pluginManager.apply(CommonConventionPlugin::class)
+        apply<CommonConventionPlugin>()
 
         afterEvaluate {
             configureBuildConfig(config.buildFeatures.buildConfig, config.packageName)
@@ -52,7 +52,7 @@ class JvmApplicationConventionPlugin : Plugin<Project> {
     }
 
     private fun Project.configureApplication(config: JvmApplicationExtension) {
-        extensions.configure(JavaApplication::class) {
+        configure<JavaApplication> {
             mainClass.set(config.fullyQualifiedMainClass)
 
             afterEvaluate {

@@ -5,7 +5,7 @@ import org.gradle.api.initialization.Settings
 import org.gradle.kotlin.dsl.configure
 
 internal fun Settings.configureDependencyAnalysis() {
-    extensions.configure(DependencyAnalysisExtension::class) {
+    configure<DependencyAnalysisExtension> {
         structure {
             bundle("junit-jupiter") {
                 primary("org.junit.jupiter:junit-jupiter")

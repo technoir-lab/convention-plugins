@@ -9,6 +9,6 @@ internal fun Project.configureDokka() {
     pluginManager.apply("org.jetbrains.dokka")
 
     tasks.named(LifecycleBasePlugin.BUILD_TASK_NAME) {
-        dependsOn(tasks.withType(DokkaGeneratePublicationTask::class))
+        dependsOn(tasks.withType<DokkaGeneratePublicationTask>())
     }
 }

@@ -13,7 +13,7 @@ import org.gradle.testing.base.TestingExtension
 
 internal fun Project.configureTestSuites() {
     pluginManager.withPlugin("jvm-test-suite") {
-        extensions.configure(TestingExtension::class) {
+        configure<TestingExtension> {
             suites.named { it == DEFAULT_TEST_SUITE }.withType<JvmTestSuite>().configureEach {
                 configureTestSuite {}
             }
