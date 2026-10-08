@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    dokka(project(":conventions:android-conventions"))
     dokka(project(":conventions:common-conventions"))
     dokka(project(":conventions:gradle-plugin-conventions"))
     dokka(project(":conventions:jvm-conventions"))
@@ -12,6 +13,7 @@ dependencies {
     dokka(project(":libraries:gradle-extensions"))
     dokka(project(":libraries:gradle-test-kit"))
 
+    nmcpAggregation(project(":conventions:android-conventions"))
     nmcpAggregation(project(":conventions:common-conventions"))
     nmcpAggregation(project(":conventions:gradle-plugin-conventions"))
     nmcpAggregation(project(":conventions:jvm-conventions"))

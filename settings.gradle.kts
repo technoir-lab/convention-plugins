@@ -38,6 +38,7 @@ globalSettings {
     }
 }
 
+include(":conventions:android-conventions")
 include(":conventions:common-conventions")
 include(":conventions:gradle-plugin-conventions")
 include(":conventions:jvm-conventions")

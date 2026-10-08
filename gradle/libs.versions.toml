@@ -1,8 +1,10 @@
 [versions]
+android-gradle-plugin = "9.4.1"
 assertj = "3.27.7"
 buildconfig = "6.1.2"
 dependency-analysis-gradle-plugin = "3.19.2"
 develocity-gradle-plugin = "4.6.0"
+desugar-jdk-libs = "2.1.5"
 dokka = "2.1.0"
 foojay-resolver-gradle-plugin = "1.0.0"
 jetbrains-annotations = "13.0"
@@ -23,9 +25,13 @@ slf4j = "2.0.20"
 sort-dependencies-gradle-plugin = "0.21.0"
 
 [libraries]
+android-gradle-api = { module = "com.android.tools.build:gradle-api", version.ref = "android-gradle-plugin" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
+android-gradle-settings-plugin = { module = "com.android.tools.build:gradle-settings", version.ref = "android-gradle-plugin" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 buildconfig-gradle-plugin = { module = "com.github.gmazzo.buildconfig:plugin", version.ref = "buildconfig" }
 dependency-analysis-gradle-plugin = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependency-analysis-gradle-plugin" }
+desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 develocity-gradle-plugin = { module = "com.gradle:develocity-gradle-plugin", version.ref = "develocity-gradle-plugin" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 ec4j-core = { module = "org.ec4j.core:ec4j-core" }

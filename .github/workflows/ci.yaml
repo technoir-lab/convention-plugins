@@ -36,6 +36,12 @@ jobs:
         with:
           cache-provider: basic
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4.0.4
+        with:
+          cmdline-tools-version: 15859902
+          packages: "platform-tools platforms;android-37.0 build-tools;36.0.0"
+
       - name: Run checks
         run: make check
 
