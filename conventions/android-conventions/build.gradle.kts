@@ -31,7 +31,6 @@ dependencies {
     runtimeOnly(libs.android.gradle.plugin)
 
     testImplementation(project(":libraries:gradle-test-kit"))
-    testImplementation(gradleKotlinDsl())
 
     testRuntimeOnly(libs.android.gradle.settings.plugin)
 

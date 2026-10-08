@@ -19,7 +19,6 @@ dependencies {
     functionalTestImplementation(libs.assertj.core)
 
     testImplementation(project(":libraries:gradle-test-kit"))
-    testImplementation(gradleKotlinDsl())
 
     functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }

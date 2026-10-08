@@ -19,7 +19,6 @@ dependencies {
     compileOnly(libs.dependency.analysis.gradle.plugin)
 
     testImplementation(project(":libraries:gradle-test-kit"))
-    testImplementation(gradleKotlinDsl())
     testImplementation(libs.assertj.core)
 
     functionalTestPublishOnly(project(":libraries:ktlint-rules"))
