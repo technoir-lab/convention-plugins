@@ -16,9 +16,6 @@ public final class io/technoirlab/conventions/android/AndroidLibraryConventionPl
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface annotation class io/technoirlab/conventions/android/api/AndroidApplicationDsl : java/lang/annotation/Annotation {
-}
-
 public abstract interface class io/technoirlab/conventions/android/api/AndroidApplicationExtension : io/technoirlab/conventions/android/api/AndroidCommonExtension {
 	public static final field Companion Lio/technoirlab/conventions/android/api/AndroidApplicationExtension$Companion;
 	public static final field NAME Ljava/lang/String;
@@ -45,9 +42,6 @@ public abstract interface class io/technoirlab/conventions/android/api/AndroidCo
 
 public abstract interface class io/technoirlab/conventions/android/api/AndroidLibraryBuildFeatures : io/technoirlab/conventions/android/api/AndroidBuildFeatures {
 	public abstract fun getTestFixtures ()Lorg/gradle/api/provider/Property;
-}
-
-public abstract interface annotation class io/technoirlab/conventions/android/api/AndroidLibraryDsl : java/lang/annotation/Annotation {
 }
 
 public abstract interface class io/technoirlab/conventions/android/api/AndroidLibraryExtension : io/technoirlab/conventions/android/api/AndroidCommonExtension {

@@ -13,9 +13,6 @@ public final class io/technoirlab/conventions/gradle/plugin/GradlePluginDslExten
 public abstract interface class io/technoirlab/conventions/gradle/plugin/api/GradlePluginBuildFeatures : io/technoirlab/conventions/common/api/CommonBuildFeatures {
 }
 
-public abstract interface annotation class io/technoirlab/conventions/gradle/plugin/api/GradlePluginDsl : java/lang/annotation/Annotation {
-}
-
 public abstract interface class io/technoirlab/conventions/gradle/plugin/api/GradlePluginExtension : io/technoirlab/conventions/common/api/CommonExtension {
 	public static final field Companion Lio/technoirlab/conventions/gradle/plugin/api/GradlePluginExtension$Companion;
 	public static final field NAME Ljava/lang/String;

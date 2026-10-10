@@ -4,5 +4,6 @@ package io.technoirlab.conventions.jvm.api
  * Marks JVM application convention plugin DSL.
  */
 @DslMarker
+@Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS)
-annotation class JvmApplicationDsl
+internal annotation class JvmApplicationDsl

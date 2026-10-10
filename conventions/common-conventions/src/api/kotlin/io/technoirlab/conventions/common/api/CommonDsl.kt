@@ -4,5 +4,6 @@ package io.technoirlab.conventions.common.api
  * Marks common convention plugin DSL.
  */
 @DslMarker
+@Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS)
-annotation class CommonDsl
+internal annotation class CommonDsl

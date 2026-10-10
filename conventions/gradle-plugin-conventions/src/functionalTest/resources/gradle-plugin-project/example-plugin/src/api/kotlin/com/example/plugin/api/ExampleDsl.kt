@@ -4,5 +4,6 @@ package com.example.plugin.api
  * Marks example convention plugin DSL.
  */
 @DslMarker
+@Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS)
-annotation class ExampleDsl
+internal annotation class ExampleDsl

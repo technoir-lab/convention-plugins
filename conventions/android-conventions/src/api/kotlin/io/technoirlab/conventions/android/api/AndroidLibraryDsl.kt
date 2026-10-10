@@ -4,5 +4,6 @@ package io.technoirlab.conventions.android.api
  * Marks Android library convention plugin DSL.
  */
 @DslMarker
+@Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS)
-annotation class AndroidLibraryDsl
+internal annotation class AndroidLibraryDsl

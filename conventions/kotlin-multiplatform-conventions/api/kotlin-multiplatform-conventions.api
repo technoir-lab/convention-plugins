@@ -10,9 +10,6 @@ public final class io/technoirlab/conventions/kotlin/multiplatform/KotlinMultipl
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface annotation class io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformApplicationDsl : java/lang/annotation/Annotation {
-}
-
 public abstract interface class io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformApplicationExtension : io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformExtension {
 	public static final field Companion Lio/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformApplicationExtension$Companion;
 	public static final field NAME Ljava/lang/String;
@@ -31,9 +28,6 @@ public abstract interface class io/technoirlab/conventions/kotlin/multiplatform/
 public abstract interface class io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformExtension : io/technoirlab/conventions/common/api/CommonExtension {
 	public fun buildFeatures (Lorg/gradle/api/Action;)V
 	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformBuildFeatures;
-}
-
-public abstract interface annotation class io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformLibraryDsl : java/lang/annotation/Annotation {
 }
 
 public abstract interface class io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformLibraryExtension : io/technoirlab/conventions/kotlin/multiplatform/api/KotlinMultiplatformExtension {

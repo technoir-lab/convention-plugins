@@ -4,9 +4,6 @@ public final class io/technoirlab/conventions/settings/SettingsConventionPlugin 
 	public fun apply (Lorg/gradle/api/initialization/Settings;)V
 }
 
-public abstract interface annotation class io/technoirlab/conventions/settings/api/SettingsDsl : java/lang/annotation/Annotation {
-}
-
 public abstract interface class io/technoirlab/conventions/settings/api/SettingsExtension {
 	public static final field Companion Lio/technoirlab/conventions/settings/api/SettingsExtension$Companion;
 	public static final field NAME Ljava/lang/String;
