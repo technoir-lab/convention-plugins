@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalContracts::class)
+
 package io.technoirlab.gradle.test.kit
 
 import org.gradle.testkit.runner.BuildResult
@@ -7,6 +9,9 @@ import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.Path
 import kotlin.io.path.absolutePathString
@@ -40,6 +45,9 @@ class GradleRunnerExtension(
     }
 
     fun build(vararg tasks: String, expectFailure: Boolean = false, configuration: GradleConfig.() -> Unit = {}): BuildResult {
+        contract {
+            callsInPlace(configuration, InvocationKind.EXACTLY_ONCE)
+        }
         val config = GradleConfig(config)
         config.initScripts.add(0, initScript)
         config.configuration()
