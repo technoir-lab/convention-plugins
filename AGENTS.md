@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-- `conventions/` contains common, JVM, Kotlin Multiplatform, Gradle plugin, settings, and root plugins.
+- `conventions/` contains common, JVM, Android, Kotlin Multiplatform, Gradle plugin, settings, and root plugins.
 - `libraries/` provides core utilities, Gradle extensions, TestKit helpers, and custom KtLint rules.
 - Modules separate implementation (`src/main/kotlin`) from public DSL contracts (`src/api/kotlin`, where present).
 - Tests live in `src/test/kotlin` and `src/functionalTest/kotlin`; fixture projects live in `src/functionalTest/resources`.
