@@ -34,6 +34,7 @@ class KotlinLibraries(private val kotlinVersion: String) {
             kotlinVersionNumber < ComparableVersion("2.2.0") -> "1.8.1"
             kotlinVersionNumber < ComparableVersion("2.3.0") -> "1.9.0"
             kotlinVersionNumber < ComparableVersion("2.3.20") -> "1.10.0"
+            kotlinVersionNumber < ComparableVersion("2.4.10") -> "1.11.0"
             else -> BuildConfig.KOTLINX_SERIALIZATION_VERSION
         }
 }
