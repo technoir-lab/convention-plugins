@@ -5,6 +5,7 @@ import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
+import io.technoirlab.gradle.test.kit.buildDir
 import io.technoirlab.gradle.test.kit.generatedFile
 import io.technoirlab.gradle.test.kit.kotlinFile
 import org.assertj.core.api.Assertions.assertThat
@@ -12,6 +13,8 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import kotlin.io.path.appendText
+import kotlin.io.path.div
 import kotlin.io.path.writeText
 
 class JvmApplicationConventionPluginFunctionalTest {
@@ -153,7 +156,20 @@ class JvmApplicationConventionPluginFunctionalTest {
     inner class StaticAnalysis {
         @Test
         fun ktLint() {
-            gradleRunner.build(":jvm-application:ktlintCheck")
+            val project = gradleRunner.root.project("jvm-application")
+            project.kotlinFile("com.example.jvm.application.Main").appendText("\nval answer = 42;\n")
+
+            val buildResult = gradleRunner.build(":jvm-application:ktlintCheck", expectFailure = true)
+
+            assertThat(buildResult.task(":jvm-application:ktlintMainSourceSetCheck")?.outcome).isEqualTo(TaskOutcome.FAILED)
+            assertThat(project.buildDir / "reports/ktlint/ktlintMainSourceSetCheck/ktlintMainSourceSetCheck.txt").hasContent(
+                """
+                jvm-application/src/main/kotlin/com/example/jvm/application/Main.kt:7:16: Unnecessary semicolon (standard:no-semi)
+                
+                Summary error count (descending) by rule:
+                  standard:no-semi: 1
+                """.trimIndent(),
+            )
         }
     }
 }

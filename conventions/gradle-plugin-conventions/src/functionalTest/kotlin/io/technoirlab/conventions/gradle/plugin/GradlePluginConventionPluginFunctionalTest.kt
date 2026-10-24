@@ -22,6 +22,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import java.nio.file.Path
 import java.util.jar.JarFile
+import kotlin.io.path.appendText
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
@@ -352,7 +353,20 @@ class GradlePluginConventionPluginFunctionalTest {
     inner class StaticAnalysis {
         @Test
         fun ktLint() {
-            gradleRunner.build(":example-plugin:ktlintCheck")
+            val project = gradleRunner.root.project("example-plugin")
+            project.kotlinFile("com.example.plugin.ExamplePlugin").appendText("\nval answer = 42;\n")
+
+            val buildResult = gradleRunner.build(":example-plugin:ktlintCheck", expectFailure = true)
+
+            assertThat(buildResult.task(":example-plugin:ktlintMainSourceSetCheck")?.outcome).isEqualTo(TaskOutcome.FAILED)
+            assertThat(project.buildDir / "reports/ktlint/ktlintMainSourceSetCheck/ktlintMainSourceSetCheck.txt").hasContent(
+                """
+                example-plugin/src/main/kotlin/com/example/plugin/ExamplePlugin.kt:21:16: Unnecessary semicolon (standard:no-semi)
+                
+                Summary error count (descending) by rule:
+                  standard:no-semi: 1
+                """.trimIndent(),
+            )
         }
 
         @Test

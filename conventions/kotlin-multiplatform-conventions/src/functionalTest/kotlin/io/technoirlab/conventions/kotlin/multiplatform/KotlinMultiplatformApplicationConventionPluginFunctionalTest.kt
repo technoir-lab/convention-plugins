@@ -7,6 +7,7 @@ import io.technoirlab.core.capitalized
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
+import io.technoirlab.gradle.test.kit.buildDir
 import io.technoirlab.gradle.test.kit.buildScript
 import io.technoirlab.gradle.test.kit.generatedFile
 import io.technoirlab.gradle.test.kit.kotlinFile
@@ -16,6 +17,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import kotlin.io.path.appendText
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
 import kotlin.io.path.moveTo
@@ -274,7 +276,20 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     inner class StaticAnalysis {
         @Test
         fun ktLint() {
-            gradleRunner.build(":kmp-application:ktlintCheck")
+            val project = gradleRunner.root.project("kmp-application")
+            project.kotlinFile("kmp.application.Main", variant = "commonMain").appendText("\nval answer = 42;\n")
+
+            val buildResult = gradleRunner.build(":kmp-application:ktlintCheck", expectFailure = true)
+
+            assertThat(buildResult.task(":kmp-application:ktlintCommonMainSourceSetCheck")?.outcome).isEqualTo(TaskOutcome.FAILED)
+            assertThat(project.buildDir / "reports/ktlint/ktlintCommonMainSourceSetCheck/ktlintCommonMainSourceSetCheck.txt").hasContent(
+                """
+                kmp-application/src/commonMain/kotlin/kmp/application/Main.kt:7:16: Unnecessary semicolon (standard:no-semi)
+                
+                Summary error count (descending) by rule:
+                  standard:no-semi: 1
+                """.trimIndent(),
+            )
         }
     }
 }

@@ -10,12 +10,14 @@ import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.buildDir
 import io.technoirlab.gradle.test.kit.generatedFile
 import io.technoirlab.gradle.test.kit.jarEntries
+import io.technoirlab.gradle.test.kit.kotlinFile
 import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import kotlin.io.path.appendText
 import kotlin.io.path.createDirectories
 import kotlin.io.path.div
 
@@ -162,7 +164,20 @@ class JvmLibraryConventionPluginFunctionalTest {
     inner class StaticAnalysis {
         @Test
         fun ktLint() {
-            gradleRunner.build(":jvm-library:ktlintCheck")
+            val project = gradleRunner.root.project("jvm-library")
+            project.kotlinFile("com.example.jvm.library.JvmLibrary").appendText("\nval answer = 42;\n")
+
+            val buildResult = gradleRunner.build(":jvm-library:ktlintCheck", expectFailure = true)
+
+            assertThat(buildResult.task(":jvm-library:ktlintMainSourceSetCheck")?.outcome).isEqualTo(TaskOutcome.FAILED)
+            assertThat(project.buildDir / "reports/ktlint/ktlintMainSourceSetCheck/ktlintMainSourceSetCheck.txt").hasContent(
+                """
+                jvm-library/src/main/kotlin/com/example/jvm/library/JvmLibrary.kt:10:16: Unnecessary semicolon (standard:no-semi)
+                
+                Summary error count (descending) by rule:
+                  standard:no-semi: 1
+                """.trimIndent(),
+            )
         }
 
         @Test
