@@ -1,6 +1,7 @@
 package io.technoirlab.conventions.jvm
 
 import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -86,6 +87,27 @@ class JvmApplicationConventionPluginFunctionalTest {
                 .content()
                 .contains("const val TEST_STRING_FIELD: String = \"test string value\"")
                 .doesNotContain("INT_FIELD")
+        }
+
+        @Test
+        fun serialization() {
+            gradleRunner.root.project("jvm-application")
+                .appendBuildScript(
+                    """
+                    jvmApplication {
+                        buildFeatures {
+                            serialization = true
+                        }
+                    }
+                    
+                    dependencies {
+                        implementation(libs.kotlinx.serialization.core)
+                    }
+                    """.trimIndent(),
+                )
+                .createSerializableClass()
+
+            gradleRunner.build(":jvm-application:classes")
         }
 
         @Test

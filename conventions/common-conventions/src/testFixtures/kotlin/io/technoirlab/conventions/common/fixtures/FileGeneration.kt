@@ -106,3 +106,26 @@ fun GradleProject.createRedactedFixtures(
             """.trimIndent(),
         )
 }
+
+fun GradleProject.createSerializableClass(className: String = "com.example.SerializableClass", variant: String = "main") = apply {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile(className, variant)
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            package $packageName
+            
+            import kotlinx.serialization.Serializable
+            
+            @Serializable
+            internal data class $classNameWithoutPackage(
+                val name: String,
+                val count: Int,
+            )
+            
+            internal val serializer = $classNameWithoutPackage.serializer()
+            """.trimIndent(),
+        )
+}

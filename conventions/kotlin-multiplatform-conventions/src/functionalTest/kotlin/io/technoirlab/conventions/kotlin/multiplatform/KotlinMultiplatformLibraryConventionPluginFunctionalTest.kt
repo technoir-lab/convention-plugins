@@ -5,6 +5,7 @@ import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
 import io.technoirlab.conventions.common.fixtures.createBenchmark
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
 import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -133,6 +134,31 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                     """.trimIndent(),
                 )
                 .createDependencyGraph()
+
+            gradleRunner.build(":kmp-library:assemble")
+        }
+
+        @Test
+        fun serialization() {
+            gradleRunner.root.project("kmp-library")
+                .appendBuildScript(
+                    """
+                    kotlinMultiplatformLibrary {
+                        buildFeatures {
+                            serialization = true
+                        }
+                    }
+                    
+                    kotlin {
+                        sourceSets {
+                            commonMain.dependencies {
+                                implementation(libs.kotlinx.serialization.core)
+                            }
+                        }
+                    }
+                    """.trimIndent(),
+                )
+                .createSerializableClass(variant = "commonMain")
 
             gradleRunner.build(":kmp-library:assemble")
         }

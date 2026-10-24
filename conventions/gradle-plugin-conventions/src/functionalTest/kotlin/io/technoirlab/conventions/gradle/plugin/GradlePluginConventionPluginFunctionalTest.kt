@@ -3,6 +3,7 @@ package io.technoirlab.conventions.gradle.plugin
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
 import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -260,6 +261,27 @@ class GradlePluginConventionPluginFunctionalTest {
                 .content()
                 .contains("const val TEST_STRING_FIELD: String = \"test string value\"")
                 .doesNotContain("INT_FIELD")
+        }
+
+        @Test
+        fun serialization() {
+            gradleRunner.root.project("example-plugin")
+                .appendBuildScript(
+                    """
+                    gradlePluginConfig {
+                        buildFeatures {
+                            serialization = true
+                        }
+                    }
+                    
+                    dependencies {
+                        implementation(libs.kotlinx.serialization.core)
+                    }
+                    """.trimIndent(),
+                )
+                .createSerializableClass()
+
+            gradleRunner.build(":example-plugin:classes")
         }
 
         @Test

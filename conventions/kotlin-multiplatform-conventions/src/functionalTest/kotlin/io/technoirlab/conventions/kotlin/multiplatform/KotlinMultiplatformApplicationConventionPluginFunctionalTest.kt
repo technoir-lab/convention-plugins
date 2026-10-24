@@ -2,6 +2,7 @@ package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
 import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.core.capitalized
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
@@ -205,6 +206,31 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
                     """.trimIndent(),
                 )
                 .createDependencyGraph()
+
+            gradleRunner.build(":kmp-application:assemble")
+        }
+
+        @Test
+        fun serialization() {
+            gradleRunner.root.project("kmp-application")
+                .appendBuildScript(
+                    """
+                    kotlinMultiplatformApplication {
+                        buildFeatures {
+                            serialization = true
+                        }
+                    }
+                    
+                    kotlin {
+                        sourceSets {
+                            commonMain.dependencies {
+                                implementation(libs.kotlinx.serialization.core)
+                            }
+                        }
+                    }
+                    """.trimIndent(),
+                )
+                .createSerializableClass(variant = "commonMain")
 
             gradleRunner.build(":kmp-application:assemble")
         }
