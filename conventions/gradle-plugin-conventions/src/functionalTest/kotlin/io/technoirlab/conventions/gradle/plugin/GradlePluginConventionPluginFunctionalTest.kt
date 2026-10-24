@@ -14,6 +14,7 @@ import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.util.GradleVersion
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
@@ -34,245 +35,6 @@ class GradlePluginConventionPluginFunctionalTest {
         val buildResult = gradleRunner.build(":example-plugin:build")
 
         assertThat(buildResult.task(":example-plugin:functionalTest")).isNotNull()
-    }
-
-    @Test
-    fun ktLint() {
-        gradleRunner.build(":example-plugin:ktlintCheck")
-    }
-
-    @Test
-    fun `BuildConfig generation`() {
-        val project = gradleRunner.root.project("example-plugin")
-            .appendBuildScript(
-                """
-                gradlePluginConfig {
-                    buildFeatures {
-                        buildConfig {
-                            buildConfigField("STRING_FIELD", "string value")
-                            buildConfigField("LAZY_STRING_FIELD", provider { project.description })
-                            buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
-                            buildConfigField("NULLABLE_STRING_FIELD", null as String?)
-                            buildConfigField("BOOLEAN_FIELD", true)
-                            buildConfigField("INT_FIELD", 42)
-                            buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
-                        }
-                    }
-                }
-                description = "Project description"
-                """.trimIndent(),
-            )
-
-        gradleRunner.build(":example-plugin:classes")
-
-        assertThat(project.generatedFile(Generator.BuildConfig, "com.example.plugin.BuildConfig"))
-            .content()
-            .contains("const val STRING_FIELD: String = \"string value\"")
-            .contains("const val LAZY_STRING_FIELD: String = \"Project description\"")
-            .contains("val NULLABLE_STRING_FIELD: String? = null")
-            .contains("const val BOOLEAN_FIELD: Boolean = true")
-            .contains("const val INT_FIELD: Int = 42")
-            .doesNotContain("NONEXISTENT_STRING_FIELD")
-            .doesNotContain("TEST_STRING_FIELD")
-
-        gradleRunner.build(":example-plugin:testClasses")
-
-        assertThat(project.generatedFile(Generator.BuildConfig, "com.example.plugin.TestBuildConfig", variant = "test"))
-            .content()
-            .contains("const val TEST_STRING_FIELD: String = \"test string value\"")
-            .doesNotContain("INT_FIELD")
-    }
-
-    @Test
-    fun `unit tests`() {
-        val buildResult = gradleRunner.build(":example-plugin:test")
-
-        assertThat(buildResult.task(":example-plugin:test")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
-    }
-
-    @Test
-    fun `functional tests can call internal symbols from main`() {
-        val project = gradleRunner.root.project("example-plugin")
-        project.kotlinFile("com.example.plugin.internal.ExampleExtensionImplFunctionalTest", variant = "functionalTest")
-            .createParentDirectories()
-            .writeText(
-                //language=kotlin
-                """
-                package com.example.plugin.internal
-                
-                import org.junit.jupiter.api.Assertions.assertNotNull
-                import org.junit.jupiter.api.Test
-                
-                class ExampleExtensionImplFunctionalTest {
-                    @Test
-                    fun `functional tests can call internal symbols from main`() {
-                        assertNotNull(ExampleExtensionImpl::class)
-                    }
-                }
-                """.trimIndent(),
-            )
-
-        gradleRunner.build(":example-plugin:functionalTest")
-    }
-
-    @Test
-    fun `code coverage`() {
-        val buildResult = gradleRunner.build(":example-plugin:koverLog")
-
-        assertThat(buildResult.output).contains("application line coverage: 100%")
-    }
-
-    @Test
-    fun `toString() redaction`() {
-        gradleRunner.root.project("example-plugin")
-            .appendBuildScript(
-                """
-                gradlePluginConfig {
-                    buildFeatures {
-                        redacted = true
-                    }
-                }
-                
-                dependencies {
-                    testImplementation(kotlin("test"))
-                }
-                """.trimIndent(),
-            )
-            .createRedactedFixtures()
-
-        gradleRunner.build(":example-plugin:test")
-    }
-
-    @Test
-    fun publishing() {
-        val repoDir = gradleRunner.root.dir / "repo"
-        repoDir.createDirectories()
-
-        gradleRunner.build(":example-plugin:publishAllPublicationsToLocalRepository") {
-            gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
-        }
-
-        val artifactDir = repoDir / "io/technoirlab/example-plugin/dev"
-        assertThat(artifactDir)
-            .isDirectoryContaining("glob:**example-plugin-dev.*")
-            .isDirectoryContaining("glob:**example-plugin-dev-sources.*")
-            .isDirectoryContaining("glob:**example-plugin-dev-javadoc.*")
-            .isDirectoryContaining("glob:**example-plugin-dev-api.*")
-            .isDirectoryContaining("glob:**example-plugin-dev-api-sources.*")
-            .isDirectoryNotContaining("glob:**example-plugin-dev-test-fixtures*")
-
-        val moduleFile = artifactDir / "example-plugin-dev.module"
-        assertThat(moduleFile)
-            .content()
-            .doesNotContain("testFixturesApiElements", "testFixturesRuntimeElements", "test-fixtures")
-
-        val pomFile = artifactDir / "example-plugin-dev.pom"
-        assertThat(pomFile)
-            .content()
-            .contains("<name>example-plugin</name>")
-
-        val sourcesJar = artifactDir / "example-plugin-dev-sources.jar"
-        assertThat(sourcesJar).exists()
-        assertThat(sourcesJar.jarEntries()).contains("com/example/plugin/ExamplePlugin.kt")
-
-        val javadocJar = artifactDir / "example-plugin-dev-javadoc.jar"
-        assertThat(javadocJar).exists()
-        assertThat(javadocJar.jarEntries()).contains("com/example/plugin/ExamplePlugin.html")
-        assertThat(javadocJar.jarEntries()).contains("com/example/plugin/api/ExampleExtension.html")
-
-        val apiSourcesJar = artifactDir / "example-plugin-dev-api-sources.jar"
-        assertThat(apiSourcesJar).exists()
-        assertThat(apiSourcesJar.jarEntries()).contains("com/example/plugin/api/ExampleExtension.kt")
-    }
-
-    @Test
-    fun `publishing with custom coordinates`() {
-        val repoDir = gradleRunner.root.dir / "repo"
-        repoDir.createDirectories()
-
-        gradleRunner.build(":example-plugin:publishAllPublicationsToLocalRepository") {
-            gradleProperties += mapOf(
-                "project.groupId" to "com.example",
-                "project.version" to "v1",
-                "publish.local.url" to repoDir.toUri(),
-            )
-        }
-
-        val artifactDir = repoDir / "com/example/example-plugin/v1"
-        assertThat(artifactDir).isDirectoryContaining("glob:**example-plugin-v1*")
-    }
-
-    @Test
-    fun `publishing with custom metadata`() {
-        val repoDir = gradleRunner.root.dir / "repo"
-        repoDir.createDirectories()
-
-        gradleRunner.root.project("example-plugin")
-            .appendBuildScript("gradlePluginConfig {\n${PROJECT_METADATA.prependIndent("    ")}\n}")
-
-        gradleRunner.build(":example-plugin:publishAllPublicationsToLocalRepository") {
-            gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
-            environmentVariables += mapOf(
-                "GITHUB_SERVER_URL" to "https://github.com",
-                "GITHUB_REPOSITORY" to "example-org/example-project",
-            )
-        }
-
-        val pomFile = repoDir / "io/technoirlab/example-plugin/dev/example-plugin-dev.pom"
-        assertThat(pomFile)
-            .content()
-            .containsIgnoringNewLines(*POM_EXPECTED)
-    }
-
-    @Test
-    fun `ABI validation`() {
-        val project = gradleRunner.root.project("example-plugin")
-            .appendBuildScript(
-                """
-                gradlePluginConfig {
-                    buildFeatures {
-                        abiValidation = true
-                    }
-                }
-                """.trimIndent(),
-            )
-
-        gradleRunner.build(":example-plugin:updateKotlinAbi")
-
-        val abiDump = project.dir / "api/example-plugin.api"
-        assertThat(abiDump)
-            .content()
-            .contains(
-                """
-                public final class com/example/plugin/ExamplePlugin : org/gradle/api/Plugin {
-                	public fun <init> ()V
-                	public synthetic fun apply (Ljava/lang/Object;)V
-                	public fun apply (Lorg/gradle/api/Project;)V
-                }
-                """.trimIndent(),
-            )
-            // Defined in API compilation
-            .contains(
-                $$"""
-                public abstract interface class com/example/plugin/api/ExampleExtension {
-                	public static final field Companion Lcom/example/plugin/api/ExampleExtension$Companion;
-                	public static final field NAME Ljava/lang/String;
-                }
-                """.trimIndent(),
-            )
-
-        (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
-            .replaceText("// function placeholder", "fun hello() = Unit")
-
-        val buildResult = gradleRunner.build(":example-plugin:check", expectFailure = true)
-
-        assertThat(buildResult.task(":example-plugin:checkKotlinAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
-        assertThat(buildResult.output).contains(
-            """
-            |   	public fun apply (Lorg/gradle/api/Project;)V
-            |  +	public final fun hello ()V
-            """.trimMargin(),
-        )
     }
 
     @Test
@@ -455,4 +217,255 @@ class GradlePluginConventionPluginFunctionalTest {
     }
 
     private fun Path.jarManifestAttribute(key: String): String? = JarFile(toFile()).use { it.manifest.mainAttributes.getValue(key) }
+
+    @Nested
+    inner class CodeGeneration {
+        @Test
+        fun buildConfig() {
+            val project = gradleRunner.root.project("example-plugin")
+                .appendBuildScript(
+                    """
+                    gradlePluginConfig {
+                        buildFeatures {
+                            buildConfig {
+                                buildConfigField("STRING_FIELD", "string value")
+                                buildConfigField("LAZY_STRING_FIELD", provider { project.description })
+                                buildConfigField("NONEXISTENT_STRING_FIELD", provider<String> { null })
+                                buildConfigField("NULLABLE_STRING_FIELD", null as String?)
+                                buildConfigField("BOOLEAN_FIELD", true)
+                                buildConfigField("INT_FIELD", 42)
+                                buildConfigField("TEST_STRING_FIELD", "test string value", variant = "test")
+                            }
+                        }
+                    }
+                    description = "Project description"
+                    """.trimIndent(),
+                )
+
+            gradleRunner.build(":example-plugin:classes")
+
+            assertThat(project.generatedFile(Generator.BuildConfig, "com.example.plugin.BuildConfig"))
+                .content()
+                .contains("const val STRING_FIELD: String = \"string value\"")
+                .contains("const val LAZY_STRING_FIELD: String = \"Project description\"")
+                .contains("val NULLABLE_STRING_FIELD: String? = null")
+                .contains("const val BOOLEAN_FIELD: Boolean = true")
+                .contains("const val INT_FIELD: Int = 42")
+                .doesNotContain("NONEXISTENT_STRING_FIELD")
+                .doesNotContain("TEST_STRING_FIELD")
+
+            gradleRunner.build(":example-plugin:testClasses")
+
+            assertThat(project.generatedFile(Generator.BuildConfig, "com.example.plugin.TestBuildConfig", variant = "test"))
+                .content()
+                .contains("const val TEST_STRING_FIELD: String = \"test string value\"")
+                .doesNotContain("INT_FIELD")
+        }
+
+        @Test
+        fun `toString() redaction`() {
+            gradleRunner.root.project("example-plugin")
+                .appendBuildScript(
+                    """
+                    gradlePluginConfig {
+                        buildFeatures {
+                            redacted = true
+                        }
+                    }
+                    
+                    dependencies {
+                        testImplementation(kotlin("test"))
+                    }
+                    """.trimIndent(),
+                )
+                .createRedactedFixtures()
+
+            gradleRunner.build(":example-plugin:test")
+        }
+    }
+
+    @Nested
+    inner class Testing {
+        @Test
+        fun `unit tests`() {
+            val buildResult = gradleRunner.build(":example-plugin:test")
+
+            assertThat(buildResult.task(":example-plugin:test")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        }
+
+        @Test
+        fun `functional tests can call internal symbols from main`() {
+            val project = gradleRunner.root.project("example-plugin")
+            project.kotlinFile("com.example.plugin.internal.ExampleExtensionImplFunctionalTest", variant = "functionalTest")
+                .createParentDirectories()
+                .writeText(
+                    //language=kotlin
+                    """
+                    package com.example.plugin.internal
+                    
+                    import org.junit.jupiter.api.Assertions.assertNotNull
+                    import org.junit.jupiter.api.Test
+                    
+                    class ExampleExtensionImplFunctionalTest {
+                        @Test
+                        fun `functional tests can call internal symbols from main`() {
+                            assertNotNull(ExampleExtensionImpl::class)
+                        }
+                    }
+                    """.trimIndent(),
+                )
+
+            gradleRunner.build(":example-plugin:functionalTest")
+        }
+
+        @Test
+        fun `code coverage`() {
+            val buildResult = gradleRunner.build(":example-plugin:koverLog")
+
+            assertThat(buildResult.output).contains("application line coverage: 100%")
+        }
+    }
+
+    @Nested
+    inner class StaticAnalysis {
+        @Test
+        fun ktLint() {
+            gradleRunner.build(":example-plugin:ktlintCheck")
+        }
+
+        @Test
+        fun `ABI validation`() {
+            val project = gradleRunner.root.project("example-plugin")
+                .appendBuildScript(
+                    """
+                    gradlePluginConfig {
+                        buildFeatures {
+                            abiValidation = true
+                        }
+                    }
+                    """.trimIndent(),
+                )
+
+            gradleRunner.build(":example-plugin:updateKotlinAbi")
+
+            val abiDump = project.dir / "api/example-plugin.api"
+            assertThat(abiDump)
+                .content()
+                .contains(
+                    """
+                    public final class com/example/plugin/ExamplePlugin : org/gradle/api/Plugin {
+                    	public fun <init> ()V
+                    	public synthetic fun apply (Ljava/lang/Object;)V
+                    	public fun apply (Lorg/gradle/api/Project;)V
+                    }
+                    """.trimIndent(),
+                )
+                // Defined in API compilation
+                .contains(
+                    $$"""
+                    public abstract interface class com/example/plugin/api/ExampleExtension {
+                    	public static final field Companion Lcom/example/plugin/api/ExampleExtension$Companion;
+                    	public static final field NAME Ljava/lang/String;
+                    }
+                    """.trimIndent(),
+                )
+
+            (project.dir / "src/main/kotlin/com/example/plugin/ExamplePlugin.kt")
+                .replaceText("// function placeholder", "fun hello() = Unit")
+
+            val buildResult = gradleRunner.build(":example-plugin:check", expectFailure = true)
+
+            assertThat(buildResult.task(":example-plugin:checkKotlinAbi")?.outcome).isEqualTo(TaskOutcome.FAILED)
+            assertThat(buildResult.output).contains(
+                """
+                |   	public fun apply (Lorg/gradle/api/Project;)V
+                |  +	public final fun hello ()V
+                """.trimMargin(),
+            )
+        }
+    }
+
+    @Nested
+    inner class Publishing {
+        @Test
+        fun artifacts() {
+            val repoDir = gradleRunner.root.dir / "repo"
+            repoDir.createDirectories()
+
+            gradleRunner.build(":example-plugin:publishAllPublicationsToLocalRepository") {
+                gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
+            }
+
+            val artifactDir = repoDir / "io/technoirlab/example-plugin/dev"
+            assertThat(artifactDir)
+                .isDirectoryContaining("glob:**example-plugin-dev.*")
+                .isDirectoryContaining("glob:**example-plugin-dev-sources.*")
+                .isDirectoryContaining("glob:**example-plugin-dev-javadoc.*")
+                .isDirectoryContaining("glob:**example-plugin-dev-api.*")
+                .isDirectoryContaining("glob:**example-plugin-dev-api-sources.*")
+                .isDirectoryNotContaining("glob:**example-plugin-dev-test-fixtures*")
+
+            val moduleFile = artifactDir / "example-plugin-dev.module"
+            assertThat(moduleFile)
+                .content()
+                .doesNotContain("testFixturesApiElements", "testFixturesRuntimeElements", "test-fixtures")
+
+            val pomFile = artifactDir / "example-plugin-dev.pom"
+            assertThat(pomFile)
+                .content()
+                .contains("<name>example-plugin</name>")
+
+            val sourcesJar = artifactDir / "example-plugin-dev-sources.jar"
+            assertThat(sourcesJar).exists()
+            assertThat(sourcesJar.jarEntries()).contains("com/example/plugin/ExamplePlugin.kt")
+
+            val javadocJar = artifactDir / "example-plugin-dev-javadoc.jar"
+            assertThat(javadocJar).exists()
+            assertThat(javadocJar.jarEntries()).contains("com/example/plugin/ExamplePlugin.html")
+            assertThat(javadocJar.jarEntries()).contains("com/example/plugin/api/ExampleExtension.html")
+
+            val apiSourcesJar = artifactDir / "example-plugin-dev-api-sources.jar"
+            assertThat(apiSourcesJar).exists()
+            assertThat(apiSourcesJar.jarEntries()).contains("com/example/plugin/api/ExampleExtension.kt")
+        }
+
+        @Test
+        fun `custom coordinates`() {
+            val repoDir = gradleRunner.root.dir / "repo"
+            repoDir.createDirectories()
+
+            gradleRunner.build(":example-plugin:publishAllPublicationsToLocalRepository") {
+                gradleProperties += mapOf(
+                    "project.groupId" to "com.example",
+                    "project.version" to "v1",
+                    "publish.local.url" to repoDir.toUri(),
+                )
+            }
+
+            val artifactDir = repoDir / "com/example/example-plugin/v1"
+            assertThat(artifactDir).isDirectoryContaining("glob:**example-plugin-v1*")
+        }
+
+        @Test
+        fun `custom metadata`() {
+            val repoDir = gradleRunner.root.dir / "repo"
+            repoDir.createDirectories()
+
+            gradleRunner.root.project("example-plugin")
+                .appendBuildScript("gradlePluginConfig {\n${PROJECT_METADATA.prependIndent("    ")}\n}")
+
+            gradleRunner.build(":example-plugin:publishAllPublicationsToLocalRepository") {
+                gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
+                environmentVariables += mapOf(
+                    "GITHUB_SERVER_URL" to "https://github.com",
+                    "GITHUB_REPOSITORY" to "example-org/example-project",
+                )
+            }
+
+            val pomFile = repoDir / "io/technoirlab/example-plugin/dev/example-plugin-dev.pom"
+            assertThat(pomFile)
+                .content()
+                .containsIgnoringNewLines(*POM_EXPECTED)
+        }
+    }
 }
