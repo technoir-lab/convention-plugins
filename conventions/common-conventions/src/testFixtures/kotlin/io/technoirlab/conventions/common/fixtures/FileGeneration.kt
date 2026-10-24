@@ -2,6 +2,7 @@ package io.technoirlab.conventions.common.fixtures
 
 import io.technoirlab.gradle.test.kit.GradleProject
 import io.technoirlab.gradle.test.kit.kotlinFile
+import org.intellij.lang.annotations.Language
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.writeText
 
@@ -127,5 +128,68 @@ fun GradleProject.createSerializableClass(className: String = "com.example.Seria
             
             internal val serializer = $classNameWithoutPackage.serializer()
             """.trimIndent(),
+        )
+}
+
+fun GradleProject.createParcelableClass(className: String = "com.example.ParcelableClass") = apply {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile(className)
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            package $packageName
+            
+            import android.os.Parcelable
+            import kotlinx.parcelize.Parcelize
+            
+            @Parcelize
+            internal data class $classNameWithoutPackage(
+                val name: String,
+                val count: Int,
+            ) : Parcelable
+            """.trimIndent(),
+        )
+}
+
+fun GradleProject.createTestFixture(className: String = "com.example.TestFixture") = apply {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile(className, variant = "testFixtures")
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            package $packageName
+            
+            class $classNameWithoutPackage(val name: String)
+            """.trimIndent(),
+        )
+}
+
+fun GradleProject.createTest(
+    @Language("kotlin")
+    body: String,
+    className: String = "com.example.ExampleTest",
+) = apply {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile(className, variant = "test")
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            |package $packageName
+            |
+            |import org.junit.jupiter.api.Test
+            |
+            |class $classNameWithoutPackage {
+            |    @Test
+            |    fun test() {
+            |${body.prependIndent("        ")}
+            |    }
+            |}
+            """.trimMargin(),
         )
 }
