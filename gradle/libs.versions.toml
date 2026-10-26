@@ -7,6 +7,7 @@ develocity-gradle-plugin = "4.6.1"
 desugar-jdk-libs = "2.1.5"
 dokka = "2.1.0"
 foojay-resolver-gradle-plugin = "1.0.0"
+gcp-build-cache-gradle-plugin = "1.0.2"
 jetbrains-annotations = "26.1.0"
 junit = "6.1.3"
 kotlin = "2.4.21"
@@ -36,6 +37,7 @@ develocity-gradle-plugin = { module = "com.gradle:develocity-gradle-plugin", ver
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 ec4j-core = { module = "org.ec4j.core:ec4j-core" }
 foojay-resolver-gradle-plugin = { module = "org.gradle.toolchains:foojay-resolver", version.ref = "foojay-resolver-gradle-plugin" }
+gcp-build-cache-gradle-plugin = { module = "androidx.build.gradle.gcpbuildcache:gcpbuildcache", version.ref = "gcp-build-cache-gradle-plugin" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
