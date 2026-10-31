@@ -57,6 +57,15 @@ jobs:
         with:
           cache-provider: basic
 
+      - name: Publish to Maven Central
+        id: maven-central
+        env:
+          CENTRAL_PORTAL_USER: ${{ secrets.CENTRAL_PORTAL_USER }}
+          CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: ./gradlew publishAggregationToCentralPortal
+
       - name: Publish to GitHub Packages
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -66,17 +75,9 @@ jobs:
           -Ppublish.github.username=${{ secrets.GPR_DEPLOY_USER }} \
           -Ppublish.github.password=${{ secrets.GPR_DEPLOY_TOKEN }}
 
-      - name: Publish to Maven Central
-        env:
-          CENTRAL_PORTAL_USER: ${{ secrets.CENTRAL_PORTAL_USER }}
-          CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew publishAggregationToCentralPortal
-
       - name: Create release
         uses: softprops/action-gh-release@v3.0.3
-        if: github.ref_type == 'tag'
+        if: ${{ !cancelled() && github.ref_type == 'tag' && steps.maven-central.outcome == 'success' }}
         with:
           generate_release_notes: true
 
