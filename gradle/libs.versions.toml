@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "9.4.1"
+android-gradle-plugin = "9.5.0"
 assertj = "3.27.7"
 buildconfig = "6.1.2"
 dependency-analysis-gradle-plugin = "3.20.0"
