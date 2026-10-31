@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":libraries:gradle-extensions"))
     implementation(libs.dependency.analysis.gradle.plugin)
     implementation(libs.develocity.gradle.plugin)
+    implementation(libs.gcp.build.cache.gradle.plugin)
     implementation(libs.nmcp.gradle.plugin)
 
     functionalTestImplementation(project(":libraries:gradle-test-kit"))

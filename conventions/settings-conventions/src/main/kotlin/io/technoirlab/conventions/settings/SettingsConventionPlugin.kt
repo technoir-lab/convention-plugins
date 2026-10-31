@@ -3,6 +3,7 @@ package io.technoirlab.conventions.settings
 import io.technoirlab.conventions.common.api.CommonExtension
 import io.technoirlab.conventions.common.api.metadata.ProjectMetadata
 import io.technoirlab.conventions.settings.api.SettingsExtension
+import io.technoirlab.conventions.settings.configuration.configureBuildCache
 import io.technoirlab.conventions.settings.configuration.configureDependencyAnalysis
 import io.technoirlab.conventions.settings.configuration.configureDependencyResolution
 import io.technoirlab.conventions.settings.configuration.configureDevelocity
@@ -17,6 +18,7 @@ import org.gradle.kotlin.dsl.findByType
 @Suppress("UnstableApiUsage")
 class SettingsConventionPlugin : Plugin<Settings> {
     override fun apply(settings: Settings) = with(settings) {
+        pluginManager.apply("androidx.build.gradle.gcpbuildcache")
         pluginManager.apply("com.autonomousapps.build-health")
         pluginManager.apply("com.gradle.develocity")
         pluginManager.apply("org.gradle.toolchains.foojay-resolver-convention")
@@ -38,6 +40,7 @@ class SettingsConventionPlugin : Plugin<Settings> {
         }
 
         val environment = Environment(providers)
+        configureBuildCache()
         configureDependencyAnalysis()
         configureDependencyResolution(environment)
         configureDevelocity(config, environment)
