@@ -2,7 +2,7 @@
 android-gradle-plugin = "9.5.0"
 assertj = "3.27.7"
 buildconfig = "6.1.2"
-dependency-analysis-gradle-plugin = "3.20.0"
+dependency-analysis-gradle-plugin = "3.20.1"
 develocity-gradle-plugin = "4.6.1"
 desugar-jdk-libs = "2.1.5"
 dokka = "2.1.0"
