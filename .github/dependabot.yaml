@@ -6,6 +6,11 @@ updates:
         - "io.technoirlab:*"
         - "io.technoirlab.*:*"
     directory: "/"
+    groups:
+      android-gradle-plugin:
+        patterns:
+          - "com.android.tools.build:*"
+          - "com.android.tools:common"
     schedule:
       interval: "weekly"
     registries: "*"
