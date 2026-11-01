@@ -32,13 +32,12 @@ dependencies {
 
     compileOnly(libs.android.gradle.api)
 
+    runtimeOnly(libs.android.gradle.plugin)
     runtimeOnly(libs.metro.gradle.plugin)
 
     testImplementation(project(":libraries:gradle-test-kit"))
     testImplementation(libs.android.gradle.api)
     testImplementation(libs.assertj.core)
-
-    testRuntimeOnly(libs.android.gradle.plugin)
 
     functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }
