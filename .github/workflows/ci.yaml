@@ -50,7 +50,7 @@ jobs:
         run: make check
 
       - name: Publish test report
-        uses: mikepenz/action-junit-report@v6.6.1
+        uses: mikepenz/action-junit-report@v6.6.2
         if: success() || failure()
         with:
           check_name: Test Report
@@ -99,7 +99,7 @@ jobs:
         run: make functional-test
 
       - name: Publish test report
-        uses: mikepenz/action-junit-report@v6.6.1
+        uses: mikepenz/action-junit-report@v6.6.2
         if: success() || failure()
         with:
           check_name: Functional Test Report
