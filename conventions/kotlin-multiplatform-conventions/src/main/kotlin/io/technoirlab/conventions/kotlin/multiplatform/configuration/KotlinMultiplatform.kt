@@ -61,6 +61,10 @@ internal fun Project.configureKotlinMultiplatform(
         }
     }
 
+    pluginManager.withPlugin("com.android.kotlin.multiplatform.library") {
+        configureAndroidTarget(config.packageName)
+    }
+
     afterEvaluate {
         configure<KmpExtension> {
             coreLibrariesVersion = kotlinConfig.get().coreLibrariesVersion

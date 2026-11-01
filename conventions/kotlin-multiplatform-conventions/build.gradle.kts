@@ -17,6 +17,7 @@ gradlePluginConfig {
 dependencies {
     apiApi(apiOf(project(":conventions:common-conventions")))
 
+    implementation(apiOf(project(":conventions:android-conventions")))
     implementation(project(":conventions:common-conventions"))
     implementation(project(":libraries:core-utils"))
     implementation(project(":libraries:gradle-extensions"))
@@ -29,9 +30,15 @@ dependencies {
     functionalTestImplementation(project(":libraries:gradle-test-kit"))
     functionalTestImplementation(libs.assertj.core)
 
+    compileOnly(libs.android.gradle.api)
+
     runtimeOnly(libs.metro.gradle.plugin)
 
     testImplementation(project(":libraries:gradle-test-kit"))
+    testImplementation(libs.android.gradle.api)
+    testImplementation(libs.assertj.core)
+
+    testRuntimeOnly(libs.android.gradle.plugin)
 
     functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }

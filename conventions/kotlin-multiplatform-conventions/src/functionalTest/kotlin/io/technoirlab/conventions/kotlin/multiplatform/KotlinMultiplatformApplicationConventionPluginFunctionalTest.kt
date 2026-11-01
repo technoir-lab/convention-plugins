@@ -17,6 +17,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import java.nio.file.FileSystems
 import kotlin.io.path.appendText
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
@@ -149,6 +150,24 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
         assertThat(debugResult.output).contains("AssertionError")
 
         gradleRunner.build(":kmp-application:runReleaseExecutable")
+    }
+
+    @Nested
+    inner class Targets {
+        @Test
+        fun `Android target`() {
+            val project = gradleRunner.root.project("kmp-application")
+
+            val buildResult = gradleRunner.build(":kmp-application:assembleAndroidMain")
+
+            assertThat(buildResult.task(":kmp-application:compileAndroidMain")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            FileSystems.newFileSystem(project.buildDir / "outputs/aar/kmp-application.aar").use { aar ->
+                assertThat(aar.getPath("AndroidManifest.xml"))
+                    .content()
+                    .contains("package=\"kmp.application\"")
+                    .contains("android:minSdkVersion=\"26\"")
+            }
+        }
     }
 
     @Nested

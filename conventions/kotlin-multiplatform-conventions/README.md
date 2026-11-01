@@ -66,7 +66,7 @@ plugins {
     id("io.technoirlab.conventions.kotlin-multiplatform-library")
 }
 
-kotlinLibrary {
+kotlinMultiplatformLibrary {
     // The base package name
     packageName = "com.example.kmp.library"
 
@@ -101,3 +101,20 @@ kotlin {
     ...
 }
 ```
+
+## Android target
+
+Apply the Android Gradle Plugin's `com.android.kotlin.multiplatform.library` plugin alongside either convention to add an Android target:
+
+```kotlin
+plugins {
+    id("io.technoirlab.conventions.kotlin-multiplatform-library")
+    id("com.android.kotlin.multiplatform.library")
+}
+
+kotlin {
+    android {}
+}
+```
+
+The conventions set the target's `namespace` to `packageName`. Unless set explicitly, `compileSdk` and `minSdk` default to the same values as in the [Android conventions](../android-conventions/README.md) (37 and 26), and `lint.targetSdk` defaults to `compileSdk`. Benchmarks are not registered for the Android target.
