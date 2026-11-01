@@ -35,7 +35,7 @@ jobs:
           cache-provider: basic
 
       - name: Set up GCP Gradle build cache
-        uses: technoir-lab/actions/setup-gcp-gradle-build-cache@v1.2.1
+        uses: technoir-lab/actions/setup-gcp-gradle-build-cache@v1.1.2
 
       - name: Analyse build health on base branch
         run: ./gradlew :buildHealth

@@ -38,7 +38,7 @@ jobs:
           cache-provider: basic
 
       - name: Set up GCP Gradle build cache
-        uses: technoir-lab/actions/setup-gcp-gradle-build-cache@v1.2.1
+        uses: technoir-lab/actions/setup-gcp-gradle-build-cache@v1.1.2
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4.0.4
@@ -84,10 +84,10 @@ jobs:
           cache-provider: basic
 
       - name: Set up GCP Gradle build cache
-        uses: technoir-lab/actions/setup-gcp-gradle-build-cache@v1.2.1
+        uses: technoir-lab/actions/setup-gcp-gradle-build-cache@v1.1.2
 
       - name: Set up KMP
-        uses: technoir-lab/actions/setup-kotlin-multiplatform@v1.0.0
+        uses: technoir-lab/actions/setup-kotlin-multiplatform@v1.1.2
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4.0.4
