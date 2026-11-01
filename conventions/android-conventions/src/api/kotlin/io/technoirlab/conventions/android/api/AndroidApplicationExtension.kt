@@ -14,7 +14,7 @@ interface AndroidApplicationExtension : AndroidCommonExtension {
     val applicationId: Property<String>
 
     /**
-     * Android API level targeted by the application. Defaults to 37.
+     * Android API level targeted by the application. Defaults to [compileSdk].
      */
     val targetSdk: Property<Int>
 

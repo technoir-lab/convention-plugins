@@ -13,10 +13,6 @@ internal abstract class AndroidTestExtensionImpl(project: Project) :
     override fun initDefaults() {
         super.initDefaults()
         testApplicationId.convention(packageName)
-        targetSdk.convention(DEFAULT_TARGET_SDK)
-    }
-
-    private companion object {
-        private const val DEFAULT_TARGET_SDK = 37
+        targetSdk.convention(compileSdk)
     }
 }

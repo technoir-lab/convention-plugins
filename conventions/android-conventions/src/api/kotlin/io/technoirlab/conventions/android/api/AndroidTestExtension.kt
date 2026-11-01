@@ -19,7 +19,7 @@ interface AndroidTestExtension : AndroidCommonExtension {
     val targetProjectPath: Property<String>
 
     /**
-     * Android API level targeted by the test APK. Defaults to 37.
+     * Android API level targeted by the test APK. Defaults to [compileSdk].
      */
     val targetSdk: Property<Int>
 

@@ -28,7 +28,7 @@ androidApplication {
 }
 ```
 
-`applicationId` is required. `versionName` defaults to `project.version`; the SDK and version defaults can be overridden through the convention extension.
+`applicationId` is required. `versionName` defaults to `project.version` and `targetSdk` to `compileSdk`; the SDK and version defaults can be overridden through the convention extension.
 
 ## Android library
 
@@ -55,6 +55,8 @@ androidLibrary {
 
 Android libraries publish the release AAR with source and Dokka documentation artifacts. Android test fixtures are opt-in and are published with the release variant.
 
+Lint checks libraries against `compileSdk` unless `android.lint.targetSdk` is set.
+
 ## Android test
 
 ```kotlin
@@ -79,7 +81,7 @@ androidTest {
 }
 ```
 
-`targetProjectPath` is required and names the application project under test. `testApplicationId` defaults to `packageName`, and `targetSdk` defaults to 37.
+`targetProjectPath` is required and names the application project under test. `testApplicationId` defaults to `packageName`, and `targetSdk` defaults to `compileSdk`.
 
 Android test projects build an instrumentation APK from the `main` source set and have only the `debug` build type by default. Declare instrumented test dependencies, such as the AndroidX Test runner, in the project. AGP does not create local unit tests for test projects, so JUnit Jupiter and Kover are not configured.
 
