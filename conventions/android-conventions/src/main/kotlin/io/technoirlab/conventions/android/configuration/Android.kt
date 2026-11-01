@@ -89,6 +89,10 @@ private fun Project.configureAndroidApplicationAfterEvaluate(androidExtension: A
 
 private fun Project.configureAndroidLibraryAfterEvaluate(androidExtension: LibraryExtension, config: AndroidLibraryExtension) =
     with(androidExtension) {
+        if (lint.targetSdk == null && lint.targetSdkPreview == null) {
+            lint.targetSdk = compileSdk
+        }
+
         @Suppress("UnstableApiUsage")
         testFixtures.enable = config.buildFeatures.testFixtures.get()
 

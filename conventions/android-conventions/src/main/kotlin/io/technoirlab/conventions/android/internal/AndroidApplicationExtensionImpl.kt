@@ -12,13 +12,12 @@ internal abstract class AndroidApplicationExtensionImpl(project: Project) :
 
     override fun initDefaults() {
         super.initDefaults()
-        targetSdk.convention(DEFAULT_TARGET_SDK)
+        targetSdk.convention(compileSdk)
         versionCode.convention(DEFAULT_VERSION_CODE)
         versionName.convention(project.provider { project.version.toString() })
     }
 
     private companion object {
-        private const val DEFAULT_TARGET_SDK = 37
         private const val DEFAULT_VERSION_CODE = 1
     }
 }

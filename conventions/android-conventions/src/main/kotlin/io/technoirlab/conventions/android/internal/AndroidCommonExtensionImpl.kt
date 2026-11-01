@@ -1,6 +1,8 @@
 package io.technoirlab.conventions.android.internal
 
 import io.technoirlab.conventions.android.api.AndroidCommonExtension
+import io.technoirlab.conventions.android.api.AndroidCommonExtension.Companion.DEFAULT_COMPILE_SDK
+import io.technoirlab.conventions.android.api.AndroidCommonExtension.Companion.DEFAULT_MIN_SDK
 import io.technoirlab.conventions.common.internal.CommonExtensionImpl
 import org.gradle.api.Project
 import org.gradle.api.tasks.Nested
@@ -21,10 +23,5 @@ internal abstract class AndroidCommonExtensionImpl(project: Project) :
             developers.convention(emptyList())
             licenses.convention(emptyList())
         }
-    }
-
-    private companion object {
-        private const val DEFAULT_COMPILE_SDK = 37
-        private const val DEFAULT_MIN_SDK = 26
     }
 }

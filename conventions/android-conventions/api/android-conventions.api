@@ -41,9 +41,17 @@ public abstract interface class io/technoirlab/conventions/android/api/AndroidBu
 }
 
 public abstract interface class io/technoirlab/conventions/android/api/AndroidCommonExtension : io/technoirlab/conventions/common/api/CommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/android/api/AndroidCommonExtension$Companion;
+	public static final field DEFAULT_COMPILE_SDK I
+	public static final field DEFAULT_MIN_SDK I
 	public abstract fun getBuildFeatures ()Lio/technoirlab/conventions/android/api/AndroidBuildFeatures;
 	public abstract fun getCompileSdk ()Lorg/gradle/api/provider/Property;
 	public abstract fun getMinSdk ()Lorg/gradle/api/provider/Property;
+}
+
+public final class io/technoirlab/conventions/android/api/AndroidCommonExtension$Companion {
+	public static final field DEFAULT_COMPILE_SDK I
+	public static final field DEFAULT_MIN_SDK I
 }
 
 public abstract interface class io/technoirlab/conventions/android/api/AndroidLibraryBuildFeatures : io/technoirlab/conventions/android/api/AndroidBuildFeatures {

@@ -1,11 +1,15 @@
 package io.technoirlab.conventions.android
 
+import com.android.build.api.dsl.LibraryExtension
+import io.technoirlab.conventions.android.api.AndroidCommonExtension.Companion.DEFAULT_COMPILE_SDK
 import io.technoirlab.conventions.android.api.AndroidLibraryExtension
 import io.technoirlab.gradle.test.kit.createRootProject
 import io.technoirlab.gradle.test.kit.evaluate
+import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.the
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -25,5 +29,17 @@ class AndroidLibraryConventionPluginTest {
         }
 
         project.evaluate()
+    }
+
+    @Test
+    fun `lint targetSdk defaults to compileSdk`() {
+        project.apply(plugin = "io.technoirlab.conventions.android-library")
+        project.configure<AndroidLibraryExtension> {
+            packageName.set("com.example.android.library")
+        }
+
+        project.evaluate()
+
+        assertThat(project.the<LibraryExtension>().lint.targetSdk).isEqualTo(DEFAULT_COMPILE_SDK)
     }
 }
