@@ -21,6 +21,7 @@ gradlePluginConfig {
 dependencies {
     implementation(project(":libraries:core-utils"))
     implementation(project(":libraries:gradle-extensions"))
+    implementation(libs.android.tools.common)
     implementation(libs.buildconfig.gradle.plugin)
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)

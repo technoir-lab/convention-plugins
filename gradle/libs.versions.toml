@@ -1,5 +1,6 @@
 [versions]
 android-gradle-plugin = "9.5.0"
+android-tools = "32.5.0"
 assertj = "3.27.7"
 buildconfig = "6.1.2"
 dependency-analysis-gradle-plugin = "3.20.1"
@@ -29,6 +30,7 @@ sort-dependencies-gradle-plugin = "0.21.0"
 android-gradle-api = { module = "com.android.tools.build:gradle-api", version.ref = "android-gradle-plugin" }
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
 android-gradle-settings-plugin = { module = "com.android.tools.build:gradle-settings", version.ref = "android-gradle-plugin" }
+android-tools-common = { module = "com.android.tools:common", version.ref = "android-tools" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 buildconfig-gradle-plugin = { module = "com.github.gmazzo.buildconfig:plugin", version.ref = "buildconfig" }
 dependency-analysis-gradle-plugin = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependency-analysis-gradle-plugin" }
