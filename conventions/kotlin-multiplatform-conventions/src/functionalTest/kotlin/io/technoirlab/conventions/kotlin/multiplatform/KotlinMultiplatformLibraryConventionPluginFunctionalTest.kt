@@ -20,6 +20,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import java.nio.file.FileSystems
 import kotlin.io.path.appendText
 import kotlin.io.path.createDirectories
 import kotlin.io.path.div
@@ -77,6 +78,24 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
         assertThat(project.buildDir / "dokka/html/index.html").exists()
         assertThat(project.buildDir / "dokka/html/kmp-library/kmp.library/index.html").exists()
         assertThat(project.buildDir / "dokka/html/kmp-library/kmp.library.internal").doesNotExist()
+    }
+
+    @Nested
+    inner class Targets {
+        @Test
+        fun `Android target`() {
+            val project = gradleRunner.root.project("kmp-library")
+
+            val buildResult = gradleRunner.build(":kmp-library:assembleAndroidMain")
+
+            assertThat(buildResult.task(":kmp-library:compileAndroidMain")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            FileSystems.newFileSystem(project.buildDir / "outputs/aar/kmp-library.aar").use { aar ->
+                assertThat(aar.getPath("AndroidManifest.xml"))
+                    .content()
+                    .contains("package=\"kmp.library\"")
+                    .contains("android:minSdkVersion=\"26\"")
+            }
+        }
     }
 
     @Nested
@@ -338,6 +357,7 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
             gradleRunner.build(":kmp-library:publishAllPublicationsToLocalRepository") {
                 gradleProperties += mapOf("publish.local.url" to repoDir.toUri())
                 environmentVariables += mapOf(
+                    "ANDROID_HOME" to System.getenv("ANDROID_HOME"),
                     "GITHUB_SERVER_URL" to "https://github.com",
                     "GITHUB_REPOSITORY" to "example-org/example-project",
                 )

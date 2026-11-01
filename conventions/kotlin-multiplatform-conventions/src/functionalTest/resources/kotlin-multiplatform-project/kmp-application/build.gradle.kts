@@ -1,5 +1,6 @@
 plugins {
     id("io.technoirlab.conventions.kotlin-multiplatform-application")
+    id("com.android.kotlin.multiplatform.library")
 }
 
 kotlinMultiplatformApplication {
@@ -9,6 +10,7 @@ kotlinMultiplatformApplication {
 }
 
 kotlin {
+    android {}
     jvm()
     linuxX64()
     macosArm64()

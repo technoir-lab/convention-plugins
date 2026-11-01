@@ -9,6 +9,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.the
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMetadataTarget
 
 internal fun Project.configureBenchmarking(enable: Property<Boolean>) {
@@ -19,7 +20,7 @@ internal fun Project.configureBenchmarking(enable: Property<Boolean>) {
     val benchmarksExtension = the<BenchmarksExtension>()
     configure<KotlinMultiplatformExtension> {
         val benchmarkSourceSet = sourceSets.create("benchmark")
-        targets.matching { it !is KotlinMetadataTarget }.configureEach {
+        targets.matching { it !is KotlinMetadataTarget && it.platformType != KotlinPlatformType.androidJvm }.configureEach {
             val mainCompilation = compilations["main"]
             val benchmarkCompilation = compilations.create("benchmark") {
                 associateWith(mainCompilation)
