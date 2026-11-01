@@ -4,6 +4,7 @@ import io.technoirlab.conventions.android.api.AndroidApplicationExtension
 import io.technoirlab.conventions.android.configuration.configureAndroidApplication
 import io.technoirlab.conventions.android.configuration.configureBuildConfig
 import io.technoirlab.conventions.android.configuration.configureKotlinParcelize
+import io.technoirlab.conventions.android.configuration.configureUnitTests
 import io.technoirlab.conventions.android.internal.AndroidApplicationExtensionImpl
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import org.gradle.api.Plugin
@@ -28,8 +29,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
         pluginManager.apply("com.android.application")
         pluginManager.apply(AndroidCommonConventionPlugin::class)
+        pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         configureAndroidApplication(config) { androidExtension ->
+            configureUnitTests(androidExtension)
             configureBuildConfig(androidExtension, config.buildFeatures.buildConfig)
             configureKotlinParcelize(config.buildFeatures.parcelize)
             configureKotlinSerialization(config.buildFeatures.serialization)

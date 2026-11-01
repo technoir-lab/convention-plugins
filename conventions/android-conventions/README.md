@@ -55,7 +55,37 @@ androidLibrary {
 
 Android libraries publish the release AAR with source and Dokka documentation artifacts. Android test fixtures are opt-in and are published with the release variant.
 
-Local unit tests use JUnit Jupiter and include Kover coverage tasks. `packageName` defaults to the project name with hyphens and underscores replaced by dots.
+## Android test
+
+```kotlin
+plugins {
+    id("io.technoirlab.conventions.android-test")
+}
+
+androidTest {
+    packageName = "com.example.android.test"
+    testApplicationId = "com.example.android.application.test"
+    targetProjectPath = ":android-application"
+
+    buildFeatures {
+        parcelize = true
+        serialization = true
+
+        buildConfig {
+            buildConfigField("API_URL", "https://example.com")
+            buildConfigField("DEBUG_API_URL", "https://debug.example.com", variant = "debug")
+        }
+    }
+}
+```
+
+`targetProjectPath` is required and names the application project under test. `testApplicationId` defaults to `packageName`, and `targetSdk` defaults to 37.
+
+Android test projects build an instrumentation APK from the `main` source set and have only the `debug` build type by default. Declare instrumented test dependencies, such as the AndroidX Test runner, in the project. AGP does not create local unit tests for test projects, so JUnit Jupiter and Kover are not configured.
+
+## Shared behavior
+
+Application and library local unit tests use JUnit Jupiter and include Kover coverage tasks. `packageName` defaults to the project name with hyphens and underscores replaced by dots.
 
 Parcelize and serialization support are opt-in. Enabling Parcelize only applies the Kotlin Parcelize compiler plugin.
 

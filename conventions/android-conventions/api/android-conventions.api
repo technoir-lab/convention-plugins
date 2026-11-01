@@ -16,6 +16,12 @@ public final class io/technoirlab/conventions/android/AndroidLibraryConventionPl
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public final class io/technoirlab/conventions/android/AndroidTestConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
 public abstract interface class io/technoirlab/conventions/android/api/AndroidApplicationExtension : io/technoirlab/conventions/android/api/AndroidCommonExtension {
 	public static final field Companion Lio/technoirlab/conventions/android/api/AndroidApplicationExtension$Companion;
 	public static final field NAME Ljava/lang/String;
@@ -52,6 +58,19 @@ public abstract interface class io/technoirlab/conventions/android/api/AndroidLi
 }
 
 public final class io/technoirlab/conventions/android/api/AndroidLibraryExtension$Companion {
+	public static final field NAME Ljava/lang/String;
+}
+
+public abstract interface class io/technoirlab/conventions/android/api/AndroidTestExtension : io/technoirlab/conventions/android/api/AndroidCommonExtension {
+	public static final field Companion Lio/technoirlab/conventions/android/api/AndroidTestExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun buildFeatures (Lorg/gradle/api/Action;)V
+	public abstract fun getTargetProjectPath ()Lorg/gradle/api/provider/Property;
+	public abstract fun getTargetSdk ()Lorg/gradle/api/provider/Property;
+	public abstract fun getTestApplicationId ()Lorg/gradle/api/provider/Property;
+}
+
+public final class io/technoirlab/conventions/android/api/AndroidTestExtension$Companion {
 	public static final field NAME Ljava/lang/String;
 }
 
