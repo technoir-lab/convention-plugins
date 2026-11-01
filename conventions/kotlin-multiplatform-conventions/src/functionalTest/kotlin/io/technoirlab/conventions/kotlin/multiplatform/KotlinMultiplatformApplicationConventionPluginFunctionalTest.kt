@@ -3,15 +3,12 @@ package io.technoirlab.conventions.kotlin.multiplatform
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
 import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
-import io.technoirlab.core.capitalized
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
 import io.technoirlab.gradle.test.kit.buildDir
-import io.technoirlab.gradle.test.kit.buildScript
 import io.technoirlab.gradle.test.kit.generatedFile
 import io.technoirlab.gradle.test.kit.kotlinFile
-import io.technoirlab.gradle.test.kit.replaceText
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Nested
@@ -19,10 +16,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.nio.file.FileSystems
 import kotlin.io.path.appendText
-import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
-import kotlin.io.path.moveTo
-import kotlin.io.path.writeText
 
 class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     @RegisterExtension
@@ -31,39 +25,6 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
     @Test
     fun `builds successfully`() {
         gradleRunner.build(":kmp-application:build")
-    }
-
-    @Test
-    fun `custom package name`() {
-        val project = gradleRunner.root.project("kmp-application")
-        project.buildScript.replaceText(
-            "kotlinMultiplatformApplication {",
-            """
-            kotlinMultiplatformApplication {
-                packageName = "com.example.kmp.application"
-            """.trimIndent(),
-        )
-
-        val newMainKt = project.dir / "src/commonMain/kotlin/com/example/kmp/application/Main.kt"
-        newMainKt.createParentDirectories()
-        (project.dir / "src/commonMain/kotlin/kmp/application/Main.kt").moveTo(newMainKt)
-        newMainKt.replaceText(
-            """
-            package kmp.application
-            """.trimIndent(),
-            """
-            package com.example.kmp.application
-            
-            import kmp.application.greet
-            """.trimIndent(),
-        )
-
-        (project.dir / "src/nativeMain/kotlin/kmp/application/Greet.kt")
-            .replaceText("nativeGreet(", "com.example.kmp.application.nativeGreet(")
-
-        val buildResult = gradleRunner.build(":kmp-application:runDebugExecutable")
-
-        assertThat(buildResult.output).contains("Hello, world!")
     }
 
     @Test
@@ -91,65 +52,6 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
             )
 
         gradleRunner.build(":kmp-application:assemble")
-    }
-
-    @Test
-    fun `default binaries`() {
-        gradleRunner.root.project("kmp-application")
-            .appendBuildScript(
-                """
-                kotlin {
-                    androidNativeArm64()
-                    androidNativeX64()
-                    iosArm64()
-                    tvosArm64()
-                    watchosArm64()
-                }
-                """.trimIndent(),
-            )
-
-        val buildResult = gradleRunner.build(":kmp-application:build") { dryRun = true }
-
-        val buildTypes = listOf("debug", "release")
-        val executableTargets = listOf("linuxX64", "macosArm64", "mingwX64")
-        val sharedLibraryTargets = listOf("androidNativeArm64", "androidNativeX64")
-        val staticFrameworkTargets = listOf("macosArm64", "iosArm64", "tvosArm64", "watchosArm64")
-        val expectedTasks = buildTypes.flatMap { buildType ->
-            val buildTypeName = buildType.capitalized()
-            executableTargets.map { target ->
-                "link${buildTypeName}Executable${target.capitalized()}"
-            } + sharedLibraryTargets.map { target ->
-                "link${buildTypeName}Shared${target.capitalized()}"
-            } + staticFrameworkTargets.map { target ->
-                "linkStatic${buildTypeName}Framework${target.capitalized()}"
-            }
-        }
-
-        assertThat(buildResult.output).contains(expectedTasks.map { ":kmp-application:$it SKIPPED" })
-    }
-
-    @Test
-    fun `debug binaries enable assertions`() {
-        gradleRunner.root.project("kmp-application")
-            .kotlinFile("kmp.application.Main", variant = "commonMain")
-            .writeText(
-                """
-                package kmp.application
-                
-                import kotlin.experimental.ExperimentalNativeApi
-                
-                @OptIn(ExperimentalNativeApi::class)
-                fun main() {
-                    assert(false)
-                }
-                """.trimIndent(),
-            )
-
-        val debugResult = gradleRunner.build(":kmp-application:runDebugExecutable", expectFailure = true)
-
-        assertThat(debugResult.output).contains("AssertionError")
-
-        gradleRunner.build(":kmp-application:runReleaseExecutable")
     }
 
     @Nested

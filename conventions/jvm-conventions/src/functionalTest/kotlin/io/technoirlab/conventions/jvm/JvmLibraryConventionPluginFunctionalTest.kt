@@ -252,23 +252,6 @@ class JvmLibraryConventionPluginFunctionalTest {
         }
 
         @Test
-        fun `custom Maven coordinates`() {
-            val repoDir = gradleRunner.root.dir / "repo"
-            repoDir.createDirectories()
-
-            gradleRunner.build(":jvm-library:publishAllPublicationsToLocalRepository") {
-                gradleProperties += mapOf(
-                    "project.groupId" to "com.example",
-                    "project.version" to "v1",
-                    "publish.local.url" to repoDir.toUri(),
-                )
-            }
-
-            val artifactDir = repoDir / "com/example/jvm-library/v1"
-            assertThat(artifactDir).isDirectoryContaining("glob:**jvm-library-v1*")
-        }
-
-        @Test
         fun `custom metadata`() {
             val repoDir = gradleRunner.root.dir / "repo"
             repoDir.createDirectories()

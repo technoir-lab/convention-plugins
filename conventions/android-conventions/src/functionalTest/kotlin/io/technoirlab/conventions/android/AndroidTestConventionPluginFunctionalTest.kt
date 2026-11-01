@@ -42,28 +42,6 @@ class AndroidTestConventionPluginFunctionalTest {
     }
 
     @Test
-    fun `custom test application ID and target SDK`() {
-        val project = gradleRunner.root.project("android-test")
-            .appendBuildScript(
-                """
-                androidTest {
-                    testApplicationId = "com.example.android.application.test"
-                    targetSdk = 36
-                }
-                """.trimIndent(),
-            )
-
-        gradleRunner.build(":android-test:assembleDebug")
-
-        assertThat(project.buildDir / "outputs/apk/debug/output-metadata.json")
-            .content()
-            .contains("\"applicationId\": \"com.example.android.application.test\"")
-        assertThat(project.buildDir / PACKAGED_MANIFEST_PATH)
-            .content()
-            .contains("android:targetSdkVersion=\"36\"")
-    }
-
-    @Test
     fun `declaring common dependencies without versions`() {
         gradleRunner.root.project("android-test").appendBuildScript(
             """

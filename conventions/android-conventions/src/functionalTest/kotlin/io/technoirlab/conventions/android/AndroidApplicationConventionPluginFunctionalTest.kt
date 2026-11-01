@@ -38,26 +38,6 @@ class AndroidApplicationConventionPluginFunctionalTest {
     }
 
     @Test
-    fun `custom version`() {
-        val project = gradleRunner.root.project("android-application")
-            .appendBuildScript(
-                """
-                androidApplication {
-                    versionCode = 42
-                    versionName = "1.2.3"
-                }
-                """.trimIndent(),
-            )
-
-        gradleRunner.build(":android-application:assembleDebug")
-
-        assertThat(project.buildDir / "outputs/apk/debug/output-metadata.json")
-            .content()
-            .contains("\"versionCode\": 42")
-            .contains("\"versionName\": \"1.2.3\"")
-    }
-
-    @Test
     fun `declaring common dependencies without versions`() {
         gradleRunner.root.project("android-application").appendBuildScript(
             """

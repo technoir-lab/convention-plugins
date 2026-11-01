@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.android
 
+import com.android.build.api.dsl.ApplicationExtension
 import io.technoirlab.conventions.android.api.AndroidApplicationExtension
 import io.technoirlab.gradle.test.kit.createRootProject
 import io.technoirlab.gradle.test.kit.evaluate
@@ -39,5 +40,22 @@ class AndroidApplicationConventionPluginTest {
         val targetSdk = extension.targetSdk.get()
 
         assertThat(targetSdk).isEqualTo(36)
+    }
+
+    @Test
+    fun `custom versionCode and versionName are applied`() {
+        project.apply(plugin = "io.technoirlab.conventions.android-application")
+        project.configure<AndroidApplicationExtension> {
+            applicationId.set("com.example.android.application")
+            packageName.set("com.example.android.application")
+            versionCode.set(42)
+            versionName.set("1.2.3")
+        }
+        val defaultConfig = project.the<ApplicationExtension>().defaultConfig
+
+        project.evaluate()
+
+        assertThat(defaultConfig.versionCode).isEqualTo(42)
+        assertThat(defaultConfig.versionName).isEqualTo("1.2.3")
     }
 }

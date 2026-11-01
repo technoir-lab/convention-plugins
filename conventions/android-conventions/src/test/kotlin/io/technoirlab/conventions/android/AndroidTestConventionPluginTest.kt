@@ -1,5 +1,6 @@
 package io.technoirlab.conventions.android
 
+import com.android.build.api.dsl.TestExtension
 import io.technoirlab.conventions.android.api.AndroidTestExtension
 import io.technoirlab.gradle.test.kit.createRootProject
 import io.technoirlab.gradle.test.kit.evaluate
@@ -60,5 +61,22 @@ class AndroidTestConventionPluginTest {
         val targetSdk = extension.targetSdk.get()
 
         assertThat(targetSdk).isEqualTo(36)
+    }
+
+    @Test
+    fun `custom testApplicationId and targetSdk are applied`() {
+        project.apply(plugin = "io.technoirlab.conventions.android-test")
+        project.configure<AndroidTestExtension> {
+            packageName.set("com.example.android.test")
+            targetProjectPath.set(":android-application")
+            testApplicationId.set("com.example.android.application.test")
+            targetSdk.set(36)
+        }
+        val defaultConfig = project.the<TestExtension>().defaultConfig
+
+        project.evaluate()
+
+        assertThat(defaultConfig.testApplicationId).isEqualTo("com.example.android.application.test")
+        assertThat(defaultConfig.targetSdk).isEqualTo(36)
     }
 }

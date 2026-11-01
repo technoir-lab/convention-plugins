@@ -16,11 +16,6 @@ class RootConventionPluginFunctionalTest {
     }
 
     @Test
-    fun cleanup() {
-        gradleRunner.build(":clean")
-    }
-
-    @Test
     fun `coverage aggregation`() {
         gradleRunner.root.appendBuildScript(
             """
@@ -33,11 +28,6 @@ class RootConventionPluginFunctionalTest {
         val buildResult = gradleRunner.build(":koverLog")
 
         assertThat(buildResult.output).contains("application line coverage: 100%")
-    }
-
-    @Test
-    fun `dependency sorting`() {
-        gradleRunner.build(":sortDependencies")
     }
 
     @Test

@@ -6,10 +6,14 @@ import io.technoirlab.conventions.android.api.AndroidCommonExtension.Companion.D
 import io.technoirlab.conventions.kotlin.multiplatform.api.KotlinMultiplatformLibraryExtension
 import io.technoirlab.gradle.test.kit.createRootProject
 import io.technoirlab.gradle.test.kit.evaluate
+import io.technoirlab.gradle.test.kit.subProject
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -21,7 +25,10 @@ class KotlinMultiplatformLibraryConventionPluginTest {
 
     @BeforeEach
     fun setUp() {
-        project = createRootProject("kmp-library-fixture")
+        val rootProject = createRootProject("kmp-library-fixture") {
+            subProject("kmp-library")
+        }
+        project = rootProject.project(":kmp-library")
     }
 
     @Test
@@ -66,6 +73,25 @@ class KotlinMultiplatformLibraryConventionPluginTest {
         assertThat(androidTarget.compileSdk).isEqualTo(36)
         assertThat(androidTarget.minSdk).isEqualTo(30)
         assertThat(androidTarget.lint.targetSdk).isEqualTo(35)
+    }
+
+    @Test
+    fun `publications use custom Maven coordinates`() {
+        project.extra["project.groupId"] = "com.example.kmp"
+        project.extra["project.version"] = "v1"
+        project.apply(plugin = "io.technoirlab.conventions.kotlin-multiplatform-library")
+        project.configure<KotlinMultiplatformLibraryExtension> {
+            packageName.set("com.example.kmp.library")
+        }
+        project.the<KotlinMultiplatformExtension>().jvm()
+        val publications = project.the<PublishingExtension>().publications.withType<MavenPublication>()
+
+        project.evaluate()
+
+        assertThat(publications.map { "${it.groupId}:${it.artifactId}:${it.version}" }).containsExactlyInAnyOrder(
+            "com.example.kmp:kmp-library:v1",
+            "com.example.kmp:kmp-library-jvm:v1",
+        )
     }
 
     private fun Project.androidTarget(): KotlinMultiplatformAndroidLibraryTarget =
