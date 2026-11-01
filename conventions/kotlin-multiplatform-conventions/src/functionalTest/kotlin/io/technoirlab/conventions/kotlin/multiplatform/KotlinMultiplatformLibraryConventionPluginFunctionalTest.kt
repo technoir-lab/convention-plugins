@@ -81,24 +81,6 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
     }
 
     @Nested
-    inner class Targets {
-        @Test
-        fun `Android target`() {
-            val project = gradleRunner.root.project("kmp-library")
-
-            val buildResult = gradleRunner.build(":kmp-library:assembleAndroidMain")
-
-            assertThat(buildResult.task(":kmp-library:compileAndroidMain")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
-            FileSystems.newFileSystem(project.buildDir / "outputs/aar/kmp-library.aar").use { aar ->
-                assertThat(aar.getPath("AndroidManifest.xml"))
-                    .content()
-                    .contains("package=\"kmp.library\"")
-                    .contains("android:minSdkVersion=\"26\"")
-            }
-        }
-    }
-
-    @Nested
     inner class CodeGeneration {
         @Test
         fun buildConfig() {
@@ -199,6 +181,24 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                 .createRedactedFixtures(variant = "commonMain", testVariant = "commonTest")
 
             gradleRunner.build(":kmp-library:jvmTest")
+        }
+    }
+
+    @Nested
+    inner class Targets {
+        @Test
+        fun `Android target`() {
+            val project = gradleRunner.root.project("kmp-library")
+
+            val buildResult = gradleRunner.build(":kmp-library:assembleAndroidMain")
+
+            assertThat(buildResult.task(":kmp-library:compileAndroidMain")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            FileSystems.newFileSystem(project.buildDir / "outputs/aar/kmp-library.aar").use { aar ->
+                assertThat(aar.getPath("AndroidManifest.xml"))
+                    .content()
+                    .contains("package=\"kmp.library\"")
+                    .contains("android:minSdkVersion=\"26\"")
+            }
         }
     }
 
