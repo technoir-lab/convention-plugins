@@ -5,12 +5,15 @@ package io.technoirlab.conventions.android.configuration
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
+import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.android.build.api.variant.TestAndroidComponentsExtension
 import io.technoirlab.conventions.android.BuildConfig
 import io.technoirlab.conventions.android.api.AndroidApplicationExtension
 import io.technoirlab.conventions.android.api.AndroidCommonExtension
 import io.technoirlab.conventions.android.api.AndroidLibraryExtension
+import io.technoirlab.conventions.android.api.AndroidTestExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -40,17 +43,23 @@ internal fun Project.configureAndroidLibrary(config: AndroidLibraryExtension, fi
     }
 }
 
+internal fun Project.configureAndroidTest(config: AndroidTestExtension, finaliseDsl: (TestExtension) -> Unit) {
+    val androidExtension = extensions.getByType<TestExtension>()
+    val androidComponents = extensions.getByType<TestAndroidComponentsExtension>()
+    configureAndroidCommon(androidExtension, config)
+
+    androidComponents.finalizeDsl { android ->
+        configureAndroidCommonAfterEvaluate(android, config)
+        configureAndroidTestAfterEvaluate(android, config)
+        finaliseDsl(android)
+    }
+}
+
 private fun Project.configureAndroidCommon(androidExtension: CommonExtension, config: AndroidCommonExtension) = with(androidExtension) {
     compileOptions.apply {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-    }
-
-    testOptions.apply {
-        unitTests.all { test ->
-            test.useJUnitPlatform()
-        }
     }
 
     dependencies {
@@ -86,6 +95,16 @@ private fun Project.configureAndroidLibraryAfterEvaluate(androidExtension: Libra
         publishing.singleVariant(RELEASE_VARIANT) {
             withSourcesJar()
         }
+    }
+
+private fun Project.configureAndroidTestAfterEvaluate(androidExtension: TestExtension, config: AndroidTestExtension) =
+    with(androidExtension) {
+        defaultConfig {
+            testApplicationId = config.testApplicationId.get()
+            targetSdk = config.targetSdk.get()
+        }
+
+        targetProjectPath = config.targetProjectPath.get()
     }
 
 internal const val RELEASE_VARIANT = "release"

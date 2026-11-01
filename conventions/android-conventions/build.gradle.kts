@@ -31,6 +31,7 @@ dependencies {
     runtimeOnly(libs.android.gradle.plugin)
 
     testImplementation(project(":libraries:gradle-test-kit"))
+    testImplementation(libs.assertj.core)
 
     testRuntimeOnly(libs.android.gradle.settings.plugin)
 
@@ -46,6 +47,10 @@ gradlePlugin {
         register("androidLibraryConventions") {
             id = "io.technoirlab.conventions.android-library"
             implementationClass = "io.technoirlab.conventions.android.AndroidLibraryConventionPlugin"
+        }
+        register("androidTestConventions") {
+            id = "io.technoirlab.conventions.android-test"
+            implementationClass = "io.technoirlab.conventions.android.AndroidTestConventionPlugin"
         }
     }
 }

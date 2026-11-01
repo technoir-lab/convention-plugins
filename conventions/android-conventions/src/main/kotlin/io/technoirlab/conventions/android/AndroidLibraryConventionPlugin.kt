@@ -6,6 +6,7 @@ import io.technoirlab.conventions.android.configuration.configureAndroidDokka
 import io.technoirlab.conventions.android.configuration.configureAndroidLibrary
 import io.technoirlab.conventions.android.configuration.configureBuildConfig
 import io.technoirlab.conventions.android.configuration.configureKotlinParcelize
+import io.technoirlab.conventions.android.configuration.configureUnitTests
 import io.technoirlab.conventions.android.internal.AndroidLibraryExtensionImpl
 import io.technoirlab.conventions.common.configuration.DocsFormat
 import io.technoirlab.conventions.common.configuration.PublishingOptions
@@ -35,6 +36,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         pluginManager.apply("com.android.library")
         pluginManager.apply(AndroidCommonConventionPlugin::class)
+        pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         val environment = Environment(providers)
         val publishingOptions = PublishingOptions(
@@ -48,6 +50,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         configurePublishing(publishingOptions, config.metadata, environment)
 
         configureAndroidLibrary(config) { androidExtension ->
+            configureUnitTests(androidExtension)
             configureKotlinParcelize(config.buildFeatures.parcelize)
             configureKotlinSerialization(config.buildFeatures.serialization)
             configureBuildConfig(androidExtension, config.buildFeatures.buildConfig)
