@@ -23,4 +23,12 @@ interface AndroidCommonExtension : CommonExtension {
      */
     @get:Nested
     override val buildFeatures: AndroidBuildFeatures
+
+    /**
+     * @suppress
+     */
+    companion object {
+        const val DEFAULT_COMPILE_SDK = 37
+        const val DEFAULT_MIN_SDK = 26
+    }
 }
