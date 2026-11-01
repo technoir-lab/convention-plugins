@@ -64,6 +64,23 @@ class CommonConventionPluginFunctionalTest {
     }
 
     @Test
+    fun `dynamic versions are prohibited`() {
+        gradleRunner.root.project("library1").appendBuildScript(
+            """
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.+")
+            }
+            """.trimIndent(),
+        )
+
+        val buildResult = gradleRunner.build(":library1:jar", expectFailure = true)
+
+        assertThat(buildResult.output).contains(
+            "Could not resolve org.jetbrains.kotlin:kotlin-reflect:2.2.+: Resolution strategy disallows usage of dynamic versions",
+        )
+    }
+
+    @Test
     fun `sorting dependencies`() {
         val project = gradleRunner.root.project("library1")
             .appendBuildScript(

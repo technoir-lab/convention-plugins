@@ -29,23 +29,6 @@ class SettingsConventionPluginFunctionalTest {
     }
 
     @Test
-    fun `dynamic versions are prohibited`() {
-        gradleRunner.root.project("jvm-library").appendBuildScript(
-            """
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.+")
-            }
-            """.trimIndent(),
-        )
-
-        val buildResult = gradleRunner.build(":jvm-library:jar", expectFailure = true)
-
-        assertThat(buildResult.output).contains(
-            "Could not resolve org.jetbrains.kotlin:kotlin-reflect:2.2.+: Resolution strategy disallows usage of dynamic versions",
-        )
-    }
-
-    @Test
     fun `per-project repositories are prohibited`() {
         gradleRunner.root.appendBuildScript(
             """

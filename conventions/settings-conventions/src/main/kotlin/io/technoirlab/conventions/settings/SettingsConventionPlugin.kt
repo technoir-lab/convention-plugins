@@ -35,7 +35,6 @@ class SettingsConventionPlugin : Plugin<Settings> {
         }
 
         gradle.lifecycle.afterProject {
-            configureDependencyResolution()
             configurePublishing()
         }
 
