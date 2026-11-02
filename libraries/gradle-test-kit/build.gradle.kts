@@ -20,4 +20,11 @@ dependencies {
     implementation(libs.junit.jupiter.api)
 
     compileOnly(libs.jetbrains.annotations)
+
+    testImplementation(libs.assertj.core)
+}
+
+tasks.test {
+    // ProjectBuilder needs reflective access to java.lang when injecting synthetic classes.
+    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
 }
