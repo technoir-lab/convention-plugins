@@ -68,3 +68,31 @@ public final class io/technoirlab/gradle/test/kit/ProjectBuilderKt {
 	public static synthetic fun subProject$default (Lorg/gradle/api/Project;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/gradle/api/Project;
 }
 
+public final class io/technoirlab/gradle/test/kit/StubProviderFactory : org/gradle/api/provider/ProviderFactory {
+	public fun <init> (Lorg/gradle/api/provider/ProviderFactory;)V
+	public fun credentials (Ljava/lang/Class;Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun credentials (Ljava/lang/Class;Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun environmentVariable (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun environmentVariable (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun environmentVariablesPrefixedBy (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun environmentVariablesPrefixedBy (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun exec (Lorg/gradle/api/Action;)Lorg/gradle/process/ExecOutput;
+	public fun fileContents (Lorg/gradle/api/file/RegularFile;)Lorg/gradle/api/file/FileContents;
+	public fun fileContents (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/file/FileContents;
+	public final fun getEnvironmentVariables ()Ljava/util/Map;
+	public final fun getGradleProperties ()Ljava/util/Map;
+	public final fun getSystemProperties ()Ljava/util/Map;
+	public fun gradlePropertiesPrefixedBy (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun gradlePropertiesPrefixedBy (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun gradleProperty (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun gradleProperty (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun javaexec (Lorg/gradle/api/Action;)Lorg/gradle/process/ExecOutput;
+	public fun of (Ljava/lang/Class;Lorg/gradle/api/Action;)Lorg/gradle/api/provider/Provider;
+	public fun provider (Ljava/util/concurrent/Callable;)Lorg/gradle/api/provider/Provider;
+	public fun systemPropertiesPrefixedBy (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun systemPropertiesPrefixedBy (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun systemProperty (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
+	public fun systemProperty (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
+	public fun zip (Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Ljava/util/function/BiFunction;)Lorg/gradle/api/provider/Provider;
+}
+
