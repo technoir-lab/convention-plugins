@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
  */
 internal val GradleVersion.embeddedKotlinVersion: String
     get() = when {
+        this >= GradleVersion.version("9.9") -> "2.4.21"
         this >= GradleVersion.version("9.8") -> "2.4.10"
         this >= GradleVersion.version("9.7") -> "2.4.0"
         this >= GradleVersion.version("9.6") -> "2.3.21"

@@ -50,9 +50,10 @@ class GradlePluginConventionPluginFunctionalTest {
 
     @ParameterizedTest
     @CsvSource(
-        "9.6,9.6.1,2.3.21,1.11.0,1.11.0",
+        "9.9,9.9.0,2.4.21,1.11.0,1.12.0",
+        "9.8,9.8.2,2.4.10,1.11.0,1.12.0",
         "9.7,9.7.1,2.4.0,1.11.0,1.11.0",
-        "9.8,9.8.0,2.4.10,1.11.0,1.12.0",
+        "9.6,9.6.1,2.3.21,1.11.0,1.11.0",
     )
     fun `Gradle compatibility`(
         minGradleVersion: String,
