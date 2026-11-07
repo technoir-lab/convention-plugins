@@ -15,12 +15,6 @@ class GradleCompatibilityTest {
         "9.8.2,2.4.10",
         "9.7.1,2.4.0",
         "9.6.1,2.3.21",
-        "9.5.1,2.3.20",
-        "9.4.1,2.3.0",
-        "9.3.1,2.2.21",
-        "9.2.1,2.2.20",
-        "9.1.0,2.2.0",
-        "9.0.0,2.2.0",
     )
     fun `embedded Kotlin version matches the Gradle release`(gradleVersion: String, expectedKotlinVersion: String) {
         val embeddedKotlinVersion = GradleVersion.version(gradleVersion).embeddedKotlinVersion
@@ -34,12 +28,6 @@ class GradleCompatibilityTest {
         "9.8.2,2.2",
         "9.7.1,2.2",
         "9.6.1,2.2",
-        "9.5.1,2.2",
-        "9.4.1,2.2",
-        "9.3.1,2.2",
-        "9.2.1,2.2",
-        "9.1.0,2.2",
-        "9.0.0,2.2",
     )
     fun `build scripts use the supported Kotlin level`(gradleVersion: String, expectedKotlinVersion: String) {
         val buildScriptKotlinVersion = GradleVersion.version(gradleVersion).buildScriptKotlinVersion
@@ -53,12 +41,6 @@ class GradleCompatibilityTest {
         "9.8.2,2.4",
         "9.7.1,2.4",
         "9.6.1,2.3",
-        "9.5.1,2.3",
-        "9.4.1,2.3",
-        "9.3.1,2.2",
-        "9.2.1,2.2",
-        "9.1.0,2.2",
-        "9.0.0,2.2",
     )
     fun `runtime uses the embedded Kotlin level`(gradleVersion: String, expectedKotlinVersion: String) {
         val runtimeKotlinVersion = GradleVersion.version(gradleVersion).runtimeKotlinVersion
@@ -72,12 +54,6 @@ class GradleCompatibilityTest {
         "9.8,2.2,2.4.10",
         "9.7,2.2,2.4.0",
         "9.6,2.2,2.3.21",
-        "9.5,2.2,2.3.20",
-        "9.4,2.2,2.3.0",
-        "9.3,2.2,2.2.21",
-        "9.2,2.2,2.2.20",
-        "9.1,2.2,2.2.0",
-        "9.0,2.2,2.2.0",
     )
     fun `API compilation uses the build script Kotlin level and embedded libraries`(
         gradleVersion: String,
@@ -97,12 +73,6 @@ class GradleCompatibilityTest {
         "9.8,2.4,2.4,2.4.10",
         "9.7,2.4,2.4,2.4.0",
         "9.6,2.3,2.4,2.3.21",
-        "9.5,2.3,2.4,2.3.20",
-        "9.4,2.3,2.4,2.3.0",
-        "9.3,2.2,2.3,2.2.21",
-        "9.2,2.2,2.3,2.2.20",
-        "9.1,2.2,2.3,2.2.0",
-        "9.0,2.2,2.3,2.2.0",
     )
     fun `implementation uses the runtime API level and next language level capped at the compiler default`(
         gradleVersion: String,
@@ -121,46 +91,46 @@ class GradleCompatibilityTest {
 
     @Test
     fun `embedded Kotlin version rejects unsupported Gradle versions`() {
-        val gradleVersion = GradleVersion.version("8.14.5")
+        val gradleVersion = GradleVersion.version("9.5.1")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.embeddedKotlinVersion }
-            .withMessage("Gradle 8.14.5 is unsupported")
+            .withMessage("Gradle 9.5.1 is unsupported")
     }
 
     @Test
     fun `build script Kotlin version rejects unsupported Gradle versions`() {
-        val gradleVersion = GradleVersion.version("8.14.5")
+        val gradleVersion = GradleVersion.version("9.5.1")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.buildScriptKotlinVersion }
-            .withMessage("Gradle 8.14.5 is unsupported")
+            .withMessage("Gradle 9.5.1 is unsupported")
     }
 
     @Test
     fun `runtime Kotlin version rejects unsupported Gradle versions`() {
-        val gradleVersion = GradleVersion.version("8.14.5")
+        val gradleVersion = GradleVersion.version("9.5.1")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.runtimeKotlinVersion }
-            .withMessage("Gradle 8.14.5 is unsupported")
+            .withMessage("Gradle 9.5.1 is unsupported")
     }
 
     @Test
     fun `API Kotlin configuration rejects unsupported Gradle versions`() {
-        val gradleVersion = GradleVersion.version("8.14.5")
+        val gradleVersion = GradleVersion.version("9.5.1")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.apiKotlinConfig }
-            .withMessage("Gradle 8.14.5 is unsupported")
+            .withMessage("Gradle 9.5.1 is unsupported")
     }
 
     @Test
     fun `implementation Kotlin configuration rejects unsupported Gradle versions`() {
-        val gradleVersion = GradleVersion.version("8.14.5")
+        val gradleVersion = GradleVersion.version("9.5.1")
 
         assertThatIllegalStateException()
             .isThrownBy { gradleVersion.implementationKotlinConfig }
-            .withMessage("Gradle 8.14.5 is unsupported")
+            .withMessage("Gradle 9.5.1 is unsupported")
     }
 }
