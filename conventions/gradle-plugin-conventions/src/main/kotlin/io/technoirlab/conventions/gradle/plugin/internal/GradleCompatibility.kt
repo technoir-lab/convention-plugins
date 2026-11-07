@@ -16,11 +16,6 @@ internal val GradleVersion.embeddedKotlinVersion: String
         this >= GradleVersion.version("9.8") -> "2.4.10"
         this >= GradleVersion.version("9.7") -> "2.4.0"
         this >= GradleVersion.version("9.6") -> "2.3.21"
-        this >= GradleVersion.version("9.5") -> "2.3.20"
-        this >= GradleVersion.version("9.4") -> "2.3.0"
-        this >= GradleVersion.version("9.3") -> "2.2.21"
-        this >= GradleVersion.version("9.2") -> "2.2.20"
-        this >= GradleVersion.version("9.0") -> "2.2.0"
         else -> error("$this is unsupported")
     }
 
@@ -30,7 +25,7 @@ internal val GradleVersion.embeddedKotlinVersion: String
  */
 internal val GradleVersion.buildScriptKotlinVersion: KotlinVersion
     get() = when {
-        this >= GradleVersion.version("9.0") -> KotlinVersion.KOTLIN_2_2
+        this >= GradleVersion.version("9.6") -> KotlinVersion.KOTLIN_2_2
         else -> error("$this is unsupported")
     }
 
@@ -41,8 +36,7 @@ internal val GradleVersion.buildScriptKotlinVersion: KotlinVersion
 internal val GradleVersion.runtimeKotlinVersion: KotlinVersion
     get() = when {
         this >= GradleVersion.version("9.7") -> KotlinVersion.KOTLIN_2_4
-        this >= GradleVersion.version("9.4") -> KotlinVersion.KOTLIN_2_3
-        this >= GradleVersion.version("9.0") -> KotlinVersion.KOTLIN_2_2
+        this >= GradleVersion.version("9.6") -> KotlinVersion.KOTLIN_2_3
         else -> error("$this is unsupported")
     }
 
