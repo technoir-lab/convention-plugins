@@ -18,7 +18,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.io.path.appendText
 import kotlin.io.path.createDirectories
+import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
+import kotlin.io.path.writeText
 
 class AndroidLibraryConventionPluginFunctionalTest {
     @RegisterExtension
@@ -47,11 +49,21 @@ class AndroidLibraryConventionPluginFunctionalTest {
 
     @Test
     fun `generating documentation`() {
+        val project = gradleRunner.root.project("android-library")
+        project.kotlinFile("com.example.android.library.ReleaseOnly", variant = "release")
+            .createParentDirectories()
+            .writeText("package com.example.android.library\n\nclass ReleaseOnly\n")
+        project.kotlinFile("com.example.android.library.DebugOnly", variant = "debug")
+            .createParentDirectories()
+            .writeText("package com.example.android.library\n\nclass DebugOnly\n")
+
         gradleRunner.build(":android-library:dokkaGenerate")
 
-        val project = gradleRunner.root.project("android-library")
+        val packageDir = project.buildDir / "dokka/html/android-library/com.example.android.library"
         assertThat(project.buildDir / "dokka/html/index.html").exists()
-        assertThat(project.buildDir / "dokka/html/android-library/com.example.android.library/index.html").exists()
+        assertThat(packageDir / "index.html").exists()
+        assertThat(packageDir / "-release-only/index.html").exists()
+        assertThat(packageDir / "-debug-only").doesNotExist()
         assertThat(project.buildDir / "dokka/html/android-library/com.example.android.library.internal").doesNotExist()
     }
 

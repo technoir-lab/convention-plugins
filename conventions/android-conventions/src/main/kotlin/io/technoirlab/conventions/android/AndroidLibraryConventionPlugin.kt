@@ -2,7 +2,6 @@ package io.technoirlab.conventions.android
 
 import io.technoirlab.conventions.android.api.AndroidLibraryExtension
 import io.technoirlab.conventions.android.configuration.RELEASE_VARIANT
-import io.technoirlab.conventions.android.configuration.configureAndroidDokka
 import io.technoirlab.conventions.android.configuration.configureAndroidLibrary
 import io.technoirlab.conventions.android.configuration.configureBuildConfig
 import io.technoirlab.conventions.android.configuration.configureKotlinParcelize
@@ -46,7 +45,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         )
 
         configureDokka(environment, DocsFormat.All)
-        configureAndroidDokka()
         configurePublishing(publishingOptions, config.metadata, environment)
 
         configureAndroidLibrary(config) { androidExtension ->
