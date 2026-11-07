@@ -70,6 +70,7 @@ public final class io/technoirlab/gradle/test/kit/ProjectBuilderKt {
 
 public final class io/technoirlab/gradle/test/kit/StubProviderFactory : org/gradle/api/provider/ProviderFactory {
 	public fun <init> (Lorg/gradle/api/provider/ProviderFactory;)V
+	public fun absent ()Lorg/gradle/api/provider/Provider;
 	public fun credentials (Ljava/lang/Class;Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
 	public fun credentials (Ljava/lang/Class;Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
 	public fun environmentVariable (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
@@ -88,6 +89,8 @@ public final class io/technoirlab/gradle/test/kit/StubProviderFactory : org/grad
 	public fun gradleProperty (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
 	public fun javaexec (Lorg/gradle/api/Action;)Lorg/gradle/process/ExecOutput;
 	public fun of (Ljava/lang/Class;Lorg/gradle/api/Action;)Lorg/gradle/api/provider/Provider;
+	public fun present (Ljava/lang/Object;)Lorg/gradle/api/provider/PresentProvider;
+	public fun presentIfNotNull (Ljava/lang/Object;)Lorg/gradle/api/provider/Provider;
 	public fun provider (Ljava/util/concurrent/Callable;)Lorg/gradle/api/provider/Provider;
 	public fun systemPropertiesPrefixedBy (Ljava/lang/String;)Lorg/gradle/api/provider/Provider;
 	public fun systemPropertiesPrefixedBy (Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Provider;
