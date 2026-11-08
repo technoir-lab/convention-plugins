@@ -16,7 +16,8 @@ class Environment(private val providerFactory: ProviderFactory) {
 
     val tagName: Provider<String>
         get() = providerFactory.environmentVariable("GITHUB_REF_TYPE")
-            .zip(refName) { refType, refName -> if (refType == "tag") refName else null }
+            .filter { it == "tag" }
+            .flatMap { refName }
 
     val repositoryUrl: Provider<URI>
         get() = providerFactory.environmentVariable("GITHUB_SERVER_URL")

@@ -2,10 +2,12 @@ package io.technoirlab.conventions.common
 
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
+import io.technoirlab.gradle.test.kit.buildDir
 import io.technoirlab.gradle.test.kit.buildScript
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import kotlin.io.path.div
 
 class CommonConventionPluginFunctionalTest {
     @RegisterExtension
@@ -68,4 +70,31 @@ class CommonConventionPluginFunctionalTest {
                 """.trimIndent(),
             )
     }
+
+    @Test
+    fun `version is derived from the release tag`() {
+        gradleRunner.build(":library1:jar") {
+            environmentVariables += githubRefEnvironment(refType = "tag", refName = "v1.2.3")
+        }
+
+        assertThat(gradleRunner.root.project("library1").buildDir / "libs/library1-1.2.3.jar").exists()
+    }
+
+    @Test
+    fun `branch changes reuse the configuration cache`() {
+        gradleRunner.build(":help") {
+            environmentVariables += githubRefEnvironment(refType = "branch", refName = "main")
+        }
+
+        val buildResult = gradleRunner.build(":help") {
+            environmentVariables += githubRefEnvironment(refType = "branch", refName = "feature")
+        }
+
+        assertThat(buildResult.output).contains("Reusing configuration cache.")
+    }
+
+    private fun githubRefEnvironment(refType: String, refName: String): Map<String, String> = mapOf(
+        "GITHUB_REF_TYPE" to refType,
+        "GITHUB_REF_NAME" to refName,
+    )
 }
