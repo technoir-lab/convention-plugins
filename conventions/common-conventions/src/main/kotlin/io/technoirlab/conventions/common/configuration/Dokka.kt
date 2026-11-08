@@ -56,7 +56,7 @@ fun Project.configureDokka(environment: Environment, docsFormats: Set<DocsFormat
                 }
             }
 
-            if (sourceUrl.isPresent) {
+            if (environment.repositoryUrl.isPresent) {
                 sourceLink {
                     localDirectory.set(srcDir)
                     remoteUrl.set(sourceUrl)
@@ -78,7 +78,8 @@ private fun Environment.getSourceUrl(srcDir: Directory, rootDir: Directory): Pro
     if (File.separatorChar != '/') {
         relativePath = relativePath.replace(File.separatorChar, '/')
     }
-    return repositoryUrl.zip(refName) { repoUrl, branchName ->
+    // HEAD resolves to the default branch when the build ref is unknown.
+    return repositoryUrl.zip(refName.orElse("HEAD")) { repoUrl, branchName ->
         val baseUrl = if (repoUrl.path.endsWith("/")) repoUrl else repoUrl.copy(path = repoUrl.path + "/")
         baseUrl.resolve("tree/$branchName/$relativePath")
     }
