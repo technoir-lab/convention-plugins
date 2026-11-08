@@ -46,18 +46,59 @@ class SettingsConventionPluginFunctionalTest {
         )
     }
 
-    @Test
-    fun `Maven Central publishing`() {
-        val buildResult = gradleRunner.build(":nmcpZipAggregation")
+    @Nested
+    inner class Publishing {
+        @Test
+        fun `Maven Central publishing`() {
+            val buildResult = gradleRunner.build(":nmcpZipAggregation")
 
-        assertThat(buildResult.task(":nmcpZipAggregation")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(buildResult.task(":nmcpZipAggregation")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
 
-        val entries = (gradleRunner.root.buildDir / "nmcp/zip/aggregation.zip").jarEntries()
-        assertThat(entries.filter { it.endsWith(".md5") }).isNotEmpty
-        assertThat(entries.filter { it.endsWith(".sha1") }).isNotEmpty
-        // Optional checksums get filtered-out
-        assertThat(entries.filter { it.endsWith(".sha256") }).isEmpty()
-        assertThat(entries.filter { it.endsWith(".sha512") }).isEmpty()
+            val entries = (gradleRunner.root.buildDir / "nmcp/zip/aggregation.zip").jarEntries()
+            assertThat(entries.filter { it.endsWith(".md5") }).isNotEmpty
+            assertThat(entries.filter { it.endsWith(".sha1") }).isNotEmpty
+            // Optional checksums get filtered-out
+            assertThat(entries.filter { it.endsWith(".sha256") }).isEmpty()
+            assertThat(entries.filter { it.endsWith(".sha512") }).isEmpty()
+        }
+
+        @Test
+        fun `Maven Central publishing reads credentials from the environment`() {
+            val buildResult = gradleRunner.build(":publishAggregationToCentralPortal") {
+                dryRun = true
+                environmentVariables += centralPortalEnvironment(password = "password")
+            }
+
+            assertThat(buildResult.output).contains(":nmcpPublishAggregationToCentralPortal SKIPPED")
+        }
+
+        @Test
+        fun `Maven Central publishing requires credentials`() {
+            val buildResult = gradleRunner.build(":publishAggregationToCentralPortal", expectFailure = true) {
+                dryRun = true
+                environmentVariables += mapOf("GITHUB_ACTIONS" to "true")
+            }
+
+            assertThat(buildResult.output).contains("Nmcp: Central Portal 'username' is missing")
+        }
+
+        @Test
+        fun `Maven Central credential changes reuse the configuration cache`() {
+            gradleRunner.build(":help") {
+                environmentVariables += centralPortalEnvironment(password = "password1")
+            }
+
+            val buildResult = gradleRunner.build(":help") {
+                environmentVariables += centralPortalEnvironment(password = "password2")
+            }
+
+            assertThat(buildResult.output).contains("Reusing configuration cache.")
+        }
+
+        private fun centralPortalEnvironment(password: String): Map<String, String> = mapOf(
+            "CENTRAL_PORTAL_USER" to "user",
+            "CENTRAL_PORTAL_PASSWORD" to password,
+        )
     }
 
     @Nested

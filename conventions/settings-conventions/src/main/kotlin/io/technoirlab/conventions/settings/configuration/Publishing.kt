@@ -9,13 +9,8 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 
 internal fun Settings.configurePublishing() {
-    // TODO: Remove .orNull when Nmcp bug is fixed
-    val centralPortalUsername = providers.environmentVariable("CENTRAL_PORTAL_USER").orNull
-    val centralPortalPassword = providers.environmentVariable("CENTRAL_PORTAL_PASSWORD").orNull
     configure<NmcpSettings> {
         centralPortal {
-            username.set(centralPortalUsername)
-            password.set(centralPortalPassword)
             publishingType.set("AUTOMATIC")
         }
     }
@@ -25,6 +20,11 @@ internal fun Project.configurePublishing() {
     pluginManager.withPlugin("com.gradleup.nmcp.aggregation") {
         configure<NmcpAggregationExtension> {
             allowDuplicateProjectNames.set(true)
+            // Set lazily on the project: Nmcp settings options pass through an isolated action that cannot carry environment providers.
+            centralPortal {
+                username.set(providers.environmentVariable("CENTRAL_PORTAL_USER"))
+                password.set(providers.environmentVariable("CENTRAL_PORTAL_PASSWORD"))
+            }
         }
 
         tasks.withType<Zip>()
