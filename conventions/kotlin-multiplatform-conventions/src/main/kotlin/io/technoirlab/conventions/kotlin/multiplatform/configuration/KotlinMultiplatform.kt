@@ -99,7 +99,7 @@ private fun KotlinNativeTarget.configureNativeTarget(executable: Boolean) {
         if (konanTarget.family == Family.ANDROID) {
             linkerOpts("-Wl,-z,max-page-size=16384", "-Wl,-z,common-page-size=16384")
         }
-        if (this is Executable && HostManager.host == konanTarget) {
+        if (this is Executable && HostManager.hostOrNull == konanTarget) {
             val executableName = name
             project.tasks.register("run${executableName.capitalized()}") {
                 group = RUN_GROUP

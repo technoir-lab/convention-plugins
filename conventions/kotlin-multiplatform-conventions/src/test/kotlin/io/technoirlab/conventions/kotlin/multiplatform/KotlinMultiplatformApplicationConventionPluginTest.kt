@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.util.SetSystemProperty
 
 class KotlinMultiplatformApplicationConventionPluginTest {
     private lateinit var project: Project
@@ -87,6 +88,15 @@ class KotlinMultiplatformApplicationConventionPluginTest {
 
         assertThat(binaries.getExecutable(NativeBuildType.DEBUG).freeCompilerArgs).contains("-ea")
         assertThat(binaries.getExecutable(NativeBuildType.RELEASE).freeCompilerArgs).doesNotContain("-ea")
+    }
+
+    @Test
+    @SetSystemProperty(key = "os.name", value = "Linux")
+    @SetSystemProperty(key = "os.arch", value = "aarch64")
+    fun `configures native targets on unsupported Kotlin Native hosts`() {
+        project.apply(plugin = "io.technoirlab.conventions.kotlin-multiplatform-application")
+        project.the<KotlinMultiplatformExtension>().linuxX64()
+        project.evaluate()
     }
 
     private fun Project.nativeBinaryNames(): Map<String, Set<String>> =
