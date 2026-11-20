@@ -112,7 +112,6 @@ private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provi
         registerFeature(variantName) {
             withSourcesJar()
             usingSourceSet(apiSourceSet)
-            capability("$group", "$name-$variantName", "$version")
         }
 
         if (pluginManager.hasPlugin("org.jetbrains.dokka")) {

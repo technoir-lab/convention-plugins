@@ -83,4 +83,19 @@ class GradlePluginConventionPluginTest {
 
         assertThat(publications.map { "${it.groupId}:${it.artifactId}:${it.version}" }).containsExactly("com.example:example-plugin:v1")
     }
+
+    @Test
+    fun `api feature capability reflects group and version set after plugin application`() {
+        project.apply(plugin = "io.technoirlab.conventions.gradle-plugin")
+        project.configure<GradlePluginExtension> {
+            packageName.set("com.example.gradle.plugin")
+        }
+        project.group = "com.custom"
+        project.version = "2.0.0"
+
+        project.evaluate()
+
+        val capability = project.configurations.getByName("apiApiElements").outgoing.capabilities.single()
+        assertThat("${capability.group}:${capability.name}:${capability.version}").isEqualTo("com.custom:example-plugin-api:2.0.0")
+    }
 }
