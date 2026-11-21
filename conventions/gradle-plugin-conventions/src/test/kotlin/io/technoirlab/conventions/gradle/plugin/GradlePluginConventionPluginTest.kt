@@ -42,6 +42,18 @@ class GradlePluginConventionPluginTest {
     }
 
     @Test
+    fun `applies to a root project analyzed by the Dependency Analysis plugin`() {
+        val rootProject = project.rootProject
+        rootProject.apply(plugin = "com.autonomousapps.dependency-analysis")
+        rootProject.apply(plugin = "io.technoirlab.conventions.gradle-plugin")
+        rootProject.configure<GradlePluginExtension> {
+            packageName.set("com.example.gradle.plugin")
+        }
+
+        rootProject.evaluate()
+    }
+
+    @Test
     fun `main JAR manifest contains project implementation version`() {
         project.extra["project.version"] = "v1"
         project.apply(plugin = "io.technoirlab.conventions.gradle-plugin")

@@ -22,6 +22,8 @@ dependencies {
     testImplementation(project(":libraries:gradle-test-kit"))
     testImplementation(libs.assertj.core)
 
+    testRuntimeOnly(libs.dependency.analysis.gradle.plugin)
+
     functionalTestPublishOnly(project(":libraries:ktlint-rules"))
 }
 
