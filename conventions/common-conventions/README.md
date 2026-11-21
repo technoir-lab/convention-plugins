@@ -34,6 +34,11 @@ target. Android projects need no such list: Kover measures the code of each buil
 
 The `check` task generates the HTML report.
 
+## Tests
+
+JVM test suites use JUnit Jupiter. `kotlin-reflect` and `kotlinx-coroutines-core` are on the test runtime classpath, so
+`suspend` test functions run without extra dependencies.
+
 ## Usage
 
 ```kotlin

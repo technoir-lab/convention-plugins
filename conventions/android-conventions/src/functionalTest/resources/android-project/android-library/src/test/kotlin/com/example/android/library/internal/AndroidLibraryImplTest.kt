@@ -9,4 +9,9 @@ class AndroidLibraryImplTest {
     fun `test hello`() {
         androidLibrary.hello("test")
     }
+
+    @Test
+    suspend fun `test hello from coroutine`() {
+        androidLibrary.hello("test")
+    }
 }
