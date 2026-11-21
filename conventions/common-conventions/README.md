@@ -30,6 +30,6 @@ Configures the following compiler options:
         developer(id = "developer-1", name = "Developer 1", email = "developer-1@example.org")
 
         // The project's licenses.
-        licence(name = "MIT License", url = "http://opensource.org/licenses/MIT", distribution = "repo")
+        license(name = "MIT License", url = "http://opensource.org/licenses/MIT", distribution = "repo")
     }
 ```
