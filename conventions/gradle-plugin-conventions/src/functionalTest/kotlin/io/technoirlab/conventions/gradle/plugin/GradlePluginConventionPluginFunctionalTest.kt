@@ -2,9 +2,12 @@ package io.technoirlab.conventions.gradle.plugin
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
+import io.technoirlab.conventions.common.fixtures.coverageReportClasses
+import io.technoirlab.conventions.common.fixtures.createClass
 import io.technoirlab.conventions.common.fixtures.createRedactedClass
 import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
+import io.technoirlab.conventions.common.fixtures.createTest
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -329,9 +332,17 @@ class GradlePluginConventionPluginFunctionalTest {
 
         @Test
         fun `code coverage`() {
-            val buildResult = gradleRunner.build(":example-plugin:koverLog")
+            val project = gradleRunner.root.project("example-plugin")
+                .createClass("com.example.plugin.api.ExampleDefaults", variant = "api")
+                .createClass("com.example.plugin.ExamplePluginFunctionalTest", variant = "functionalTest")
+                .createTest("com.example.plugin.api.ExampleDefaults()")
+
+            val buildResult = gradleRunner.build(":example-plugin:koverLog", ":example-plugin:koverXmlReport")
 
             assertThat(buildResult.output).contains("application line coverage: 100%")
+            assertThat(project.coverageReportClasses())
+                .contains("com/example/plugin/ExamplePlugin", "com/example/plugin/api/ExampleDefaults")
+                .doesNotContain("com/example/plugin/ExamplePluginFixture", "com/example/plugin/ExamplePluginFunctionalTest")
         }
     }
 

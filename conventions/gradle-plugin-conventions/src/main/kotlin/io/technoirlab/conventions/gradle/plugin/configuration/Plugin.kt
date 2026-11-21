@@ -9,6 +9,7 @@ import io.technoirlab.gradle.dependencies.api
 import io.technoirlab.gradle.dependencies.compileOnly
 import io.technoirlab.gradle.dependencies.testImplementation
 import io.technoirlab.gradle.setDisallowChanges
+import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.plugins.JavaPlugin
@@ -84,6 +85,16 @@ internal fun Project.configurePlugin(config: GradlePluginExtension, environment:
         }
     }
 
+    // Functional tests run the published plugin in separate builds, so instrumenting their own JVM measures none of it,
+    // and coverage reports would otherwise run them like every other instrumented test task.
+    configure<KoverProjectExtension> {
+        currentProject {
+            instrumentation {
+                disabledForTestTasks.add(FUNCTIONAL_TEST_VARIANT_NAME)
+            }
+        }
+    }
+
     tasks.withType<ValidatePlugins>().configureEach {
         enableStricterValidation.set(true)
     }
@@ -121,6 +132,15 @@ private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provi
                     apiVersion.set(kotlinConfig.map { it.apiVersion })
                     languageVersion.set(kotlinConfig.map { it.languageVersion })
                 }
+            }
+        }
+    }
+
+    // The feature is shipped alongside main, so coverage reports measure it too.
+    configure<KoverProjectExtension> {
+        currentProject {
+            sources {
+                includedSourceSets.add(variantName)
             }
         }
     }

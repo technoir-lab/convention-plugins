@@ -1,8 +1,10 @@
 package io.technoirlab.conventions.jvm
 
+import io.technoirlab.conventions.common.fixtures.coverageReportClasses
 import io.technoirlab.conventions.common.fixtures.createRedactedClass
 import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
+import io.technoirlab.conventions.common.fixtures.createTestFixture
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -148,9 +150,15 @@ class JvmApplicationConventionPluginFunctionalTest {
 
         @Test
         fun `code coverage`() {
-            val buildResult = gradleRunner.build(":jvm-application:koverLog")
+            val project = gradleRunner.root.project("jvm-application")
+                .createTestFixture()
+
+            val buildResult = gradleRunner.build(":jvm-application:koverLog", ":jvm-application:koverXmlReport")
 
             assertThat(buildResult.output).contains("application line coverage: 100%")
+            assertThat(project.coverageReportClasses())
+                .contains("com/example/jvm/application/MainKt")
+                .doesNotContain("com/example/TestFixture")
         }
     }
 

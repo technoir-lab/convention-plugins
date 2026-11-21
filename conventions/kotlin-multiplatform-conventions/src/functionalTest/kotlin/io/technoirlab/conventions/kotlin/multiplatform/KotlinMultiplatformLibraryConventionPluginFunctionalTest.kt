@@ -2,6 +2,7 @@ package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
+import io.technoirlab.conventions.common.fixtures.coverageReportClasses
 import io.technoirlab.conventions.common.fixtures.createBenchmark
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
 import io.technoirlab.conventions.common.fixtures.createRedactedClass
@@ -215,9 +216,24 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
 
         @Test
         fun `code coverage`() {
-            val buildResult = gradleRunner.build(":kmp-library:koverLog")
+            val project = gradleRunner.root.project("kmp-library")
+                .appendBuildScript(
+                    """
+                    kotlinMultiplatformLibrary {
+                        buildFeatures {
+                            benchmark = true
+                        }
+                    }
+                    """.trimIndent(),
+                )
+                .createBenchmark()
+
+            val buildResult = gradleRunner.build(":kmp-library:koverLog", ":kmp-library:koverXmlReport")
 
             assertThat(buildResult.output).contains("application line coverage: 100%")
+            assertThat(project.coverageReportClasses())
+                .contains("kmp/library/internal/KmpLibraryImpl")
+                .doesNotContain("com/example/Benchmark")
         }
 
         @Test

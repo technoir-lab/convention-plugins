@@ -6,6 +6,21 @@ import org.intellij.lang.annotations.Language
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.writeText
 
+fun GradleProject.createClass(className: String, variant: String) = apply {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile(className, variant)
+        .createParentDirectories()
+        .writeText(
+            // language=kotlin
+            """
+            package $packageName
+            
+            class $classNameWithoutPackage
+            """.trimIndent(),
+        )
+}
+
 fun GradleProject.createDependencyGraph(className: String = "com.example.AppGraph") = apply {
     val packageName = className.substringBeforeLast('.')
     val classNameWithoutPackage = className.substringAfterLast('.')

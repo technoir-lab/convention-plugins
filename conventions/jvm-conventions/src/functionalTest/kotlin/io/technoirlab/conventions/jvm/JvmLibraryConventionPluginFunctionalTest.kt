@@ -2,9 +2,12 @@ package io.technoirlab.conventions.jvm
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
+import io.technoirlab.conventions.common.fixtures.coverageReportClasses
+import io.technoirlab.conventions.common.fixtures.createClass
 import io.technoirlab.conventions.common.fixtures.createRedactedClass
 import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
+import io.technoirlab.conventions.common.fixtures.createTestFixture
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -156,9 +159,21 @@ class JvmLibraryConventionPluginFunctionalTest {
 
         @Test
         fun `code coverage`() {
-            val buildResult = gradleRunner.build(":jvm-library:koverLog")
+            val project = gradleRunner.root.project("jvm-library")
+                .appendBuildScript(
+                    """
+                    sourceSets.create("integrationTest")
+                    """.trimIndent(),
+                )
+                .createTestFixture()
+                .createClass("com.example.IntegrationTest", variant = "integrationTest")
+
+            val buildResult = gradleRunner.build(":jvm-library:koverLog", ":jvm-library:koverXmlReport")
 
             assertThat(buildResult.output).contains("application line coverage: 100%")
+            assertThat(project.coverageReportClasses())
+                .contains("com/example/jvm/library/internal/JvmLibraryImpl")
+                .doesNotContain("com/example/TestFixture", "com/example/IntegrationTest")
         }
     }
 
