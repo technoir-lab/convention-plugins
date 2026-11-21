@@ -11,4 +11,6 @@ jvmLibrary {
 dependencies {
     implementation(gradleApi())
     implementation(gradleKotlinDsl())
+
+    testImplementation(libs.assertj.core)
 }

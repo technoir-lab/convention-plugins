@@ -27,14 +27,19 @@ data class MavenRepository(
      */
     data class Credentials(
         /**
-         * The password to use when authenticating to the repository.
+         * The username to use when authenticating to the repository.
          */
         val username: String,
         /**
          * The password to use when authenticating to the repository.
          */
         val password: String,
-    )
+    ) : Serializable {
+        private companion object {
+            @Serial
+            private const val serialVersionUID: Long = 4831572940162837491L
+        }
+    }
 
     private companion object {
         @Serial
