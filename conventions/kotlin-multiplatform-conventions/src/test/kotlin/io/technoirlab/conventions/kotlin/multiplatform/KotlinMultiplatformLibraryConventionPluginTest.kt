@@ -16,6 +16,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -56,6 +57,7 @@ class KotlinMultiplatformLibraryConventionPluginTest {
         assertThat(androidTarget.compileSdk).isEqualTo(DEFAULT_COMPILE_SDK)
         assertThat(androidTarget.minSdk).isEqualTo(DEFAULT_MIN_SDK)
         assertThat(androidTarget.lint.targetSdk).isEqualTo(DEFAULT_COMPILE_SDK)
+        assertThat(androidTarget.compilerOptions.jvmDefault.orNull).isEqualTo(JvmDefaultMode.NO_COMPATIBILITY)
     }
 
     @Test

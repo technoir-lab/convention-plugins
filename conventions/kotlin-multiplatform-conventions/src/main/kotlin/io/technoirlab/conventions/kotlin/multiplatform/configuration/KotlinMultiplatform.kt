@@ -81,7 +81,7 @@ internal fun Project.configureKotlinMultiplatform(
     }
 }
 
-private fun <T> T.configureJvmTarget() where T : KotlinTarget, T : HasConfigurableKotlinCompilerOptions<KotlinJvmCompilerOptions> {
+internal fun <T> T.configureJvmTarget() where T : KotlinTarget, T : HasConfigurableKotlinCompilerOptions<KotlinJvmCompilerOptions> {
     compilerOptions {
         jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
     }
