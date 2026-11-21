@@ -93,7 +93,9 @@ private fun KotlinNativeTarget.configureNativeTarget(executable: Boolean) {
 
     binaries.configureEach {
         if (buildType == NativeBuildType.DEBUG) {
-            freeCompilerArgs = freeCompilerArgs + "-ea"
+            linkTaskProvider.configure {
+                toolOptions.freeCompilerArgs.add("-ea")
+            }
         }
         if (konanTarget.family == Family.ANDROID) {
             linkerOpts("-Wl,-z,max-page-size=16384", "-Wl,-z,common-page-size=16384")

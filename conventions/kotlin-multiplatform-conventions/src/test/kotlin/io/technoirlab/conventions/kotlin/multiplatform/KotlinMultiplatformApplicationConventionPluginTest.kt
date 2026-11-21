@@ -93,6 +93,23 @@ class KotlinMultiplatformApplicationConventionPluginTest {
     }
 
     @Test
+    fun `debug binaries preserve freeCompilerArgs added after target creation`() {
+        project.apply(plugin = "io.technoirlab.conventions.kotlin-multiplatform-application")
+        val target = project.the<KotlinMultiplatformExtension>().linuxX64 {
+            compilerOptions {
+                freeCompilerArgs.add("-Xbinary=gc=cms")
+            }
+        }
+
+        project.evaluate()
+
+        assertThat(target.binaries.getExecutable(NativeBuildType.DEBUG).freeCompilerArgs)
+            .contains("-ea", "-Xbinary=gc=cms")
+        assertThat(target.binaries.getExecutable(NativeBuildType.RELEASE).freeCompilerArgs)
+            .contains("-Xbinary=gc=cms")
+    }
+
+    @Test
     @SetSystemProperty(key = "os.name", value = "Linux")
     @SetSystemProperty(key = "os.arch", value = "aarch64")
     fun `configures native targets on unsupported Kotlin Native hosts`() {
