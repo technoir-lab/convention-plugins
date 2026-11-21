@@ -107,7 +107,7 @@ private fun Project.configureApiVariant(variantName: String, kotlinConfig: Provi
         if (pluginManager.hasPlugin("org.jetbrains.dokka")) {
             configure<DokkaExtension> {
                 dokkaSourceSets.named("main") {
-                    sourceRoots.from(apiSourceSet.allSource.srcDirs)
+                    sourceRoots.from(apiSourceSet.allSource.sourceDirectories)
                     classpath.from(apiSourceSet.compileClasspath)
                 }
             }
