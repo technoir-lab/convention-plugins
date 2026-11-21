@@ -7,6 +7,7 @@ import java.io.Serializable
 /**
  * Configuration of `BuildConfig` class generation.
  */
+@CommonDsl
 abstract class BuildConfigSpec {
     /**
      * Fields to include in the generated `BuildConfig` class.

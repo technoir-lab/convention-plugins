@@ -7,6 +7,7 @@ import org.gradle.api.tasks.Nested
 /**
  * Optional build features for all projects.
  */
+@CommonDsl
 interface CommonBuildFeatures {
     /**
      * Enable ABI validation. Disabled by default.

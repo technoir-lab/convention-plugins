@@ -17,6 +17,7 @@ internal abstract class AndroidCommonExtensionImpl(project: Project) :
         super.initDefaults()
         compileSdk.convention(DEFAULT_COMPILE_SDK)
         minSdk.convention(DEFAULT_MIN_SDK)
+        val project = this.project
         metadata {
             name.convention(project.provider { project.name })
             description.convention(project.provider { project.description })

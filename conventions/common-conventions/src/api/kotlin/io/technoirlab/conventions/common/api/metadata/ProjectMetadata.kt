@@ -1,11 +1,13 @@
 package io.technoirlab.conventions.common.api.metadata
 
+import io.technoirlab.conventions.common.api.CommonDsl
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 
 /**
  * Information about the project.
  */
+@CommonDsl
 interface ProjectMetadata {
     /**
      * The project's name.
