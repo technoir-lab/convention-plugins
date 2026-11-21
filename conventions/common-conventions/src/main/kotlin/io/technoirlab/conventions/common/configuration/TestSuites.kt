@@ -24,6 +24,11 @@ internal fun Project.configureTestSuites() {
 fun JvmTestSuite.configureTestSuite(testTaskConfiguration: Action<Test>) {
     useJUnitJupiter(BuildConfig.JUNIT_VERSION)
 
+    dependencies {
+        runtimeOnly.add("org.jetbrains.kotlin:kotlin-reflect")
+        runtimeOnly.add("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    }
+
     targets.configureEach {
         testTask.configure(testTaskConfiguration)
     }

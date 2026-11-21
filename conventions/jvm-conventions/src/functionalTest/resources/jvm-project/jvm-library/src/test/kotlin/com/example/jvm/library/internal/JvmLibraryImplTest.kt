@@ -9,4 +9,9 @@ class JvmLibraryImplTest {
     fun `test hello`() {
         jvmLibrary.hello("test")
     }
+
+    @Test
+    suspend fun `test hello from coroutine`() {
+        jvmLibrary.hello("test")
+    }
 }

@@ -87,7 +87,7 @@ Android test projects build an instrumentation APK from the `main` source set an
 
 ## Shared behavior
 
-Application and library local unit tests use JUnit Jupiter and include Kover coverage tasks. `packageName` defaults to the project name with hyphens and underscores replaced by dots.
+Application and library local unit tests use JUnit Jupiter and include Kover coverage tasks. `kotlin-reflect` and `kotlinx-coroutines-core` are on the unit test runtime classpath, so `suspend` test functions run without extra dependencies. `packageName` defaults to the project name with hyphens and underscores replaced by dots.
 
 Parcelize and serialization support are opt-in. Enabling Parcelize only applies the Kotlin Parcelize compiler plugin.
 

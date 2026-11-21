@@ -14,6 +14,8 @@ internal fun Project.configureUnitTests(androidExtension: CommonExtension) {
 
     dependencies {
         testImplementation("org.junit.jupiter:junit-jupiter:${BuildConfig.JUNIT_VERSION}")
+        testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect")
+        testRuntimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher:${BuildConfig.JUNIT_VERSION}")
     }
 }
