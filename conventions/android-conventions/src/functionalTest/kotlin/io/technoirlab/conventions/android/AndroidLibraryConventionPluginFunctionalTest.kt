@@ -200,6 +200,9 @@ class AndroidLibraryConventionPluginFunctionalTest {
                     """
                     androidLibrary {
                         buildFeatures {
+                            buildConfig {
+                                buildConfigField("LIBRARY_NAME", "example")
+                            }
                             testFixtures = true
                         }
                     }
@@ -212,6 +215,7 @@ class AndroidLibraryConventionPluginFunctionalTest {
             assertThat(buildResult.output).contains("application line coverage: 100%")
             assertThat(project.coverageReportClasses())
                 .contains("com/example/android/library/internal/AndroidLibraryImpl")
+                .doesNotContain("com/example/android/library/BuildConfig")
                 .doesNotContain("com/example/TestFixture")
         }
 

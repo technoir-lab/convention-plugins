@@ -21,6 +21,7 @@ internal fun Project.configureCoverage() {
                 filters {
                     excludes {
                         annotatedBy("javax.annotation.processing.Generated")
+                        classes("*.BuildConfig")
                     }
                 }
                 total {
