@@ -13,6 +13,27 @@ Configures the following compiler options:
 - `NOTHING_TO_INLINE` warnings are disabled (`-Xwarning-level=NOTHING_TO_INLINE:disabled`).
 - JVM targets use `JvmDefaultMode.NO_COMPATIBILITY`.
 
+## Code coverage
+
+Kover reports measure only shipped code. In JVM projects and in the JVM target of Kotlin Multiplatform projects, that is
+the `main` compilation. Tests, test fixtures, benchmarks, and any other source sets are left out of the measured code, while
+their test tasks still contribute to the coverage of `main`. Add a source set that the project also ships:
+
+```kotlin
+kover {
+    currentProject {
+        sources {
+            includedSourceSets.add("extra")
+        }
+    }
+}
+```
+
+Kover matches these names against Kotlin compilations, so a Kotlin Multiplatform project names a compilation of its JVM
+target. Android projects need no such list: Kover measures the code of each build variant, which excludes test fixtures.
+
+The `check` task generates the HTML report.
+
 ## Usage
 
 ```kotlin

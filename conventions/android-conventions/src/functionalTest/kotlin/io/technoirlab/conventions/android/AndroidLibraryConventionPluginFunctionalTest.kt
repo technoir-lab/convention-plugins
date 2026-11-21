@@ -2,6 +2,7 @@ package io.technoirlab.conventions.android
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
+import io.technoirlab.conventions.common.fixtures.coverageReportClasses
 import io.technoirlab.conventions.common.fixtures.createParcelableClass
 import io.technoirlab.conventions.common.fixtures.createRedactedClass
 import io.technoirlab.conventions.common.fixtures.createRedactedTest
@@ -194,9 +195,24 @@ class AndroidLibraryConventionPluginFunctionalTest {
 
         @Test
         fun `code coverage`() {
-            val buildResult = gradleRunner.build(":android-library:koverLog")
+            val project = gradleRunner.root.project("android-library")
+                .appendBuildScript(
+                    """
+                    androidLibrary {
+                        buildFeatures {
+                            testFixtures = true
+                        }
+                    }
+                    """.trimIndent(),
+                )
+                .createTestFixture()
+
+            val buildResult = gradleRunner.build(":android-library:koverLog", ":android-library:koverXmlReport")
 
             assertThat(buildResult.output).contains("application line coverage: 100%")
+            assertThat(project.coverageReportClasses())
+                .contains("com/example/android/library/internal/AndroidLibraryImpl")
+                .doesNotContain("com/example/TestFixture")
         }
 
         @Test

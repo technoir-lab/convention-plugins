@@ -34,6 +34,12 @@ gradlePluginConfig {
 }
 ```
 
+## Code coverage
+
+Coverage reports measure the `api` source set alongside `main`; see
+[common conventions](../common-conventions/README.md#code-coverage). Functional tests are not instrumented, so coverage
+reports do not run them.
+
 ## Kotlin compatibility
 
 `gradlePluginConfig.minGradleVersion` determines Kotlin compatibility. The `api` source set uses
