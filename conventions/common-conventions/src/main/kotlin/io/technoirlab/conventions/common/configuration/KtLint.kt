@@ -38,7 +38,7 @@ internal fun Project.configureKtLint() {
 
         configurations.configureEach {
             resolutionStrategy.eachDependency {
-                if (requested.name == "com.pinterest.ktlint" && requested.version.isNullOrEmpty()) {
+                if (requested.group == "com.pinterest.ktlint" && requested.version.isNullOrEmpty()) {
                     useVersion(BuildConfig.KTLINT_VERSION)
                 }
             }
