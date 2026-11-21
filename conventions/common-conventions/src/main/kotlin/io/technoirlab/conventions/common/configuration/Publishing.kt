@@ -109,6 +109,7 @@ private fun MavenPom.configure(licenses: List<LicenseInfo>, developers: List<Dev
             license {
                 name.setDisallowChanges(license.name)
                 url.setDisallowChanges(license.url)
+                distribution.setDisallowChanges(license.distribution)
             }
         }
     }

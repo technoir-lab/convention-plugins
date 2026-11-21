@@ -43,6 +43,7 @@ val POM_EXPECTED = arrayOf(
     |    <license>
     |      <name>MIT License</name>
     |      <url>http://opensource.org/licenses/MIT</url>
+    |      <distribution>repo</distribution>
     |    </license>
     |  </licenses>
     """.trimMargin(),
