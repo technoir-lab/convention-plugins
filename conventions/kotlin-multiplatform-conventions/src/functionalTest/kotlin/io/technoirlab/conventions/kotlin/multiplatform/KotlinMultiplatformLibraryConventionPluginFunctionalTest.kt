@@ -54,6 +54,18 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
     }
 
     @Test
+    fun `cinterop reruns when a header changes`() {
+        gradleRunner.build(":kmp-library:cinteropKmp-libraryLinuxX64")
+
+        (gradleRunner.root.project("kmp-library").dir / "src/nativeInterop/cinterop/lib.h")
+            .replaceText("#endif", "void nativeFarewell(const char* name);\n#endif")
+
+        val buildResult = gradleRunner.build(":kmp-library:cinteropKmp-libraryLinuxX64")
+
+        assertThat(buildResult.task(":kmp-library:cinteropKmp-libraryLinuxX64")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+    }
+
+    @Test
     fun `declaring common dependencies without versions`() {
         gradleRunner.root.project("kmp-library").appendBuildScript(
             """

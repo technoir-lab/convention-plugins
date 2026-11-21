@@ -7,12 +7,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
+import org.jetbrains.kotlin.gradle.tasks.CInteropProcess
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.util.SetSystemProperty
@@ -97,6 +99,24 @@ class KotlinMultiplatformApplicationConventionPluginTest {
         project.apply(plugin = "io.technoirlab.conventions.kotlin-multiplatform-application")
         project.the<KotlinMultiplatformExtension>().linuxX64()
         project.evaluate()
+    }
+
+    @Test
+    fun `cinterop task tracks the header directory as an input`() {
+        project.apply(plugin = "io.technoirlab.conventions.kotlin-multiplatform-application")
+        project.configure<KotlinMultiplatformApplicationExtension> {
+            packageName.set("com.example.kmp.application")
+            buildFeatures {
+                cinterop.set(true)
+            }
+        }
+        val target = project.the<KotlinMultiplatformExtension>().linuxX64()
+
+        project.evaluate()
+
+        val cinterop = target.compilations.getByName("main").cinterops.getByName(project.name)
+        val cinteropTask = project.tasks.named<CInteropProcess>(cinterop.interopProcessingTaskName).get()
+        assertThat(cinteropTask.allHeadersDirs).contains(project.file("src/nativeInterop/cinterop"))
     }
 
     private fun Project.nativeBinaryNames(): Map<String, Set<String>> =

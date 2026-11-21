@@ -26,7 +26,6 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.HostManager
-import kotlin.io.path.Path
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension as KmpExtension
 
 internal fun Project.configureKotlinMultiplatform(
@@ -115,8 +114,7 @@ private fun KotlinNativeTarget.configureNativeTargetAfterEvaluate(packageName: P
         compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
             cinterops.register(project.name) {
                 packageName(packageName.get())
-                val srcPath = Path("src", "nativeInterop", "cinterop")
-                compilerOpts("-I$srcPath")
+                includeDirs(project.layout.projectDirectory.dir("src/nativeInterop/cinterop"))
             }
         }
     }
