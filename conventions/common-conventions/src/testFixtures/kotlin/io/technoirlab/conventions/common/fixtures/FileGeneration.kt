@@ -63,11 +63,7 @@ fun GradleProject.createBenchmark(className: String = "com.example.Benchmark") =
         )
 }
 
-fun GradleProject.createRedactedFixtures(
-    className: String = "com.example.RedactedClass",
-    variant: String = "main",
-    testVariant: String = "test",
-) {
+fun GradleProject.createRedactedClass(className: String = "com.example.RedactedClass", variant: String = "main") = apply {
     val packageName = className.substringBeforeLast('.')
     val classNameWithoutPackage = className.substringAfterLast('.')
     kotlinFile(className, variant)
@@ -85,7 +81,12 @@ fun GradleProject.createRedactedFixtures(
             )
             """.trimIndent(),
         )
-    kotlinFile(className, variant = testVariant)
+}
+
+fun GradleProject.createRedactedTest(className: String = "com.example.RedactedClass", variant: String = "test") = apply {
+    val packageName = className.substringBeforeLast('.')
+    val classNameWithoutPackage = className.substringAfterLast('.')
+    kotlinFile("${className}Test", variant)
         .createParentDirectories()
         .writeText(
             // language=kotlin

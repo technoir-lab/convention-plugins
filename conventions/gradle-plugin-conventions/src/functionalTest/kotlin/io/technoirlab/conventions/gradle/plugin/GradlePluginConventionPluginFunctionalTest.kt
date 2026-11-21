@@ -2,7 +2,8 @@ package io.technoirlab.conventions.gradle.plugin
 
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
-import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createRedactedClass
+import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
@@ -285,7 +286,8 @@ class GradlePluginConventionPluginFunctionalTest {
                     }
                     """.trimIndent(),
                 )
-                .createRedactedFixtures()
+                .createRedactedClass()
+                .createRedactedTest()
 
             gradleRunner.build(":example-plugin:test")
         }

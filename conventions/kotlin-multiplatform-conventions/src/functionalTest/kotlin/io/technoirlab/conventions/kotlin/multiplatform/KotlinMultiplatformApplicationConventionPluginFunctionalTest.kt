@@ -1,7 +1,8 @@
 package io.technoirlab.conventions.kotlin.multiplatform
 
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
-import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createRedactedClass
+import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
@@ -152,7 +153,8 @@ class KotlinMultiplatformApplicationConventionPluginFunctionalTest {
                     }
                     """.trimIndent(),
                 )
-                .createRedactedFixtures(variant = "commonMain", testVariant = "commonTest")
+                .createRedactedClass(variant = "commonMain")
+                .createRedactedTest(variant = "commonTest")
 
             gradleRunner.build(":kmp-application:jvmTest")
         }

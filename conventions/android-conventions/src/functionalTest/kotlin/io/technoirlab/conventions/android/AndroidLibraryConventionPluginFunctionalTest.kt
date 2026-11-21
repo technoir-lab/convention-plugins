@@ -3,6 +3,8 @@ package io.technoirlab.conventions.android
 import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
 import io.technoirlab.conventions.common.fixtures.createParcelableClass
+import io.technoirlab.conventions.common.fixtures.createRedactedClass
+import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.conventions.common.fixtures.createTest
 import io.technoirlab.conventions.common.fixtures.createTestFixture
@@ -156,6 +158,28 @@ class AndroidLibraryConventionPluginFunctionalTest {
                 .createParcelableClass()
 
             gradleRunner.build(":android-library:compileDebugSources")
+        }
+
+        @Test
+        fun `toString() redaction`() {
+            gradleRunner.root.project("android-library")
+                .appendBuildScript(
+                    """
+                    androidLibrary {
+                        buildFeatures {
+                            redacted = true
+                        }
+                    }
+                    
+                    dependencies {
+                        testImplementation(kotlin("test-junit5"))
+                    }
+                    """.trimIndent(),
+                )
+                .createRedactedClass()
+                .createRedactedTest()
+
+            gradleRunner.build(":android-library:testDebugUnitTest")
         }
     }
 

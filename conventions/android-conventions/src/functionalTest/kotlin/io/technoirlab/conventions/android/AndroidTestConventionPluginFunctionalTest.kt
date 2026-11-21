@@ -1,6 +1,7 @@
 package io.technoirlab.conventions.android
 
 import io.technoirlab.conventions.common.fixtures.createParcelableClass
+import io.technoirlab.conventions.common.fixtures.createRedactedClass
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
 import io.technoirlab.gradle.test.kit.appendBuildScript
@@ -116,6 +117,23 @@ class AndroidTestConventionPluginFunctionalTest {
                     """.trimIndent(),
                 )
                 .createParcelableClass()
+
+            gradleRunner.build(":android-test:compileDebugSources")
+        }
+
+        @Test
+        fun `toString() redaction`() {
+            gradleRunner.root.project("android-test")
+                .appendBuildScript(
+                    """
+                    androidTest {
+                        buildFeatures {
+                            redacted = true
+                        }
+                    }
+                    """.trimIndent(),
+                )
+                .createRedactedClass()
 
             gradleRunner.build(":android-test:compileDebugSources")
         }

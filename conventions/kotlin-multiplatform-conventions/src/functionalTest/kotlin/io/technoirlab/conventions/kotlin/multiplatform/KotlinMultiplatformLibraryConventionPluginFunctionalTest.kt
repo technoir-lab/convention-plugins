@@ -4,7 +4,8 @@ import io.technoirlab.conventions.common.fixtures.POM_EXPECTED
 import io.technoirlab.conventions.common.fixtures.PROJECT_METADATA
 import io.technoirlab.conventions.common.fixtures.createBenchmark
 import io.technoirlab.conventions.common.fixtures.createDependencyGraph
-import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createRedactedClass
+import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
@@ -178,7 +179,8 @@ class KotlinMultiplatformLibraryConventionPluginFunctionalTest {
                     }
                     """.trimIndent(),
                 )
-                .createRedactedFixtures(variant = "commonMain", testVariant = "commonTest")
+                .createRedactedClass(variant = "commonMain")
+                .createRedactedTest(variant = "commonTest")
 
             gradleRunner.build(":kmp-library:jvmTest")
         }

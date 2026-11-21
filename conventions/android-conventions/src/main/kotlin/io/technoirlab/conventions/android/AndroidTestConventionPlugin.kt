@@ -6,6 +6,7 @@ import io.technoirlab.conventions.android.configuration.configureBuildConfig
 import io.technoirlab.conventions.android.configuration.configureKotlinParcelize
 import io.technoirlab.conventions.android.internal.AndroidTestExtensionImpl
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
+import io.technoirlab.conventions.common.configuration.configureRedacted
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -33,6 +34,7 @@ class AndroidTestConventionPlugin : Plugin<Project> {
             configureBuildConfig(androidExtension, config.buildFeatures.buildConfig)
             configureKotlinParcelize(config.buildFeatures.parcelize)
             configureKotlinSerialization(config.buildFeatures.serialization)
+            configureRedacted(config.buildFeatures.redacted)
         }
     }
 }

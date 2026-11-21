@@ -1,6 +1,7 @@
 package io.technoirlab.conventions.jvm
 
-import io.technoirlab.conventions.common.fixtures.createRedactedFixtures
+import io.technoirlab.conventions.common.fixtures.createRedactedClass
+import io.technoirlab.conventions.common.fixtures.createRedactedTest
 import io.technoirlab.conventions.common.fixtures.createSerializableClass
 import io.technoirlab.gradle.test.kit.Generator
 import io.technoirlab.gradle.test.kit.GradleRunnerExtension
@@ -129,7 +130,8 @@ class JvmApplicationConventionPluginFunctionalTest {
                     }
                     """.trimIndent(),
                 )
-                .createRedactedFixtures()
+                .createRedactedClass()
+                .createRedactedTest()
 
             gradleRunner.build(":jvm-application:test")
         }

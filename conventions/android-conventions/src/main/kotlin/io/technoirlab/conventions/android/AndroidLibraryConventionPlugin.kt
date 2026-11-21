@@ -12,6 +12,7 @@ import io.technoirlab.conventions.common.configuration.PublishingOptions
 import io.technoirlab.conventions.common.configuration.configureDokka
 import io.technoirlab.conventions.common.configuration.configureKotlinSerialization
 import io.technoirlab.conventions.common.configuration.configurePublishing
+import io.technoirlab.conventions.common.configuration.configureRedacted
 import io.technoirlab.gradle.Environment
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -51,6 +52,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             configureUnitTests(androidExtension)
             configureKotlinParcelize(config.buildFeatures.parcelize)
             configureKotlinSerialization(config.buildFeatures.serialization)
+            configureRedacted(config.buildFeatures.redacted)
             configureBuildConfig(androidExtension, config.buildFeatures.buildConfig)
         }
     }
