@@ -30,7 +30,11 @@ class Environment(private val providerFactory: ProviderFactory) {
 
     fun getMavenRepositories(prefix: String): Provider<List<MavenRepository>> = providerFactory.gradlePropertiesPrefixedBy("$prefix.")
         .map { properties ->
-            val names = properties.keys.mapTo(mutableSetOf()) { it.removePrefix("$prefix.").substringBeforeLast('.') }
+            // Credentials can be shared by all builds, e.g. in the Gradle user home, while only some builds declare the repository.
+            val names = properties.keys
+                .map { it.removePrefix("$prefix.") }
+                .filter { it.endsWith(".url") }
+                .map { it.removeSuffix(".url") }
             names.map { name -> createMavenRepository(name, prefix, properties) }
         }
 
